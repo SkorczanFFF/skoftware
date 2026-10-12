@@ -49,6 +49,40 @@
   will-change: transform;
 }
 
+/* Menu button lines (Header/Partials/Mobile.tsx) give way to scroll speed:
+   each shortens by its own amount toward alternating ends, so a flick runs
+   through them as a ripple. Written as translate + scale around the centre
+   rather than a moved `transform-origin` — the origin is shared with the
+   `rotate` that draws the close cross, which has to stay centred. */
+.burger-line {
+  --burger-give: 0.45;
+  --burger-side: 1;
+  --burger-shrink: calc(
+    max(var(--scroll-velocity), -1 * var(--scroll-velocity)) *
+      var(--burger-give)
+  );
+  transform: translateX(calc(var(--burger-shrink) * 12px * var(--burger-side)))
+    scaleX(calc(1 - var(--burger-shrink)));
+}
+
+.burger-line:nth-child(2) {
+  --burger-give: 0.25;
+  --burger-side: -1;
+}
+
+.burger-line:nth-child(3) {
+  --burger-give: 0.6;
+}
+
+/* Header logo letters (Header/Partials/Logo.tsx) trail behind scroll speed:
+   the first holds still and each next one is dragged a little further, so a
+   flick bends the word like a flag from its pole — the tail droops on the way
+   down and lifts on the way up. `--i` is the letter's index. */
+.logo-letter {
+  display: inline-block;
+  transform: translateY(calc(var(--scroll-velocity) * var(--i) * 1.1px));
+}
+
 @utility font-grotesk {
   font-family:
     var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,

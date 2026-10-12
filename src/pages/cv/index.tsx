@@ -11,11 +11,11 @@ import {
   GithubIcon,
   GlobalIcon,
   GuitarIcon,
-  LanguageIcon,
   LinkedinIcon,
   MailIcon,
   MusicIcon,
   PdfIcon,
+  PotteryIcon,
   VercelIcon,
 } from '@/lib/shared/Icons';
 import { resumeTechList, techIconMap } from '@/lib/shared/techMap';
@@ -278,7 +278,7 @@ export default function CV(): React.JSX.Element {
                           MusicIcon,
                           CompassIcon,
                           ChipIcon,
-                          LanguageIcon,
+                          PotteryIcon,
                         ] as const
                       ).map((Icon, i) => (
                         <div key={i} className='flex flex-col items-center'>

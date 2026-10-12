@@ -20,19 +20,36 @@ export default function Desktop({
             <Link
               href={href}
               scroll={false}
-              className={`relative text-sm uppercase tracking-widest duration-300 ${isActive ? 'text-real-white' : 'text-real-white/60'}`}
+              className={`group/link relative block h-5 overflow-hidden text-sm uppercase tracking-widest ${isActive ? 'text-real-white' : 'text-real-white/60'}`}
             >
-              <span
-                className='absolute right-[-1px] bottom-[-1px] text-primary-blue pointer-events-none'
-                aria-hidden='true'
-              >
-                {label}
+              {/* Two copies stacked in a one-line window: hover or keyboard
+                  focus rolls the label up and the full-white copy in from
+                  below. `h-5` is the `text-sm` line height — the window has
+                  to match it or the copies peek in. */}
+              <span className='block transition-[translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:-translate-y-1/2 group-focus-visible/link:-translate-y-1/2'>
+                <Label text={label} />
+                <span className='block text-real-white' aria-hidden='true'>
+                  <Label text={label} />
+                </span>
               </span>
-              <span className='relative'>{label}</span>
             </Link>
           </li>
         );
       })}
     </ul>
+  );
+}
+
+function Label({ text }: { text: string }): React.JSX.Element {
+  return (
+    <span className='relative block'>
+      <span
+        className='absolute right-[-1px] bottom-[-1px] text-primary-blue pointer-events-none'
+        aria-hidden='true'
+      >
+        {text}
+      </span>
+      <span className='relative'>{text}</span>
+    </span>
   );
 }

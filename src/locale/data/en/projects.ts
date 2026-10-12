@@ -6,11 +6,11 @@ export const projects: ProjectEntry[] = [
   {
     id: 0,
     pic: '/projects/polonez_autodrive.jpg',
-    pic2: '/projects/polonez_autodrive2.jpg',
+    pic2: '/projects/polonez_autodrive_2.jpg',
     title: 'POLONEZ AUTODRIVE',
     technos: 'JavaScript • Three.js • 3D Studio Max',
     description:
-      'An 80s/synthwave-style 3D coloring-book like animation with real-time colors and models customization via a built-in GUI. Includes an arcade overtaking mini-game. Models of the scene were created in 3D Studio Max, missing mini-game car model coming soon.',
+      'An 80s/synthwave-style 3D coloring-book like animation with real-time colors and models customization via a built-in GUI. Includes an arcade overtaking mini-game. The Polonez and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Missing mini-game car model coming soon.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
     inResume: true,
@@ -29,8 +29,20 @@ export const projects: ProjectEntry[] = [
   },
   {
     id: 2,
+    pic: '/projects/yawa.jpg',
+    pic2: '/projects/yawa_2.jpg',
+    title: 'Yet Another Weather App',
+    technos: 'React • JavaScript • Sass • Vanta.js • Open-Meteo API',
+    description:
+      'Weather apps are a dime a dozen, but this one is built differently. The background is a 3D scene with volumetric clouds that simulates the weather in real time from Open-Meteo data. The forecast is shown for a city selected via map, geolocation or entered city name.',
+    live: 'https://www.yet-another-weather-app.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
+    inResume: true,
+  },
+  {
+    id: 3,
     pic: '/projects/pokedex.jpg',
-    pic2: '/projects/pokedex2.jpg',
+    pic2: '/projects/pokedex_2.jpg',
     title: 'Pokédex',
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
@@ -40,7 +52,7 @@ export const projects: ProjectEntry[] = [
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
   {
-    id: 3,
+    id: 4,
     pic: '/projects/skoftware.jpg',
     pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - my portfolio',
@@ -50,18 +62,6 @@ export const projects: ProjectEntry[] = [
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
-    inResume: true,
-  },
-  {
-    id: 4,
-    pic: '/projects/YAWA.jpg',
-    pic2: '/projects/YAWA2.jpg',
-    title: 'Yet Another Weather App [WIP]',
-    technos: 'React • JavaScript • Sass • Vanta.js • Open-Meteo API',
-    description:
-      'Weather apps are a dime a dozen, but this one is built differently. Background scene is a real-time weather simulation based on Open-Meteo data displayed for a selected city via map, geolocation or entered city name. Currently undergoing a major rebuild, but feel free to check the weather. ',
-    live: 'https://www.yet-another-weather-app.skoftware.pl/',
-    git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
     inResume: true,
   },
   {

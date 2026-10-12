@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ScrollTrigger } from '@/lib/gsap';
+import { useHeaderScroll } from '@/hooks/useHeaderScroll';
 
 import Desktop from '@/components/layout/Header/Partials/Desktop';
 import Logo from '@/components/layout/Header/Partials/Logo';
@@ -103,9 +104,13 @@ export default function Header(): React.JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const activeSection = useActiveSection();
 
+  const headerRef = useRef<HTMLElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
+
+  useHeaderScroll(headerRef, progressRef);
 
   const links = [
     { href: '/#home', label: t.navHome },
@@ -178,11 +183,32 @@ export default function Header(): React.JSX.Element {
 
   return (
     <>
+      {/* `data-scrolled` / `data-hidden` come from useHeaderScroll. Scrolled,
+          the bar flattens by a quarter and takes a light tint — the nav text
+          keeps its offset duplicate for contrast, so the tint only has to
+          settle busy backgrounds, not carry the legibility. Hiding is below
+          lg only — on desktop the nav stays in view — and never while focus
+          is inside, so tabbing cannot land on a link off screen. */}
       <header
-        className={`font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] ${
-          isMenuOpen ? 'opacity-0' : 'opacity-95'
-        }`}
+        ref={headerRef}
+        className='font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] transition-[height,translate,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-scrolled:h-[34px] data-scrolled:bg-primary-blue/35 data-scrolled:border-raspberry/40 max-lg:data-hidden:not-focus-within:-translate-y-[calc(100%+1rem)]'
       >
+        {/* Reading progress, drawn over the bottom border: the frame spans the
+            border box and clips to the same radius, so the line bends round
+            the corners like the border it fills instead of poking past them.
+            Bright tints rather than the brand gradient, which shares the
+            border's colours and would vanish into it. Scaled by
+            useHeaderScroll; the inline value is for the server render. */}
+        <span
+          aria-hidden='true'
+          className='pointer-events-none absolute -inset-[2px] overflow-hidden rounded-[3px]'
+        >
+          <span
+            ref={progressRef}
+            className='absolute inset-x-0 bottom-0 h-[2px] origin-left bg-linear-to-r from-orange-bright to-raspberry-bright'
+            style={{ transform: 'scaleX(0)' }}
+          />
+        </span>
         <div className='flex h-full w-full items-center justify-between'>
           <div className='flex h-full items-center gap-3'>
             <div className='ml-3 flex items-center'>

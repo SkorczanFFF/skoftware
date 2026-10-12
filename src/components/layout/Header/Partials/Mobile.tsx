@@ -19,17 +19,17 @@ const Mobile = React.forwardRef<HTMLButtonElement, MobileProps>(
         aria-label={t.toggleMenu}
       >
         <span
-          className={`h-[2px] w-6 transform bg-raspberry shadow-[1px_1px_0_white] transition-all duration-300 ease-in-out ${
+          className={`burger-line h-[2px] w-6 bg-raspberry shadow-[1px_1px_0_white] transition-[translate,rotate,opacity] duration-300 ease-in-out ${
             isMenuOpen ? 'translate-y-[7px] rotate-45' : ''
           }`}
         />
         <span
-          className={`h-[2px] w-6 bg-raspberry shadow-[1px_1px_0_white] transition-all duration-300 ease-in-out ${
+          className={`burger-line h-[2px] w-6 bg-raspberry shadow-[1px_1px_0_white] transition-[translate,rotate,opacity] duration-300 ease-in-out ${
             isMenuOpen ? 'opacity-0' : ''
           }`}
         />
         <span
-          className={`h-[2px] w-6 transform bg-raspberry shadow-[1px_1px_0_white] transition-all duration-300 ease-in-out ${
+          className={`burger-line h-[2px] w-6 bg-raspberry shadow-[1px_1px_0_white] transition-[translate,rotate,opacity] duration-300 ease-in-out ${
             isMenuOpen ? '-translate-y-[7px] -rotate-45' : ''
           }`}
         />

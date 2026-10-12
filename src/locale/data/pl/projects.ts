@@ -6,11 +6,11 @@ export const projects: ProjectEntry[] = [
   {
     id: 0,
     pic: '/projects/polonez_autodrive.jpg',
-    pic2: '/projects/polonez_autodrive2.jpg',
+    pic2: '/projects/polonez_autodrive_2.jpg',
     title: 'POLONEZ AUTODRIVE',
     technos: 'JavaScript • Three.js • 3D Studio Max',
     description:
-      'Animacja 3D w stylu lat 80/synthwave w formie kolorowanki z personalizacją kolorów i modeli na scenie w czasie rzeczywistym przez wbudowane GUI. Modele sceny zostały stworzone w 3D Studio Max. Zawiera zręcznościową mini-grę.',
+      'Animacja 3D w stylu lat 80/synthwave w formie kolorowanki z personalizacją kolorów i modeli na scenie w czasie rzeczywistym przez wbudowane GUI. Model Poloneza i palmy powstały w 3D Studio Max, reszta sceny jest generowana proceduralnie. Zawiera zręcznościową mini-grę.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
     inResume: true,
@@ -29,8 +29,20 @@ export const projects: ProjectEntry[] = [
   },
   {
     id: 2,
+    pic: '/projects/yawa.jpg',
+    pic2: '/projects/yawa_2.jpg',
+    title: 'Yet Another Weather App',
+    technos: 'React • JavaScript • Sass • Vanta.js • Open-Meteo API',
+    description:
+      'Kolejna aplikacja pogodowa, ale ta jest zgoła inna. Tło aplikacji to trójwymiarowa scena z wolumetrycznymi chmurami, symulująca pogodę w czasie rzeczywistym na podstawie danych z Open-Meteo. Prognoza pogody jest wyświetlana dla wybranego miasta przez mapę, geolokalizację lub wpisaną nazwę.',
+    live: 'https://www.yet-another-weather-app.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
+    inResume: true,
+  },
+  {
+    id: 3,
     pic: '/projects/pokedex.jpg',
-    pic2: '/projects/pokedex2.jpg',
+    pic2: '/projects/pokedex_2.jpg',
     title: 'Pokédex',
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
@@ -40,7 +52,7 @@ export const projects: ProjectEntry[] = [
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
   {
-    id: 3,
+    id: 4,
     pic: '/projects/skoftware.jpg',
     pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - moje portfolio',
@@ -50,18 +62,6 @@ export const projects: ProjectEntry[] = [
       'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML&CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
-    inResume: true,
-  },
-  {
-    id: 4,
-    pic: '/projects/YAWA.jpg',
-    pic2: '/projects/YAWA2.jpg',
-    title: 'Yet Another Weather App [WIP]',
-    technos: 'React • JavaScript • Sass • Vanta.js • Open-Meteo API',
-    description:
-      'Kolejna aplikacja pogodowa, ale ta jest zgoła inna. Tło aplikacji to trójwymiarowa scena symulująca pogodę w czasie rzeczywistym oparta na danych z Open-Meteo. Prognoza pogody jest wyświetlana dla wybranego miasta przez mapę, geolokalizację lub wpisaną nazwę. Aktualnie w gruntownej przebudowie, jednak można śmiało sprawdzać pogodę.',
-    live: 'https://www.yet-another-weather-app.skoftware.pl/',
-    git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
     inResume: true,
   },
   {
