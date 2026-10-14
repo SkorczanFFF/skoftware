@@ -178,7 +178,7 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 | **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS         | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
 | **Pokédex**                 | React, TypeScript, Vite, TanStack Query       | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                             |
 | **SKOFTWARE**               | Next.js, TypeScript, TailwindCSS, R3F, GSAP   | [Live](https://www.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                            |
-| **Yet Another Weather App** | React, JavaScript, Sass, Vanta.js, Open-Meteo | [Live](https://www.yet-another-weather-app.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                               |
+| **Yet Another Weather App** | React, TypeScript, Sass, R3F, Open-Meteo      | [Live](https://www.yet-another-weather-app.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                               |
 
 ---
 

@@ -20,7 +20,8 @@ export const projects: ProjectEntry[] = [
     pic: '/projects/yawa.jpg',
     pic2: '/projects/yawa_2.jpg',
     title: 'Yet Another Weather App',
-    technos: 'React • JavaScript • Sass • Vanta.js • Open-Meteo API',
+    technos:
+      'React • React Three Fiber/Three.js • TypeScript • Sass • Open-Meteo API',
     description:
       'Kolejna aplikacja pogodowa, ale ta jest zgoła inna. Tło aplikacji to trójwymiarowa scena z wolumetrycznymi chmurami, symulująca pogodę w czasie rzeczywistym na podstawie danych z Open-Meteo. Prognoza pogody jest wyświetlana dla wybranego miasta przez mapę, geolokalizację lub wpisaną nazwę.',
     live: 'https://www.yet-another-weather-app.skoftware.pl/',
