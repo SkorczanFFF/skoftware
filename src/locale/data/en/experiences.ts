@@ -9,11 +9,13 @@ export const experiences: ExperienceEntry[] = [
     stack: [
       'React',
       'TailwindCSS',
+      'Mantine',
       'Python',
       'PostgreSQL',
       'TypeScript',
       'MobX',
       'Docker',
+      'Storybook',
       'Git',
     ],
     duties: [

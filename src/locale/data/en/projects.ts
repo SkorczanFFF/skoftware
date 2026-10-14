@@ -17,18 +17,6 @@ export const projects: ProjectEntry[] = [
   },
   {
     id: 1,
-    pic: '/projects/VAT-OFF.jpg',
-    title: 'VAT-OFF',
-    technos: 'JavaScript • Chrome Extension API • CSS',
-    description:
-      'See prices excluding VAT when you hover over them on any website. Automatically detects prices and displays the net amount in a tooltip on hover. Supports 120+ countries with preconfigured currencies and VAT rates, and allows custom VAT rate and currency. Features a built-in VAT calculator (GROSS/NET). Available on the Chrome Web Store.',
-    live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
-    git: 'https://github.com/SkorczanFFF/VAT-OFF',
-    liveLabel: 'Chrome Web Store',
-    inResume: true,
-  },
-  {
-    id: 2,
     pic: '/projects/yawa.jpg',
     pic2: '/projects/yawa_2.jpg',
     title: 'Yet Another Weather App',
@@ -40,7 +28,7 @@ export const projects: ProjectEntry[] = [
     inResume: true,
   },
   {
-    id: 3,
+    id: 2,
     pic: '/projects/pokedex.jpg',
     pic2: '/projects/pokedex_2.jpg',
     title: 'Pokédex',
@@ -52,7 +40,7 @@ export const projects: ProjectEntry[] = [
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
   {
-    id: 4,
+    id: 3,
     pic: '/projects/skoftware.jpg',
     pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - my portfolio',
@@ -62,6 +50,18 @@ export const projects: ProjectEntry[] = [
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
+    inResume: true,
+  },
+  {
+    id: 4,
+    pic: '/projects/VAT-OFF.jpg',
+    title: 'VAT-OFF',
+    technos: 'JavaScript • Chrome Extension API • CSS',
+    description:
+      'See prices excluding VAT when you hover over them on any website. Automatically detects prices and displays the net amount in a tooltip on hover. Supports 120+ countries with preconfigured currencies and VAT rates, and allows custom VAT rate and currency. Features a built-in VAT calculator (GROSS/NET). Available on the Chrome Web Store.',
+    live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
+    git: 'https://github.com/SkorczanFFF/VAT-OFF',
+    liveLabel: 'Chrome Web Store',
     inResume: true,
   },
   {

@@ -17,18 +17,6 @@ export const projects: ProjectEntry[] = [
   },
   {
     id: 1,
-    pic: '/projects/VAT-OFF.jpg',
-    title: 'VAT-OFF',
-    technos: 'JavaScript • Chrome Extension API • CSS',
-    description:
-      'Ceny bez VAT widoczne po najechaniu na nie na dowolnej stronie. Automatycznie wykrywa ceny i wyświetla kwotę netto w dymku. Obsługuje ponad 120 krajów z wstępnie skonfigurowanymi walutami i stawkami VAT, umożliwia ustawienie własnej stawki i waluty. Zawiera wbudowany kalkulator VAT (brutto/netto). Dostępne w Chrome Web Store.',
-    live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
-    git: 'https://github.com/SkorczanFFF/VAT-OFF',
-    liveLabel: 'Chrome Web Store',
-    inResume: true,
-  },
-  {
-    id: 2,
     pic: '/projects/yawa.jpg',
     pic2: '/projects/yawa_2.jpg',
     title: 'Yet Another Weather App',
@@ -40,7 +28,7 @@ export const projects: ProjectEntry[] = [
     inResume: true,
   },
   {
-    id: 3,
+    id: 2,
     pic: '/projects/pokedex.jpg',
     pic2: '/projects/pokedex_2.jpg',
     title: 'Pokédex',
@@ -52,7 +40,7 @@ export const projects: ProjectEntry[] = [
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
   {
-    id: 4,
+    id: 3,
     pic: '/projects/skoftware.jpg',
     pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - moje portfolio',
@@ -62,6 +50,18 @@ export const projects: ProjectEntry[] = [
       'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML&CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
+    inResume: true,
+  },
+  {
+    id: 4,
+    pic: '/projects/VAT-OFF.jpg',
+    title: 'VAT-OFF',
+    technos: 'JavaScript • Chrome Extension API • CSS',
+    description:
+      'Ceny bez VAT widoczne po najechaniu na nie na dowolnej stronie. Automatycznie wykrywa ceny i wyświetla kwotę netto w dymku. Obsługuje ponad 120 krajów z wstępnie skonfigurowanymi walutami i stawkami VAT, umożliwia ustawienie własnej stawki i waluty. Zawiera wbudowany kalkulator VAT (brutto/netto). Dostępne w Chrome Web Store.',
+    live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
+    git: 'https://github.com/SkorczanFFF/VAT-OFF',
+    liveLabel: 'Chrome Web Store',
     inResume: true,
   },
   {
