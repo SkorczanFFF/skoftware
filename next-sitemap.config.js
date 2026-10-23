@@ -9,7 +9,7 @@ module.exports = {
   siteUrl,
   generateRobotsTxt: true,
   // The CV is noindex — listing it would contradict the page itself.
-  exclude: ['/cv', '/en/cv'],
+  exclude: ['/cv', '/en/cv', '/cv/ats', '/en/cv/ats'],
   alternateRefs: [
     { href: siteUrl, hreflang: 'pl' },
     { href: `${siteUrl}/en`, hreflang: 'en' },

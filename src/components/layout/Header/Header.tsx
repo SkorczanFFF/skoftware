@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { CASE_STUDIES_PATH, CASE_STUDIES_SECTION_ID } from '@/lib/caseStudies';
 import { ScrollTrigger } from '@/lib/gsap';
 import { useHeaderScroll } from '@/hooks/useHeaderScroll';
 
@@ -47,7 +48,12 @@ function LocaleToggle({ className }: { className?: string }) {
   );
 }
 
-const SECTION_IDS = ['services', 'portfolio', 'contact'];
+const SECTION_IDS = [
+  'services',
+  CASE_STUDIES_SECTION_ID,
+  'portfolio',
+  'contact',
+];
 
 function useActiveSection() {
   const [active, setActive] = useState<string>('home');
@@ -56,6 +62,11 @@ function useActiveSection() {
   // Rebuilt per page: the header never unmounts, so triggers made on one
   // page would keep pointing at elements the next page has detached.
   useEffect(() => {
+    // An article has none of the home sections; it belongs to its own link.
+    if (pathname.startsWith(CASE_STUDIES_PATH)) {
+      setActive(CASE_STUDIES_SECTION_ID);
+      return;
+    }
     setActive('home');
     const triggers: ScrollTrigger[] = [];
     const contact = document.getElementById('contact');
@@ -115,6 +126,7 @@ export default function Header(): React.JSX.Element {
   const links = [
     { href: '/#home', label: t.navHome },
     { href: '/#services', label: t.navServices },
+    { href: `/#${CASE_STUDIES_SECTION_ID}`, label: t.navCaseStudies },
     { href: '/#portfolio', label: t.navPortfolio },
     { href: '/#contact', label: t.navContact },
   ];
@@ -183,15 +195,14 @@ export default function Header(): React.JSX.Element {
 
   return (
     <>
-      {/* `data-scrolled` / `data-hidden` come from useHeaderScroll. Scrolled,
-          the bar flattens by a quarter and takes a light tint — the nav text
-          keeps its offset duplicate for contrast, so the tint only has to
-          settle busy backgrounds, not carry the legibility. Hiding is below
-          lg only — on desktop the nav stays in view — and never while focus
-          is inside, so tabbing cannot land on a link off screen. */}
+      {/* `data-scrolled` comes from useHeaderScroll. Scrolled, the bar
+          flattens by a quarter and takes a light tint — the nav text keeps
+          its offset duplicate for contrast, so the tint only has to settle
+          busy backgrounds, not carry the legibility. The bar never hides:
+          the CV and the case studies are long reads with no in-page nav. */}
       <header
         ref={headerRef}
-        className='font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] transition-[height,translate,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-scrolled:h-[34px] data-scrolled:bg-primary-blue/35 data-scrolled:border-raspberry/40 max-lg:data-hidden:not-focus-within:-translate-y-[calc(100%+1rem)]'
+        className='font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] transition-[height,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-scrolled:h-[34px] data-scrolled:bg-primary-blue/35 data-scrolled:border-raspberry/40'
       >
         {/* Reading progress, drawn over the bottom border: the frame spans the
             border box and clips to the same radius, so the line bends round

@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import CaseStudies from '@/components/CaseStudies/CaseStudies';
 import Faq from '@/components/Faq/Faq';
 import Hero from '@/components/Hero/Hero';
 import Footer from '@/components/layout/Footer/Footer';
@@ -21,6 +22,7 @@ export default function HomePage() {
         <Process />
         <TechStrip />
         <WhyMe />
+        <CaseStudies />
         <Faq />
         <Portfolio />
         <Footer />

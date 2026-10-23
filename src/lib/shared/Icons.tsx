@@ -16,13 +16,15 @@ import {
   BsLinkedin,
 } from 'react-icons/bs';
 import { DiMongodb, DiPhotoshop, DiPhp } from 'react-icons/di';
-import { FaGitAlt } from 'react-icons/fa6';
+import { FaDatabase, FaGitAlt } from 'react-icons/fa6';
 import { GiAmphora, GiGuitarBassHead } from 'react-icons/gi';
 import { GrMysql } from 'react-icons/gr';
 import { HiChip, HiMusicNote } from 'react-icons/hi';
 import {
   HiCubeTransparent,
   HiDevicePhoneMobile,
+  HiDocumentText,
+  HiMapPin,
   HiSparkles,
   HiWrenchScrewdriver,
 } from 'react-icons/hi2';
@@ -42,25 +44,36 @@ import {
   SiCanva,
   SiFigma,
   SiFirebase,
+  SiGithubactions,
   SiGitlab,
   SiGreensock,
   SiJavascript,
+  SiJest,
+  SiJetpackcompose,
+  SiKotlin,
   SiLaravel,
+  SiMantine,
   SiMobx,
   SiNextdotjs,
   SiNodedotjs,
   SiNpm,
   SiPostgresql,
+  SiPytest,
   SiPython,
   SiReact,
+  SiReactquery,
   SiRedux,
   SiSanity,
   SiSass,
+  SiStorybook,
   SiTailwindcss,
   SiThreedotjs,
   SiTypescript,
   SiVercel,
+  SiVite,
+  SiVitest,
 } from 'react-icons/si';
+import { TbApi } from 'react-icons/tb';
 
 export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -129,3 +142,24 @@ export const SparklesIcon = HiSparkles as IconType;
 export const CubeIcon = HiCubeTransparent as IconType;
 export const PhoneIcon = HiDevicePhoneMobile as IconType;
 export const WrenchIcon = HiWrenchScrewdriver as IconType;
+
+export const ArticleIcon = HiDocumentText as IconType;
+
+export const ViteIcon = SiVite as IconType;
+export const VitestIcon = SiVitest as IconType;
+export const KotlinIcon = SiKotlin as IconType;
+export const JetpackComposeIcon = SiJetpackcompose as IconType;
+export const MantineIcon = SiMantine as IconType;
+/** TanStack has no mark of its own in simple-icons; Query's stands for the family. */
+export const TanstackIcon = SiReactquery as IconType;
+export const PytestIcon = SiPytest as IconType;
+
+export const LocationIcon = HiMapPin as IconType;
+
+export const JestIcon = SiJest as IconType;
+export const GithubActionsIcon = SiGithubactions as IconType;
+
+/** Generic marks for skills with no vendor logo. */
+export const SqlIcon = FaDatabase as IconType;
+export const RestApiIcon = TbApi as IconType;
+export const StorybookIcon = SiStorybook as IconType;

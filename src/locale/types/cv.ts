@@ -29,5 +29,9 @@ export type CvStrings = {
   resumeRodo: string;
   resumeRepo: string;
   resumeDemo: string;
+  /** `/cv/ats`: the single-column, parser-first version of the CV. */
+  resumeAtsHeadline: string;
+  resumeAtsMethodsTitle: string;
+  resumeAtsMethods: string[];
   resumeHobbies: string[];
 };

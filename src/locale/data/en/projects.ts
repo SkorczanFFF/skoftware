@@ -10,7 +10,7 @@ export const projects: ProjectEntry[] = [
     title: 'POLONEZ AUTODRIVE',
     technos: 'JavaScript • Three.js • 3D Studio Max',
     description:
-      'An 80s/synthwave-style 3D coloring-book like animation with real-time colors and models customization via a built-in GUI. Includes an arcade overtaking mini-game. The Polonez and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Missing mini-game car model coming soon.',
+      'An 80s/synthwave-style 3D animation in the form of a coloring book, with real-time customization of colors and models in the scene via a built-in GUI. The Polonez and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Includes an arcade mini-game.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
     inResume: true,
@@ -20,7 +20,8 @@ export const projects: ProjectEntry[] = [
     pic: '/projects/yawa.jpg',
     pic2: '/projects/yawa_2.jpg',
     title: 'Yet Another Weather App',
-    technos: 'React • TypeScript • Sass • React Three Fiber/Three.js • Open-Meteo API',
+    technos:
+      'React • React Three Fiber/Three.js • TypeScript • Sass • Open-Meteo API',
     description:
       'Weather apps are a dime a dozen, but this one is built differently. The background is a 3D scene with volumetric clouds that simulates the weather in real time from Open-Meteo data. The forecast is shown for a city selected via map, geolocation or entered city name.',
     live: 'https://www.yet-another-weather-app.skoftware.pl/',

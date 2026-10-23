@@ -37,7 +37,7 @@ export default function Portfolio(): React.JSX.Element {
       className='font-grotesk bg-primary-blue relative w-full overflow-hidden md:h-screen'
       style={{ ['--panel-w' as string]: `${panelW}px` }}
     >
-      <SectionArrow color='white' />
+      <SectionArrow color='gradient' />
       {/* Floats over the pinned track: blurred backdrop, pushed clear of the
           first panel on small screens, left-aligned once rotated. */}
       <SectionTitle

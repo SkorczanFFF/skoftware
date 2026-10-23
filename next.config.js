@@ -14,7 +14,15 @@ const nextConfig = {
   async redirects() {
     // With i18n on, `source` is matched per locale, so /en/resume is covered
     // too — do not add `locale: false`.
-    return [{ source: '/resume', destination: '/cv', permanent: true }];
+    return [
+      { source: '/resume', destination: '/cv', permanent: true },
+      // The index is the home section; the articles live under the slug.
+      {
+        source: '/case-studies',
+        destination: '/#case-studies',
+        permanent: false,
+      },
+    ];
   },
 
   webpack(config) {

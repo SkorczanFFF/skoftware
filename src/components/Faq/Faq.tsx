@@ -14,7 +14,9 @@ import { useLocale } from '@/locale/LocaleContext';
 /**
  * Single-open accordion. Answers ship in the SSR HTML (collapsed via
  * `height: 0`) and the FAQPage JSON-LD mirrors them, so crawlers read the Q&A
- * without JS. Must stay white: Portfolio below drips in with a white arrow.
+ * without JS. Painted with the brand gradient between two neighbours that
+ * are not: it takes CaseStudies' white arrow in, and Portfolio below drips
+ * it out with a `gradient` one.
  */
 export default function Faq(): React.JSX.Element {
   const { t } = useLocale();
@@ -108,8 +110,8 @@ export default function Faq(): React.JSX.Element {
   return (
     <Section
       id='faq'
-      tone='white'
-      arrow='blue'
+      tone='gradient'
+      arrow='white'
       className='pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px]'
     >
       <Head>
@@ -119,16 +121,13 @@ export default function Faq(): React.JSX.Element {
         />
       </Head>
 
-      <SectionTitle tone='dark'>{t.faqSectionTitle}</SectionTitle>
+      <SectionTitle tone='light'>{t.faqSectionTitle}</SectionTitle>
 
       <ul ref={listRef} className='mx-auto w-full max-w-prose px-6 md:px-10'>
         {t.faqItems.map((item, i) => {
           const isOpen = openIndex === i;
           return (
-            <li
-              key={item.q}
-              className='border-primary-blue/10 border-t last:border-b'
-            >
+            <li key={item.q} className='border-white/20 border-t last:border-b'>
               <button
                 type='button'
                 id={`faq-header-${i}`}
@@ -138,12 +137,12 @@ export default function Faq(): React.JSX.Element {
                 className='group flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left'
               >
                 <span
-                  className={`font-unica text-lg uppercase leading-tight tracking-tight transition-colors duration-300 md:text-xl ${isOpen ? 'text-raspberry' : 'text-primary-blue group-hover:text-raspberry'}`}
+                  className={`font-unica text-lg uppercase leading-tight tracking-tight transition-colors duration-300 md:text-xl ${isOpen ? 'text-white' : 'text-white/80 group-hover:text-white'}`}
                 >
                   {item.q}
                 </span>
                 <span
-                  className={`text-raspberry shrink-0 text-2xl leading-none transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
+                  className={`text-white shrink-0 text-2xl leading-none transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
                   aria-hidden='true'
                 >
                   +
@@ -159,7 +158,7 @@ export default function Faq(): React.JSX.Element {
                 className='overflow-hidden'
                 style={{ height: 0 }}
               >
-                <p className='text-primary-blue/70 max-w-[680px] pb-5 text-[15px] leading-relaxed'>
+                <p className='text-white/85 max-w-[680px] pb-5 text-[15px] leading-relaxed'>
                   {item.a}
                 </p>
               </div>

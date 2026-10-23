@@ -2,7 +2,7 @@ import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY } from '@/lib/site';
 
 import type { Dictionary } from '@/locale/types';
 
-import { experiences, projects, services } from './data/en';
+import { caseStudies, experiences, projects, services } from './data/en';
 
 export const en: Dictionary = {
   seoTitle:
@@ -118,6 +118,43 @@ export const en: Dictionary = {
   portfolioLiveDemo: 'live demo',
   projects,
 
+  navCaseStudies: 'Case studies',
+  caseStudiesSectionTitle: 'CASE STUDIES',
+  caseStudiesLead:
+    'Problems I ran into in my own projects and at work, and how I solved them. Each write-up covers the context, the problem, the approach, the solution and the result.',
+  caseStudiesRead: 'Read the case study',
+  caseStudiesLabel: 'Case study list',
+  caseStudies,
+
+  caseStudyKind: {
+    personal: 'Personal project',
+    work: 'Day job',
+    client: 'Client work',
+  },
+  caseStudyYearLabel: 'When',
+  caseStudyRoleLabel: 'Role',
+  caseStudyStackLabel: 'Stack',
+  caseStudyLinksLabel: 'Links',
+  caseStudyRepo: 'repo',
+  caseStudyLive: 'live demo',
+
+  caseStudyProblemTitle: 'Problem',
+  caseStudyApproachTitle: 'Approach',
+  caseStudySolutionTitle: 'Solution',
+  caseStudyOutcomeTitle: 'Result',
+  caseStudyLessonsTitle: 'What I learned',
+
+  caseStudyPrev: 'Previous',
+  caseStudyNext: 'Next',
+  caseStudyAll: 'All case studies',
+  caseStudyCtaHeading: 'Facing something similar?',
+  caseStudyCtaBody:
+    'Describe what you are up against. I will come back with an approach, a quote and a timeline.',
+  caseStudyCtaButton: 'Describe your project',
+
+  portfolioCaseStudy: 'case study',
+  servicesCaseStudy: 'See the case study',
+
   contactPhone: CONTACT_PHONE_DISPLAY,
   contactEmail: CONTACT_EMAIL,
   contactCompanyInfo: 'Creative Fullstack Developer - Available for projects',
@@ -127,9 +164,9 @@ export const en: Dictionary = {
   resumeHeaderAbout: 'ABOUT',
   resumeHeaderContact: 'CONTACT',
   resumeHeaderLanguagesTitle: 'LANGUAGES',
-  resumeLanguageEnglish: 'English - C1',
-  resumeLanguageRussian: 'Russian - A2',
-  resumeLanguagePolish: 'Polish - native',
+  resumeLanguageEnglish: 'English – C1',
+  resumeLanguageRussian: 'Russian – A2',
+  resumeLanguagePolish: 'Polish – native',
   resumeHeaderLinks: 'LINKS',
   resumeHeaderHobbies: 'HOBBIES',
   resumeHeaderExperience: 'EXPERIENCE',
@@ -138,28 +175,38 @@ export const en: Dictionary = {
   resumeHeaderSkills: 'SKILLS AND TOOLS',
   resumeHeaderDownload: 'DOWNLOAD',
   resumeAboutMe:
-    'Creative fullstack developer with hands-on experience in web and mobile applications, internal systems, and 3D. Well-versed in the medical industry - from organizing national and international congresses and conferences to dedicated software: document processing pipelines, mobile apps, VOD, virtual booths, improvements and updates to existing systems, on-site and on-the-road IT support. Built an NFT auction system and dApp tied to a 3D MOBA game on Unity. From VanillaJS through frontend and backend frameworks, relational and non-relational databases to Docker - comfortable across the full stack, integrating AI/LLM models. Particularly drawn to creative frontend and WebGL. Personally passionate about modding and creating useful, unconventional solutions.',
+    'Creative fullstack developer with hands-on experience in web and mobile applications, internal systems and 3D. Well-versed in the medical industry – from dedicated software (web applications for clients in the medical sector, document and scan processing pipelines, improvements to existing systems) to national and international congresses and conferences, for which I delivered applications (VOD, virtual booths, mobile apps) and provided on-site IT support, also on business trips. Shipped an NFT auction system and a dApp tied to a 3D MOBA game built in Unity. From vanilla JS through frontend and backend frameworks and relational and non-relational databases to Docker – comfortable across the full stack, including AI/LLM model integration. Particularly drawn to creative frontend work and WebGL. Personally passionate about modding and creating useful, unconventional solutions.',
   resumeEducation: {
-    university: 'UNIVERSITY OF SILESIA',
+    university: 'University of Silesia – Faculty of Science and Technology',
     field: 'Web Application Programming',
-    degree: 'Engineer degree',
-    dates: 'October 2017 - June 2021',
+    degree: 'Bachelor of Engineering (inż.)',
+    dates: 'October 2017 – June 2021',
   },
   resumePageTitle:
-    'SKOFTWARE - Maciej Skorus - Resume - Creative Fullstack Engineer',
-  resumeAltPhoto: 'Maciej Skorus, Fullstack Engineer',
+    'SKOFTWARE - Maciej Skorus - Resume - Creative Fullstack Developer',
+  resumeAltPhoto: 'Maciej Skorus, Fullstack Developer',
   resumeHobbies: [
     'bass guitar',
-    'automotive',
+    'cars',
     'music',
     'traveling',
     'technology',
     'pottery',
   ],
   resumeRodo:
-    'I agree to the processing of personal data provided in this document for realising the recruitment process pursuant to the Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000) and in agreement with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation)',
+    'I consent to the processing of the personal data provided in this document for the purposes of the recruitment process, pursuant to the Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000) and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation).',
   resumeRepo: 'repository',
   resumeDemo: 'web demo',
+  resumeAtsHeadline: 'Creative Fullstack Developer',
+  resumeAtsMethodsTitle: 'METHODS AND PRACTICES',
+  resumeAtsMethods: [
+    'Agile / Scrum',
+    'CI/CD (GitHub Actions)',
+    'Git',
+    'Unit testing (Jest, Vitest, pytest)',
+    'Technical and handover documentation',
+    'AI/LLM model integration',
+  ],
 
   cookieTitle: 'I value your privacy',
   cookieDescription:

@@ -1,8 +1,11 @@
+import Link from 'next/link';
 import React, { useRef } from 'react';
 
 import { BREAKPOINTS } from '@/lib/breakpoints';
+import { caseStudyForService, caseStudyHref } from '@/lib/caseStudies';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import {
+  ArticleIcon,
   CubeIcon,
   GlobeIcon,
   PhoneIcon,
@@ -45,10 +48,12 @@ function ServiceCard({
   prefersReducedMotion: boolean;
   pricingNote: string;
 }) {
+  const { t } = useLocale();
   const Icon = serviceIconMap[service.icon];
   const isOdd = index % 2 === 1;
   const { cardRef, onMouseMove, onMouseEnter, onMouseLeave } =
     useTilt(prefersReducedMotion);
+  const caseStudy = caseStudyForService(t, service.slug);
 
   return (
     <div style={{ perspective: 600 }}>
@@ -111,12 +116,26 @@ function ServiceCard({
             ))}
           </ul>
 
-          <p
-            className={`mt-auto pt-2 text-[11px] font-medium uppercase tracking-[0.15em] ${isOdd ? 'text-orange-bright' : 'text-raspberry-bright'}`}
+          <div
+            className='mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pt-2'
             style={{ transform: 'translateZ(15px)' }}
           >
-            {pricingNote}
-          </p>
+            <p
+              className={`text-[11px] font-medium uppercase tracking-[0.15em] ${isOdd ? 'text-orange-bright' : 'text-raspberry-bright'}`}
+            >
+              {pricingNote}
+            </p>
+            {caseStudy && (
+              <Link
+                href={caseStudyHref(caseStudy.slug)}
+                className='inline-flex items-center gap-1.5 text-[12px] font-medium text-white/80 transition-colors duration-200 hover:text-white'
+              >
+                <ArticleIcon className='text-sm' aria-hidden='true' />
+                {t.servicesCaseStudy}
+                <span aria-hidden='true'>→</span>
+              </Link>
+            )}
+          </div>
         </div>
 
         {Icon && (

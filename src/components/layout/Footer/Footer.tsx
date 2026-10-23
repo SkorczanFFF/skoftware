@@ -190,7 +190,7 @@ export default function Footer(): React.JSX.Element {
                     <span>{t.footerResumeOnline}</span>
                   </Link>
                   <a
-                    href={`/Maciej Skorus - CV [${locale.toUpperCase()}].pdf`}
+                    href={`/Maciej-Skorus-CV-${locale.toUpperCase()}.pdf`}
                     download
                     className={FOOTER_LINK}
                   >

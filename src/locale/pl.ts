@@ -2,7 +2,7 @@ import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY } from '@/lib/site';
 
 import type { Dictionary } from '@/locale/types';
 
-import { experiences, projects, services } from './data/pl';
+import { caseStudies, experiences, projects, services } from './data/pl';
 
 export const pl: Dictionary = {
   seoTitle:
@@ -118,6 +118,43 @@ export const pl: Dictionary = {
   portfolioLiveDemo: 'demo',
   projects,
 
+  navCaseStudies: 'Case studies',
+  caseStudiesSectionTitle: 'CASE STUDIES',
+  caseStudiesLead:
+    'Problemy, na które natrafiłem w projektach i w pracy, i jak je rozwiązałem. Każdy opis to kontekst, problem, podejście, rozwiązanie i efekt.',
+  caseStudiesRead: 'Czytaj case study',
+  caseStudiesLabel: 'Lista case studies',
+  caseStudies,
+
+  caseStudyKind: {
+    personal: 'Projekt własny',
+    work: 'Praca na etacie',
+    client: 'Zlecenie',
+  },
+  caseStudyYearLabel: 'Kiedy',
+  caseStudyRoleLabel: 'Rola',
+  caseStudyStackLabel: 'Stack',
+  caseStudyLinksLabel: 'Linki',
+  caseStudyRepo: 'repozytorium',
+  caseStudyLive: 'demo',
+
+  caseStudyProblemTitle: 'Problem',
+  caseStudyApproachTitle: 'Podejście',
+  caseStudySolutionTitle: 'Rozwiązanie',
+  caseStudyOutcomeTitle: 'Efekt',
+  caseStudyLessonsTitle: 'Czego się nauczyłem',
+
+  caseStudyPrev: 'Poprzednie',
+  caseStudyNext: 'Następne',
+  caseStudyAll: 'Wszystkie case studies',
+  caseStudyCtaHeading: 'Masz podobny problem?',
+  caseStudyCtaBody:
+    'Opisz, z czym się mierzysz. Odpowiem z propozycją podejścia, wyceną i terminem.',
+  caseStudyCtaButton: 'Opisz projekt',
+
+  portfolioCaseStudy: 'case study',
+  servicesCaseStudy: 'Zobacz case study',
+
   contactPhone: CONTACT_PHONE_DISPLAY,
   contactEmail: CONTACT_EMAIL,
   contactCompanyInfo: 'Creative Fullstack Developer - Dostępny na projekty',
@@ -127,9 +164,9 @@ export const pl: Dictionary = {
   resumeHeaderAbout: 'O MNIE',
   resumeHeaderContact: 'KONTAKT',
   resumeHeaderLanguagesTitle: 'JĘZYKI',
-  resumeLanguageEnglish: 'Angielski - C1',
-  resumeLanguageRussian: 'Rosyjski - A2',
-  resumeLanguagePolish: 'Polski - ojczysty',
+  resumeLanguageEnglish: 'Angielski – C1',
+  resumeLanguageRussian: 'Rosyjski – A2',
+  resumeLanguagePolish: 'Polski – ojczysty',
   resumeHeaderLinks: 'LINKI',
   resumeHeaderHobbies: 'ZAINTERESOWANIA',
   resumeHeaderExperience: 'DOŚWIADCZENIE',
@@ -138,16 +175,16 @@ export const pl: Dictionary = {
   resumeHeaderSkills: 'UMIEJĘTNOŚCI I NARZĘDZIA',
   resumeHeaderDownload: 'POBIERZ',
   resumeAboutMe:
-    "Kreatywny fullstack developer z praktycznym doświadczeniem w aplikacjach webowych i mobilnych, systemach wewnętrznych i 3D. Doświadczony w branży medycznej - od organizacji krajowych i międzynarodowych kongresów i konferencji po tworzenie dedykowanego oprogramowania: pipeline'y do przetwarzania dokumentów, VOD, wirtualne stoiska, aplikacje mobilne, usprawnienia i aktualizacje instniejących systemów, zapewnianie wsparcia IT na miejscu i w delegacji. Zrealizowałem system aukcji NFT i dApp powiązany z grą 3D MOBA na Unity. Od VanillaJS przez frameworki frontendowe i backendowe, bazy relacyjne i nierelacyjne po Dockera - poruszam się swobodnie po całym stacku, integruje modele AI/LLM. Prywatnie pasjonat eksperymentów, moddingu oraz tworzenia użytecznych i niebanalnych rozwiązań.",
+    "Kreatywny fullstack developer z praktycznym doświadczeniem w aplikacjach webowych i mobilnych, systemach wewnętrznych i 3D. Doświadczony w branży medycznej – od dedykowanego oprogramowania: aplikacje webowe dla klientów z sektora medycznego, pipeline'y do przetwarzania dokumentów i skanów, rozwój istniejących systemów, po krajowe i międzynarodowe kongresy i konferencje, dla których dostarczałem rozwiązania (VOD, wirtualne stoiska, aplikacje mobilne) oraz wsparcie IT na miejscu i w delegacji. Zrealizowałem system aukcji NFT i dApp powiązaną z grą 3D MOBA na Unity. Od VanillaJS przez frameworki frontendowe i backendowe, bazy relacyjne i nierelacyjne po Dockera – poruszam się swobodnie po całym stacku, integruję modele AI/LLM. Prywatnie pasjonat eksperymentów, moddingu oraz tworzenia użytecznych i niebanalnych rozwiązań.",
   resumeEducation: {
-    university: 'Uniwersytet Śląski - WNST',
+    university: 'Uniwersytet Śląski – WNST',
     field: 'Programowanie Aplikacji Webowych',
     degree: 'Inżynierskie',
-    dates: 'Październik 2017 - Czerwiec 2021',
+    dates: 'Październik 2017 – Czerwiec 2021',
   },
   resumePageTitle:
-    'SKOFTWARE - Maciej Skorus - CV - Creative Fullstack Engineer',
-  resumeAltPhoto: 'Maciej Skorus, Fullstack Engineer',
+    'SKOFTWARE - Maciej Skorus - CV - Creative Fullstack Developer',
+  resumeAltPhoto: 'Maciej Skorus, Fullstack Developer',
   resumeHobbies: [
     'gitara basowa',
     'motoryzacja',
@@ -160,6 +197,16 @@ export const pl: Dictionary = {
     'Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO).',
   resumeRepo: 'repozytorium',
   resumeDemo: 'wersja demonstracyjna',
+  resumeAtsHeadline: 'Creative Fullstack Developer',
+  resumeAtsMethodsTitle: 'METODYKI I PRAKTYKI',
+  resumeAtsMethods: [
+    'Agile / Scrum',
+    'CI/CD (GitHub Actions)',
+    'Git',
+    'Testy jednostkowe (Jest, Vitest, pytest)',
+    'Dokumentacja techniczna i przekazanie projektu',
+    'Integracja modeli AI/LLM',
+  ],
 
   cookieTitle: 'Dbam o Twoją prywatność',
   cookieDescription:

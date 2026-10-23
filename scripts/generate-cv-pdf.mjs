@@ -1,108 +1,97 @@
 /**
- * Generate static CV PDFs with real selectable text using Puppeteer.
+ * Generate the static CV PDFs with real, selectable text using Puppeteer.
  *
  * Usage:
  *   1. Start dev server:  npm run dev
  *   2. Run this script:   node scripts/generate-cv-pdf.mjs
  *
  * Outputs (in public/):
- *   Maciej Skorus - CV [EN].pdf
- *   Maciej Skorus - CV [PL].pdf
+ *   Maciej-Skorus-CV-PL.pdf       the designed, two-column page (/cv)
+ *   Maciej-Skorus-CV-EN.pdf
+ *   Maciej-Skorus-CV-PL-ATS.pdf   the single-column, parser-first page (/cv/ats)
+ *   Maciej-Skorus-CV-EN-ATS.pdf
+ *
+ * Every file is tagged (structure tree from the DOM) and gets Title, Author,
+ * Subject and Keywords metadata through pdf-lib — Chromium only writes Title.
  */
 
+import { PDFDocument } from 'pdf-lib';
 import puppeteer from 'puppeteer';
 import { resolve, dirname } from 'path';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const FONTS_DIR = resolve(__dirname, '..', 'public', 'fonts');
+const OUT_DIR = resolve(__dirname, '..', 'public');
+
+const AUTHOR = 'Maciej Skorus';
+const KEYWORDS = [
+  'Maciej Skorus',
+  'CV',
+  'Resume',
+  'Fullstack Developer',
+  'Frontend Developer',
+  'React',
+  'Next.js',
+  'TypeScript',
+  'JavaScript',
+  'Python',
+  'Three.js',
+  'React Native',
+];
 
 // Resume container is 794x1123px — convert to mm for PDF page size
 const pxToMm = (px) => (px * 25.4) / 96;
 const WIDTH_MM = pxToMm(794);
 const HEIGHT_MM = pxToMm(1123);
 
-async function generatePdf(locale) {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+const localeUrl = (locale, path) =>
+  locale === 'pl' ? `${BASE_URL}${path}` : `${BASE_URL}/${locale}${path}`;
 
-  await page.setViewport({ width: 1280, height: 900 });
+/** Leaves only `selector` in the body, keeping the font CSS variables alive. */
+async function isolate(page, selector) {
+  await page.evaluate((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) throw new Error(`Could not find ${sel}`);
 
-  // Locale lives in the URL (next.config.js i18n): PL is the default, EN is prefixed.
-  const url = locale === 'pl' ? `${BASE_URL}/cv` : `${BASE_URL}/${locale}/cv`;
-  await page.goto(url, { waitUntil: 'networkidle0' });
-
-  // Wait for fonts
-  await page.evaluateHandle('document.fonts.ready');
-  await new Promise((r) => setTimeout(r, 500));
-
-  // Strip DOM down to just the resume container, preserving font CSS variables
-  await page.evaluate(() => {
-    // Capture font CSS variables before stripping — they live on a wrapper div from _app.tsx
+    // Capture font CSS variables before stripping — they live on a wrapper
+    // div from _app.tsx, walked up from the element itself.
     const root = document.documentElement;
-    const fontVars = ['--font-grotesk', '--font-unica'];
     const captured = {};
-    for (const v of fontVars) {
-      // Walk up from the resume element to find the variable
-      let el = document.querySelector(
-        'div[class*="overflow-hidden"][class*="w-[794px]"]',
-      );
-      while (el) {
-        const val = getComputedStyle(el).getPropertyValue(v).trim();
+    for (const v of ['--font-grotesk', '--font-unica']) {
+      let node = el;
+      while (node) {
+        const val = getComputedStyle(node).getPropertyValue(v).trim();
         if (val) {
           captured[v] = val;
           break;
         }
-        el = el.parentElement;
+        node = node.parentElement;
       }
     }
 
-    // The resume ref div is the one with exact 794x1123 dimensions
-    const resumeEl = document.querySelector(
-      'div[class*="overflow-hidden"][class*="w-[794px]"]',
-    );
-    if (!resumeEl) {
-      const allDivs = document.querySelectorAll('div');
-      for (const div of allDivs) {
-        if (div.offsetWidth === 794 && div.offsetHeight === 1123) {
-          document.body.innerHTML = '';
-          document.body.appendChild(div);
-          break;
-        }
-      }
-      if (!document.body.children.length)
-        throw new Error('Could not find resume container');
-    } else {
-      document.body.innerHTML = '';
-      document.body.appendChild(resumeEl);
-    }
+    document.body.innerHTML = '';
+    document.body.appendChild(el);
+    for (const [k, v] of Object.entries(captured)) root.style.setProperty(k, v);
 
-    // Re-apply font CSS variables on <html> so var() references resolve
-    for (const [k, v] of Object.entries(captured)) {
-      root.style.setProperty(k, v);
-    }
+    // The font-grotesk utility lived on a stripped ancestor.
+    el.style.fontFamily = `var(--font-grotesk), ui-sans-serif, system-ui, sans-serif`;
+  }, selector);
+}
 
-    // The font-grotesk utility class lived on the parent <section> which was stripped.
-    // Re-apply Space Grotesk as the base font-family on the resume container.
-    const container = document.body.firstElementChild;
-    if (container) {
-      container.style.fontFamily = `var(--font-grotesk), ui-sans-serif, system-ui, sans-serif`;
-    }
-  });
-
-  // Inject Space Grotesk as TTF — Chromium's PDF renderer doesn't embed woff2 fonts
-  const grotesk400 = readFileSync(
+/** Chromium's PDF renderer doesn't embed woff2 — swap in the TTFs. */
+async function embedTtfFonts(page) {
+  const g400 = readFileSync(
     resolve(FONTS_DIR, 'SpaceGrotesk-400.ttf'),
   ).toString('base64');
-  const grotesk700 = readFileSync(
+  const g700 = readFileSync(
     resolve(FONTS_DIR, 'SpaceGrotesk-700.ttf'),
   ).toString('base64');
 
   await page.evaluate(
     ({ g400, g700 }) => {
-      // Remove existing woff2-based @font-face rules for spaceGrotesk
       for (const sheet of document.styleSheets) {
         try {
           const toDelete = [];
@@ -119,7 +108,6 @@ async function generatePdf(locale) {
         } catch {}
       }
 
-      // Inject TTF-based @font-face rules
       const style = document.createElement('style');
       style.textContent = `
       @font-face {
@@ -137,55 +125,135 @@ async function generatePdf(locale) {
     `;
       document.head.appendChild(style);
     },
-    { g400: grotesk400, g700: grotesk700 },
+    { g400, g700 },
   );
 
-  // Wait for injected fonts to load
   await page.evaluateHandle('document.fonts.ready');
   await new Promise((r) => setTimeout(r, 300));
+}
 
-  // Apply clean styles for PDF
+async function openPage(browser, locale, path, title) {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1280, height: 900 });
+  const url = localeUrl(locale, path);
+  await page.goto(url, { waitUntil: 'networkidle0' });
+
+  // The PDF's Title metadata is the document title: name first, so a parser
+  // reading metadata does not take the brand for the candidate.
+  await page.evaluate((t) => {
+    document.title = t;
+  }, title);
+
+  await page.evaluateHandle('document.fonts.ready');
+  await new Promise((r) => setTimeout(r, 500));
+  return { page, url };
+}
+
+/** Title, Author, Subject, Keywords, Language — what Chromium leaves out. */
+async function stampMetadata(path, { title, subject, locale }) {
+  const doc = await PDFDocument.load(readFileSync(path), {
+    updateMetadata: false,
+  });
+  doc.setTitle(title);
+  doc.setAuthor(AUTHOR);
+  doc.setSubject(subject);
+  doc.setKeywords(KEYWORDS);
+  doc.setLanguage(locale);
+  doc.setCreator('skoftware.pl (Puppeteer + pdf-lib)');
+  // No object streams: a plain xref table is readable by every parser,
+  // including the older ones behind some recruitment portals.
+  writeFileSync(path, await doc.save({ useObjectStreams: false }));
+}
+
+/** The designed page: the 794×1123 container printed 1:1 on one page. */
+async function generateDesigned(browser, locale) {
+  const L = locale.toUpperCase();
+  const title = `${AUTHOR} - CV (${L})`;
+  const { page, url } = await openPage(browser, locale, '/cv', title);
+
+  await isolate(page, 'div[class*="overflow-hidden"][class*="w-[794px]"]');
+  await embedTtfFonts(page);
+
   await page.addStyleTag({
     content: `
-      @page {
-        size: ${WIDTH_MM}mm ${HEIGHT_MM}mm;
-        margin: 0;
-      }
+      @page { size: ${WIDTH_MM}mm ${HEIGHT_MM}mm; margin: 0; }
       html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 794px !important;
-        height: 1123px !important;
-        overflow: hidden !important;
-        background: none !important;
+        margin: 0 !important; padding: 0 !important;
+        width: 794px !important; height: 1123px !important;
+        overflow: hidden !important; background: none !important;
       }
     `,
   });
 
-  const outPath = resolve(
-    __dirname,
-    '..',
-    'public',
-    `Maciej Skorus - CV [${locale.toUpperCase()}].pdf`,
-  );
-
+  const outPath = resolve(OUT_DIR, `Maciej-Skorus-CV-${L}.pdf`);
   await page.pdf({
     path: outPath,
     width: `${WIDTH_MM}mm`,
     height: `${HEIGHT_MM}mm`,
     printBackground: true,
+    // Structure tree from the DOM (h1, h2, ul, address): parsers that read it
+    // get the sections in order instead of guessing from the layout.
+    tagged: true,
     preferCSSPageSize: false,
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
   });
+  await page.close();
 
-  await browser.close();
+  await stampMetadata(outPath, {
+    title,
+    subject: `CV - Creative Fullstack Developer (${L})`,
+    locale,
+  });
   console.log(`  ${locale}: ${url} -> ${outPath}`);
+}
+
+/** The parser-first page: A4 with margins, as many pages as the text needs. */
+async function generateAts(browser, locale) {
+  const L = locale.toUpperCase();
+  const title = `${AUTHOR} - CV (${L}, ATS)`;
+  const { page, url } = await openPage(browser, locale, '/cv/ats', title);
+
+  await isolate(page, '#ats-resume');
+  await embedTtfFonts(page);
+
+  await page.addStyleTag({
+    content: `
+      @page { size: A4; margin: 14mm 16mm; }
+      html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+      #ats-resume { max-width: none !important; padding: 0 !important; color: #000 !important; }
+      #ats-resume a { color: #000 !important; text-decoration: none !important; }
+    `,
+  });
+
+  const outPath = resolve(OUT_DIR, `Maciej-Skorus-CV-${L}-ATS.pdf`);
+  await page.pdf({
+    path: outPath,
+    format: 'A4',
+    printBackground: false,
+    tagged: true,
+    preferCSSPageSize: true,
+  });
+  await page.close();
+
+  await stampMetadata(outPath, {
+    title,
+    subject: `CV - Creative Fullstack Developer (${L}, ATS version)`,
+    locale,
+  });
+  console.log(`  ${locale} ATS: ${url} -> ${outPath}`);
 }
 
 console.log('Generating CV PDFs...');
 console.log(`Using: ${BASE_URL}\n`);
 
-await generatePdf('en');
-await generatePdf('pl');
+const browser = await puppeteer.launch({ headless: true });
+try {
+  for (const locale of ['en', 'pl']) {
+    await generateDesigned(browser, locale);
+    await generateAts(browser, locale);
+  }
+} finally {
+  await browser.close();
+}
 
 console.log('\nDone!');

@@ -10,7 +10,7 @@ export const projects: ProjectEntry[] = [
     title: 'POLONEZ AUTODRIVE',
     technos: 'JavaScript • Three.js • 3D Studio Max',
     description:
-      'Animacja 3D w stylu lat 80/synthwave w formie kolorowanki z personalizacją kolorów i modeli na scenie w czasie rzeczywistym przez wbudowane GUI. Model Poloneza i palmy powstały w 3D Studio Max, reszta sceny jest generowana proceduralnie. Zawiera zręcznościową mini-grę.',
+      'Animacja 3D w stylu lat 80./synthwave w formie kolorowanki z personalizacją kolorów i modeli na scenie w czasie rzeczywistym za pomocą wbudowanego GUI. Model Poloneza i palmy powstały w 3D Studio Max, reszta sceny jest generowana proceduralnie. Zawiera zręcznościową mini-grę.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
     inResume: true,
@@ -48,7 +48,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
     description:
-      'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML&CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
+      'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML i CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
     inResume: true,

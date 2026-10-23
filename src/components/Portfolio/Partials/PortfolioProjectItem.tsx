@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import React from 'react';
 
-import { GithubIcon, GlobalIcon } from '@/lib/shared/Icons';
+import { caseStudyForProject, caseStudyHref } from '@/lib/caseStudies';
+import { ArticleIcon, GithubIcon, GlobalIcon } from '@/lib/shared/Icons';
 
 import ExternalLink from '@/components/ui/ExternalLink';
 
@@ -18,10 +20,17 @@ const LINK_CLASS =
 
 function ProjectLinks({ project }: { project: ProjectEntry }) {
   const { t } = useLocale();
-  if (!project.git && !project.live) return null;
+  const caseStudy = caseStudyForProject(t, project.id);
+  if (!project.git && !project.live && !caseStudy) return null;
 
   return (
-    <div className='flex gap-5'>
+    <div className='flex flex-wrap gap-5'>
+      {caseStudy && (
+        <Link href={caseStudyHref(caseStudy.slug)} className={LINK_CLASS}>
+          <ArticleIcon className='text-xl' aria-hidden='true' />
+          <span className='text-sm'>{t.portfolioCaseStudy}</span>
+        </Link>
+      )}
       {project.git && (
         <ExternalLink
           href={project.git}

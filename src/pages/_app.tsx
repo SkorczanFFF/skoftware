@@ -10,7 +10,7 @@ import { prefersReducedMotion } from '@/lib/motion';
 import { useScrollVelocity } from '@/hooks/useScrollVelocity';
 
 import CookieConsentBanner from '@/components/CookieConsent';
-import CustomCursor from '@/components/CustomCursor';
+// import CustomCursor from '@/components/CustomCursor';
 import Grain from '@/components/Grain';
 import Header from '@/components/layout/Header/Header';
 import RouteTransition from '@/components/RouteTransition';
@@ -84,7 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ScrollToTop />
         <CookieConsentBanner />
         <Grain />
-        <CustomCursor />
+        {/* <CustomCursor /> */}
       </LocaleProvider>
     </div>
   );

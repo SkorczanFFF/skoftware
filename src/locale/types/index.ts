@@ -1,4 +1,5 @@
 import type { A11yStrings } from './a11y';
+import type { CaseStudyStrings } from './caseStudies';
 import type { CommonStrings } from './common';
 import type { CvStrings } from './cv';
 import type { LegalStrings } from './legal';
@@ -16,4 +17,5 @@ export type Dictionary = CommonStrings &
   MarketingStrings &
   CvStrings &
   LegalStrings &
+  CaseStudyStrings &
   A11yStrings;

@@ -46,16 +46,28 @@ Website of **SKOFTWARE Maciej Skorus** — a one-person software house. Built wi
 
 ### Home page
 
-Sections, top to bottom: Hero → Services → Process → TechStrip → Why me → FAQ → Portfolio → Footer (contact).
+Sections, top to bottom: Hero → Services → Process → TechStrip → Why me → Case studies → FAQ → Portfolio → Footer (contact).
 
 - **Hero** — offer headline and CTAs rendered on the server, over a client-only 3D scene. On phones and portrait tablets the copy splits around the portrait (headline pinned under the header, pitch and CTAs pinned to the bottom).
 - **Services** — six craft cards (websites, web apps, AI integration, 3D/WebGL, mobile, maintenance) with deliverables and an individual-quote note; pointer tilt on desktop, a scroll-driven lift on touch.
 - **Process** — four "how I work" steps.
 - **TechStrip** — the load-bearing stack on the animated brand gradient.
 - **Why me** — trust block: one contractor from idea to maintenance.
+- **Case studies** — the proof under that claim: one row per published write-up, linking to its page (see below).
 - **FAQ** — single-open accordion; answers ship in the HTML and mirror into `FAQPage` JSON-LD.
-- **Portfolio** — pinned horizontal scroll on desktop with per-panel entrance/exit animations, vertical fade-in on mobile; hover swaps to a second screenshot.
+- **Portfolio** — pinned horizontal scroll on desktop with per-panel entrance/exit animations, vertical fade-in on mobile; hover swaps to a second screenshot. Panels with a case study carry a third link to it.
 - **Footer** — direct contact, socials, CV links, NIP / VAT invoicing note, and a heading that cycles through "let's talk" in five languages.
+
+### Case studies
+
+Problem-driven write-ups at `/case-studies/<slug>` (`/en/case-studies/<slug>`), one template for all of them.
+
+- Metadata (slug, title, summary, kind, stack, cover, links) lives in `src/locale/data/{pl,en}/caseStudies.ts` and ships with the dictionary; the article bodies live in `caseStudyBodies.ts` next to it, keyed by slug, and reach the page through `getStaticProps`, so the prose is not in every page's bundle. Slugs and every non-translatable field must match between PL and EN (`__tests__/locale/caseStudies.test.ts` enforces it).
+- Fixed structure: dark header (kind, title, the problem in one sentence, year, role, stack chips, links), optional cover and headline facts, then **Problem → Approach → Solution → Result**, optional lessons, prev/next and a contact CTA.
+- Blocks inside a phase: paragraph, sub-heading, list, image with caption, code.
+- `draft: true` keeps an entry out of the build entirely — no page, no row, no links.
+- Entry points: the home section, a third link on the portfolio panel (`projectId`) and a link at the foot of the service card (`serviceSlug`).
+- Static paths for both locales, `TechArticle` + `BreadcrumbList` JSON-LD, per-page `og:image` from the cover; `/case-studies` without a slug redirects to the home section.
 
 ### 3D hero scene
 
@@ -75,7 +87,7 @@ Sections, top to bottom: Hero → Services → Process → TechStrip → Why me 
 ### Internationalization
 
 - Polish at `/`, English at `/en/*` via Next.js i18n routing — no detection, no persistence
-- Canonical, `hreflang` and `og:locale` per language; `/resume` redirects to `/cv`
+- Canonical, `hreflang` and `og:locale` per language; `/resume` redirects to `/cv`, `/case-studies` to `/#case-studies`
 - Every user-facing string, including `aria-label`s and `alt` text, lives in `src/locale`
 
 ### CV
@@ -115,6 +127,8 @@ src/
 │   ├── Process/                   # "How I work" steps
 │   ├── TechStrip/                 # Stack icons on the brand gradient
 │   ├── WhyMe/                     # Trust block
+│   ├── CaseStudies/               # Home section: one row per case study
+│   ├── CaseStudy/                 # Article template (CaseStudyArticle) + block renderer
 │   ├── Faq/                       # Accordion + FAQPage schema
 │   ├── Portfolio/                 # Horizontal scroll showcase
 │   ├── ui/                        # Section, SectionTitle, SectionArrow, Button, ExternalLink
@@ -130,6 +144,7 @@ src/
 │   └── Seo.tsx                    # Title, meta, canonical/hreflang, JSON-LD, favicons
 ├── pages/
 │   ├── index.tsx                  # Home
+│   ├── case-studies/[slug].tsx    # Case study template, static paths per locale
 │   ├── cv/index.tsx               # CV page (noindex)
 │   ├── cookies/index.tsx          # Cookie policy
 │   ├── 404.tsx
@@ -137,11 +152,12 @@ src/
 │   └── _document.tsx              # <html lang> from the URL locale
 ├── locale/
 │   ├── LocaleContext.tsx          # Locale from the router, useLocale()
-│   ├── types/                     # Dictionary shape: common, marketing, cv, legal, a11y, entries
-│   ├── data/{pl,en}/              # services, projects, experiences
+│   ├── types/                     # Dictionary shape: common, marketing, cv, legal, caseStudies, a11y, entries
+│   ├── data/{pl,en}/              # services, projects, experiences, caseStudies
 │   └── {pl,en}.ts                 # Dictionaries
 ├── lib/
 │   ├── site.ts                    # Domain and business identity — single source
+│   ├── caseStudies.ts             # Route root, published list, project/service lookups
 │   ├── gsap.ts                    # GSAP + ScrollTrigger registration
 │   ├── motion.ts                  # prefers-reduced-motion helpers
 │   ├── breakpoints.ts             # Breakpoints mirrored from globals.css
@@ -164,7 +180,7 @@ src/
 ├── types/                         # glsl and jest-dom declarations
 └── __tests__/                     # Jest (lib + locale)
 
-scripts/generate-cv-pdf.mjs        # Puppeteer → public/Maciej Skorus - CV [PL|EN].pdf
+scripts/generate-cv-pdf.mjs        # Puppeteer → public/Maciej-Skorus-CV-{PL,EN}[-ATS].pdf, metadata via pdf-lib
 next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 ```
 
@@ -172,13 +188,24 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 
 ## Showcased projects
 
-| Project                     | Stack                                         | Links                                                                                                                                                  |
-| --------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max           | [Live](https://www.polonez-autodrive.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                         |
-| **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS         | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
-| **Pokédex**                 | React, TypeScript, Vite, TanStack Query       | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                             |
-| **SKOFTWARE**               | Next.js, TypeScript, TailwindCSS, R3F, GSAP   | [Live](https://www.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                            |
-| **Yet Another Weather App** | React, TypeScript, Sass, R3F, Open-Meteo      | [Live](https://www.yet-another-weather-app.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                               |
+| Project                     | Stack                                       | Links                                                                                                                                                  |
+| --------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max         | [Live](https://www.polonez-autodrive.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                         |
+| **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS       | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
+| **Pokédex**                 | React, TypeScript, Vite, TanStack Query     | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                             |
+| **SKOFTWARE**               | Next.js, TypeScript, TailwindCSS, R3F, GSAP | [Live](https://www.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                            |
+| **Yet Another Weather App** | React, TypeScript, Sass, R3F, Open-Meteo    | [Live](https://www.yet-another-weather-app.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                               |
+
+## Case studies
+
+| Slug                                 | Topic                                                                      | Linked from                             |
+| ------------------------------------ | -------------------------------------------------------------------------- | --------------------------------------- |
+| `yawa-volumetric-clouds`             | Volumetric clouds from the forecast, raymarched in GLSL                    | Portfolio (YAWA), 3D service            |
+| `polonez-autodrive-rewrite`          | An interactive 3D colouring book evolving from plain JS and HTML into Vite | Portfolio (Polonez)                     |
+| `capcam-head-tracking`               | Android phone as a head tracker over UDP to opentrack                      | Mobile service                          |
+| `skoftware-hero-particles`           | The particle hero that never blocks the offer                              | Portfolio (SKOFTWARE), Websites service |
+| `tibia-key-presser-background-input` | Background hotkeys for a game, one generation and two years later          | CV project                              |
+| `derdum-wyplatum-google-calendar`    | Google Calendar as a serverless database (draft, not built)                | —                                       |
 
 ---
 

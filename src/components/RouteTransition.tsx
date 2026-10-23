@@ -2,6 +2,8 @@ import { type RefObject, useRef } from 'react';
 
 import { useRouteTransition } from '@/hooks/useRouteTransition';
 
+import Wordmark from '@/components/ui/Wordmark';
+
 /**
  * The panel that carries one page out and the next one in. Both of its edges
  * are cut to the section arrow (`.route-curtain`), so it leads with a point
@@ -30,18 +32,12 @@ export default function RouteTransition({
       // panel's resting place does not matter; every cover parks it first.
       style={{ visibility: 'hidden' }}
     >
-      {/* Only fades in once a route takes long enough to need an apology. */}
-      <span
-        ref={wordmarkRef}
-        className='font-unica relative select-none text-5xl font-bold opacity-0'
-      >
-        <span
-          className='absolute right-[-1.5px] bottom-[-1.5px] text-primary-blue pointer-events-none'
-          aria-hidden='true'
-        >
-          SKOFTware
-        </span>
-        <span className='text-real-white relative'>SKOFTware</span>
+      <span ref={wordmarkRef} className='opacity-0'>
+        <Wordmark
+          className='text-5xl md:text-6xl'
+          offsetClass='translate-x-[3px] translate-y-[3px]'
+          mirrorOffsetClass='-translate-x-[3px] -translate-y-[3px]'
+        />
       </span>
     </div>
   );

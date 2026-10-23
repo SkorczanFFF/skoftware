@@ -12,6 +12,7 @@ import {
   GlobalIcon,
   GuitarIcon,
   LinkedinIcon,
+  LocationIcon,
   MailIcon,
   MusicIcon,
   PdfIcon,
@@ -33,7 +34,7 @@ import { useLocale } from '@/locale/LocaleContext';
 
 export default function CV(): React.JSX.Element {
   const { locale, t } = useLocale();
-  const pdfHref = `/Maciej Skorus - CV [${locale.toUpperCase()}].pdf`;
+  const pdfHref = `/Maciej-Skorus-CV-${locale.toUpperCase()}.pdf`;
 
   const searchParams = useSearchParams();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -118,31 +119,36 @@ export default function CV(): React.JSX.Element {
                   height={206}
                 />
                 {/* <div className="bg-raspberry h-[8px] w-full"></div> */}
-                <div className='flex flex-col justify-between'>
-                  {[
-                    ['creative', 'MACIEJ'],
-                    ['fullstack', 'SKORUS'],
-                    ['developer'],
-                  ].map((lines, i) => (
-                    <div key={i}>
-                      {lines.map((text, j) => (
-                        <p
-                          key={text}
-                          className={`text-2xl tracking-wide ${j % 2 === 0 ? 'pr-2 text-right font-unica font-light text-white' : 'pl-2 text-left font-[500] bg-raspberry text-primary-blue'}`}
-                        >
-                          {text}
-                        </p>
-                      ))}
-                    </div>
-                  ))}
+                {/* Grid rows interleave name and title visually; the DOM keeps
+                    the name whole, and the PDF text stream follows the DOM. */}
+                <div className='grid grid-cols-1 text-2xl tracking-wide'>
+                  <h1 className='contents font-grotesk font-[500] text-primary-blue'>
+                    <span className='row-start-2 bg-raspberry pl-2 text-left'>
+                      MACIEJ
+                    </span>{' '}
+                    <span className='row-start-4 bg-raspberry pl-2 text-left'>
+                      SKORUS
+                    </span>
+                  </h1>
+                  <p className='contents font-unica font-light text-white'>
+                    <span className='row-start-1 pr-2 text-right'>
+                      creative
+                    </span>{' '}
+                    <span className='row-start-3 pr-2 text-right'>
+                      fullstack
+                    </span>{' '}
+                    <span className='row-start-5 pr-2 text-right'>
+                      developer
+                    </span>
+                  </p>
                 </div>
-                <div className='mt-1 flex flex-col gap-3 text-[11px]'>
+                <div className='mt-1 flex flex-col gap-2.5 text-[9px]'>
                   {/* Contact */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderContact}
-                    </p>
-                    <div className='px-2 pt-1 text-white/80 flex flex-col gap-[2px]'>
+                    </h2>
+                    <address className='px-2 pt-1 text-white/80 flex flex-col gap-[2px] not-italic'>
                       <a
                         href={`mailto:${t.contactEmail}`}
                         className='flex items-center gap-1 hover:text-white'
@@ -157,14 +163,18 @@ export default function CV(): React.JSX.Element {
                         <CallIcon className='text-[10px] shrink-0' />
                         {t.contactPhone}
                       </a>
-                    </div>
+                      <span className='flex items-center gap-1'>
+                        <LocationIcon className='text-[10px] shrink-0' />
+                        {t.contactLocation}
+                      </span>
+                    </address>
                   </div>
 
                   {/* Education */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderEducation}
-                    </p>
+                    </h2>
                     <div className='pl-2 pt-1 text-white/80'>
                       <p className='font-semibold text-white'>
                         {t.resumeEducation.university}
@@ -181,9 +191,9 @@ export default function CV(): React.JSX.Element {
 
                   {/* Languages */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderLanguagesTitle}
-                    </p>
+                    </h2>
                     <div className='px-2 pt-1 text-white/80'>
                       <p>{t.resumeLanguageEnglish}</p>
                       <p>{t.resumeLanguageRussian}</p>
@@ -193,9 +203,9 @@ export default function CV(): React.JSX.Element {
 
                   {/* Links */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderLinks}
-                    </p>
+                    </h2>
                     <div className='px-2 pt-1 text-white/80 flex flex-col gap-[2px]'>
                       <a
                         href='https://github.com/SkorczanFFF'
@@ -235,10 +245,10 @@ export default function CV(): React.JSX.Element {
 
                   {/* Skills */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderSkills}
-                    </p>
-                    <div className='px-2 pt-2 flex flex-col gap-[6px]'>
+                    </h2>
+                    <div className='px-2 pt-2 flex flex-col gap-[3px]'>
                       {Array.from(
                         { length: Math.ceil(resumeTechList.length / 3) },
                         (_, row) => (
@@ -255,7 +265,9 @@ export default function CV(): React.JSX.Element {
                                     {Icon && (
                                       <Icon className='text-[11px] text-white/90' />
                                     )}
-                                    <span>{tech}</span>
+                                    <span className='whitespace-nowrap'>
+                                      {tech}
+                                    </span>
                                   </div>
                                 );
                               })}
@@ -267,9 +279,9 @@ export default function CV(): React.JSX.Element {
 
                   {/* Hobbies */}
                   <div>
-                    <p className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
+                    <h2 className='bg-deep-blue pl-2 py-[2px] text-[14px] font-semibold tracking-widest text-white font-unica'>
                       {t.resumeHeaderHobbies}
-                    </p>
+                    </h2>
                     <div className='px-2 pt-2 flex gap-2'>
                       {(
                         [
@@ -297,20 +309,20 @@ export default function CV(): React.JSX.Element {
               </div>
               {/* Main content */}
               <div className='bg-white h-full w-[594px] flex flex-col justify-between'>
-                <div className='px-4 pt-4'>
+                <div className='px-4 pt-2'>
                   {/* About */}
-                  <h3 className='text-[13px] font-bold uppercase tracking-[3px] text-primary-blue border-b border-primary-blue/20 pb-1 mb-2 font-unica'>
+                  <h2 className='text-[13px] font-bold uppercase tracking-widest text-primary-blue border-b border-primary-blue/20 pb-0.5 mb-1.5 font-unica'>
                     {t.resumeHeaderAbout}
-                  </h3>
-                  <p className='text-[9px] leading-[12px] text-primary-blue/80 mb-4 text-justify'>
+                  </h2>
+                  <p className='text-[9px] leading-[12px] text-primary-blue/80 mb-2 text-justify'>
                     {t.resumeAboutMe}
                   </p>
 
                   {/* Experience */}
-                  <h3 className='text-[13px] font-bold uppercase tracking-[3px] text-primary-blue border-b border-primary-blue/20 pb-1 mb-3'>
+                  <h2 className='text-[13px] font-bold uppercase tracking-widest text-primary-blue border-b border-primary-blue/20 pb-0.5 mb-2'>
                     {t.resumeHeaderExperience}
-                  </h3>
-                  <div className='flex flex-col gap-4'>
+                  </h2>
+                  <div className='flex flex-col gap-[7px]'>
                     {t.experiences.map((exp) => (
                       <div key={exp.company}>
                         <div className='flex items-baseline justify-between'>
@@ -331,14 +343,17 @@ export default function CV(): React.JSX.Element {
                             </p>
                           )}
                         </div>
-                        <p className='text-[9px] text-primary-blue/50 mt-[2px]'>
+                        <p className='text-[9px] text-primary-blue/50 mt-[1px]'>
                           {exp.stack.join(' • ')}
                         </p>
-                        <ul className='mt-1 flex flex-col gap-[2px]'>
+                        {/* No positioning on the items: positioned elements
+                            paint last, and the PDF text stream follows paint
+                            order, which detached every bullet from its employer. */}
+                        <ul className='mt-0.5 flex flex-col gap-[1px] list-disc pl-[11px] marker:text-raspberry'>
                           {exp.duties.map((duty, i) => (
                             <li
                               key={i}
-                              className='text-[9px] leading-[11px] text-primary-blue/80 pl-2 relative before:content-["•"] before:absolute before:left-0 before:text-raspberry text-justify'
+                              className='text-[9px] leading-[11px] text-primary-blue/80 text-justify'
                             >
                               {duty}
                             </li>
@@ -349,10 +364,10 @@ export default function CV(): React.JSX.Element {
                   </div>
 
                   {/* Selected Projects */}
-                  <h3 className='text-[13px] font-bold uppercase tracking-[3px] text-primary-blue border-b border-primary-blue/20 pb-1 mb-3 mt-5'>
+                  <h2 className='text-[13px] font-bold uppercase tracking-widest text-primary-blue border-b border-primary-blue/20 pb-0.5 mb-2 mt-3'>
                     {t.resumeHeaderSelectedProjects}
-                  </h3>
-                  <div className='flex flex-col gap-2'>
+                  </h2>
+                  <div className='flex flex-col gap-1'>
                     {t.projects
                       .filter((p) => p.inResume)
                       .map((project) => (
@@ -365,11 +380,11 @@ export default function CV(): React.JSX.Element {
                               {project.technos}
                             </p>
                           </div>
-                          <p className='text-[9px] leading-[11px] text-primary-blue/80 mt-[2px] text-justify'>
+                          <p className='text-[9px] leading-[11px] text-primary-blue/80 mt-[1px] text-justify'>
                             {project.description}
                           </p>
                           {(project.git || project.live) && (
-                            <div className='mt-[2px] flex gap-3 text-[8px] text-raspberry'>
+                            <div className='mt-[1px] flex gap-3 text-[8px] text-raspberry'>
                               {project.git && (
                                 <a
                                   href={project.git}
@@ -399,7 +414,7 @@ export default function CV(): React.JSX.Element {
                   </div>
                 </div>
 
-                <p className='px-2 pb-2 text-[8.7px] leading-[8px] text-primary-blue/40 text-justify'>
+                <p className='px-2 pb-1 text-[8.7px] leading-[8px] text-primary-blue/40 text-justify'>
                   {t.resumeRodo}
                 </p>
               </div>

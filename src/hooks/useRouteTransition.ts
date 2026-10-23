@@ -8,8 +8,6 @@ const COVER = 0.32;
 const REVEAL = 0.42;
 const CROSSFADE = 0.26;
 
-/** Past this the curtain stops pretending the page was instant. */
-const SLOW_ROUTE_MS = 400;
 /** A closed curtain with nothing behind it is the one unrecoverable state. */
 const STUCK_MS = 10000;
 
@@ -79,7 +77,6 @@ export function useRouteTransition(
     if (!curtain || !wordmark || !content) return;
 
     let phase: Phase = 'idle';
-    let slowTimer = 0;
     let stuckTimer = 0;
     let stayPut = false;
 
@@ -120,10 +117,7 @@ export function useRouteTransition(
     const reveal = () => {
       if (phase === 'idle' || phase === 'revealing') return;
       phase = 'revealing';
-      window.clearTimeout(slowTimer);
       window.clearTimeout(stuckTimer);
-      gsap.killTweensOf(wordmark);
-      gsap.set(wordmark, { opacity: 0 });
 
       gsap.to(curtain, {
         yPercent: -100,
@@ -132,6 +126,7 @@ export function useRouteTransition(
         onComplete: () => {
           phase = 'idle';
           gsap.set(curtain, { yPercent: 100, visibility: 'hidden' });
+          gsap.set(wordmark, { opacity: 0 });
           releaseScroll();
         },
       });
@@ -140,8 +135,12 @@ export function useRouteTransition(
     const cover = (path: string) => {
       phase = 'covering';
       holdScroll();
-      gsap.killTweensOf(curtain);
+      gsap.killTweensOf([curtain, wordmark]);
       gsap.set(curtain, { yPercent: 100, visibility: 'visible' });
+      // The wordmark is part of the curtain, not a "still loading" notice:
+      // it fades in as the panel lands and rides out with it.
+      gsap.set(wordmark, { opacity: 0 });
+      gsap.to(wordmark, { opacity: 1, duration: 0.3, delay: COVER * 0.6 });
 
       gsap.to(curtain, {
         yPercent: 0,
@@ -149,10 +148,6 @@ export function useRouteTransition(
         ease: 'power3.in',
         onComplete: () => {
           phase = 'covered';
-          slowTimer = window.setTimeout(
-            () => gsap.to(wordmark, { opacity: 1, duration: 0.3 }),
-            SLOW_ROUTE_MS,
-          );
           stuckTimer = window.setTimeout(reveal, STUCK_MS);
 
           Router.push(path, undefined, { locale: false, scroll: false })
@@ -243,7 +238,6 @@ export function useRouteTransition(
       Router.events.off('routeChangeStart', onRouteStart);
       Router.events.off('routeChangeComplete', onRouteDone);
       Router.events.off('routeChangeError', onRouteError);
-      window.clearTimeout(slowTimer);
       window.clearTimeout(stuckTimer);
       releaseScroll();
       gsap.killTweensOf([curtain, wordmark, content]);

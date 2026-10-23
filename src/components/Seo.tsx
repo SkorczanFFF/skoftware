@@ -19,6 +19,9 @@ type SeoProps = {
   /** Page name; rendered as `{templateTitle} | {site name}`. */
   templateTitle?: string;
   description?: string;
+  /** Absolute URL of a page-specific preview; the site badge otherwise. */
+  image?: string;
+  ogType?: 'website' | 'article';
 };
 
 const OG_LOCALES: Record<Locale, string> = {
@@ -28,7 +31,12 @@ const OG_LOCALES: Record<Locale, string> = {
 
 const OG_IMAGE = `${SITE_URL}/favicon/large-og.ico`;
 
-export default function Seo({ templateTitle, description }: SeoProps) {
+export default function Seo({
+  templateTitle,
+  description,
+  image,
+  ogType = 'website',
+}: SeoProps) {
   const router = useRouter();
   const { locale, t } = useLocale();
 
@@ -46,6 +54,7 @@ export default function Seo({ templateTitle, description }: SeoProps) {
     ? `${templateTitle} | ${t.seoSiteName}`
     : t.seoTitle;
   const desc = description ?? t.seoDescription;
+  const ogImage = image ?? OG_IMAGE;
 
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -98,11 +107,11 @@ export default function Seo({ templateTitle, description }: SeoProps) {
       <link rel='alternate' hrefLang='x-default' href={urlForLocale('pl')} />
 
       <meta property='og:url' content={canonical} />
-      <meta property='og:type' content='website' />
+      <meta property='og:type' content={ogType} />
       <meta property='og:site_name' content={t.seoSiteName} />
       <meta property='og:description' content={desc} />
       <meta property='og:title' content={title} />
-      <meta name='image' property='og:image' content={OG_IMAGE} />
+      <meta name='image' property='og:image' content={ogImage} />
       <meta property='og:locale' content={OG_LOCALES[locale]} />
       {(Object.keys(OG_LOCALES) as Locale[])
         .filter((l) => l !== locale)
@@ -117,7 +126,7 @@ export default function Seo({ templateTitle, description }: SeoProps) {
       <meta name='twitter:card' content='summary_large_image' />
       <meta name='twitter:title' content={title} />
       <meta name='twitter:description' content={desc} />
-      <meta name='twitter:image' content={OG_IMAGE} />
+      <meta name='twitter:image' content={ogImage} />
 
       <script
         type='application/ld+json'
