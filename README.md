@@ -77,11 +77,14 @@ Problem-driven write-ups at `/case-studies/<slug>` (`/en/case-studies/<slug>`), 
 - Tap/click shockwaves through the particles, with a CSS ripple and haptic feedback where supported
 - Frameloop stops when the hero leaves the viewport; `dpr` capped at 1, no antialiasing
 
-### Scroll animations (GSAP ScrollTrigger)
+### Motion (GSAP, ScrollTrigger, Lenis)
 
-- Shared `useReveal` hook for stagger fade-ins (Process, TechStrip, Why me)
-- Batch 3D depth-settle for service cards
-- Text scramble on the hero eyebrow and the footer heading
+- Shared `useReveal` hook: every section's items rise out of depth on a scrubbed, per-item trigger (Services, Process, TechStrip, Why me, Case studies, FAQ, case study articles)
+- Section titles build letter by letter (`useLetterReveal`); sections fade back as they scroll out (`useSectionExit`, desktop)
+- Scroll speed as a CSS variable (`--scroll-velocity`) that leans titles, stretches the section arrows and bends the logo letters
+- Route curtain on internal navigation, cut to the section arrow, with the wordmark letters hopping (squash and stretch) while the next page loads; the locale toggle and back/forward only blink the content
+- Magnetic CTAs, film grain overlay, header that flattens on scroll
+- Text scramble on the footer heading
 - Everything honours `prefers-reduced-motion`
 
 ### Internationalization
@@ -93,7 +96,8 @@ Problem-driven write-ups at `/case-studies/<slug>` (`/en/case-studies/<slug>`), 
 ### CV
 
 - `/cv` (noindex) — sidebar + content layout with `Person` JSON-LD
-- Static PDFs in `public/`, regenerated with `node scripts/generate-cv-pdf.mjs` against a running dev server
+- `/cv/ats` (noindex, not linked) — single-column, parser-first version printed to the ATS PDFs
+- Static PDFs in `public/` (designed and ATS, PL and EN), regenerated with `node scripts/generate-cv-pdf.mjs` against a running dev server
 
 ### Cookie consent & privacy
 
@@ -103,8 +107,8 @@ Problem-driven write-ups at `/case-studies/<slug>` (`/en/case-studies/<slug>`), 
 
 ### Other
 
-- Custom cursor (fine pointer only, off under reduced motion)
-- Active-section tracking in the header, scroll-to-top button, route-change loader
+- Active-section tracking in the header, scroll-to-top button
+- Custom cursor component (fine pointer only, off under reduced motion) — currently not mounted in `_app.tsx`
 - `ProfessionalService` JSON-LD with the service catalogue
 
 ---
@@ -131,21 +135,23 @@ src/
 │   ├── CaseStudy/                 # Article template (CaseStudyArticle) + block renderer
 │   ├── Faq/                       # Accordion + FAQPage schema
 │   ├── Portfolio/                 # Horizontal scroll showcase
-│   ├── ui/                        # Section, SectionTitle, SectionArrow, Button, ExternalLink
+│   ├── ui/                        # Section, SectionTitle, SectionArrow, Button, ExternalLink, Wordmark
 │   ├── layout/
 │   │   ├── Header/                # Nav, locale toggle, active-section tracking
 │   │   ├── Footer/                # Contact, socials, CV links
 │   │   ├── BottomBar.tsx          # Copyright + cookie policy link
 │   │   └── Layout.tsx             # Consent-gated Analytics / Speed Insights
 │   ├── CookieConsent.tsx          # Banner, preferences modal, consent helpers
-│   ├── CustomCursor.tsx
-│   ├── LoaderOverlay.tsx          # Shown during route changes
+│   ├── CustomCursor.tsx           # Not mounted at the moment
+│   ├── Grain.tsx                  # Film grain overlay
+│   ├── RouteTransition.tsx        # Curtain between routes, hopping wordmark
 │   ├── ScrollToTop.tsx
 │   └── Seo.tsx                    # Title, meta, canonical/hreflang, JSON-LD, favicons
 ├── pages/
 │   ├── index.tsx                  # Home
 │   ├── case-studies/[slug].tsx    # Case study template, static paths per locale
 │   ├── cv/index.tsx               # CV page (noindex)
+│   ├── cv/ats.tsx                 # Parser-first CV for the ATS PDFs (noindex)
 │   ├── cookies/index.tsx          # Cookie policy
 │   ├── 404.tsx
 │   ├── _app.tsx                   # Fonts, Lenis, LocaleProvider, global chrome
@@ -153,7 +159,7 @@ src/
 ├── locale/
 │   ├── LocaleContext.tsx          # Locale from the router, useLocale()
 │   ├── types/                     # Dictionary shape: common, marketing, cv, legal, caseStudies, a11y, entries
-│   ├── data/{pl,en}/              # services, projects, experiences, caseStudies
+│   ├── data/{pl,en}/              # services, projects, experiences, caseStudies, caseStudyBodies
 │   └── {pl,en}.ts                 # Dictionaries
 ├── lib/
 │   ├── site.ts                    # Domain and business identity — single source
@@ -162,6 +168,7 @@ src/
 │   ├── motion.ts                  # prefers-reduced-motion helpers
 │   ├── breakpoints.ts             # Breakpoints mirrored from globals.css
 │   ├── scrambleReveal.ts          # Text scramble animation
+│   ├── bounceLetters.ts           # Hopping letters with squash and stretch
 │   ├── envelope.ts                # Pulse envelope shared with the shaders
 │   ├── portfolioPanelWidth.ts     # Panel width from viewport height
 │   └── shared/
@@ -169,7 +176,14 @@ src/
 │       └── techMap.ts             # Tech label → icon
 ├── hooks/
 │   ├── useScrollTriggers.ts       # ScrollTrigger lifecycle
-│   ├── useReveal.ts               # Stagger fade-in on scroll
+│   ├── useReveal.ts               # Scrubbed depth reveal per item
+│   ├── useLetterReveal.ts         # Section titles letter by letter
+│   ├── useSectionExit.ts          # Section fades back as it scrolls out
+│   ├── useScrollVelocity.ts       # --scroll-velocity on <html>
+│   ├── useRouteTransition.ts      # Route curtain and locale blink
+│   ├── useMagnetic.ts             # Magnetic CTAs
+│   ├── useHeaderScroll.ts         # Header flatten + scroll progress
+│   ├── useActiveOnScroll.ts       # Hover states on touch, by scroll position
 │   ├── useViewport.ts             # Width, height and breakpoint tier
 │   ├── usePrefersReducedMotion.ts
 │   ├── useTilt.ts                 # Pointer-following card tilt
@@ -246,4 +260,4 @@ With the dev server running:
 node scripts/generate-cv-pdf.mjs
 ```
 
-Renders `/cv` and `/en/cv` with Puppeteer and overwrites the two PDFs in `public/`.
+Renders `/cv`, `/en/cv`, `/cv/ats` and `/en/cv/ats` with Puppeteer and overwrites the four PDFs in `public/`.

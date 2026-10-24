@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { type RefObject, useEffect } from 'react';
 
+import { bounceLetters } from '@/lib/bounceLetters';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
@@ -79,6 +80,7 @@ export function useRouteTransition(
     let phase: Phase = 'idle';
     let stuckTimer = 0;
     let stayPut = false;
+    let stopBounce = () => {};
 
     const block = (event: Event) => event.preventDefault();
 
@@ -127,6 +129,7 @@ export function useRouteTransition(
           phase = 'idle';
           gsap.set(curtain, { yPercent: 100, visibility: 'hidden' });
           gsap.set(wordmark, { opacity: 0 });
+          stopBounce();
           releaseScroll();
         },
       });
@@ -141,6 +144,9 @@ export function useRouteTransition(
       // it fades in as the panel lands and rides out with it.
       gsap.set(wordmark, { opacity: 0 });
       gsap.to(wordmark, { opacity: 1, duration: 0.3, delay: COVER * 0.6 });
+      // The letters hop from the first frame, so even a quick swap shows some.
+      stopBounce();
+      stopBounce = bounceLetters(wordmark);
 
       gsap.to(curtain, {
         yPercent: 0,
@@ -240,6 +246,7 @@ export function useRouteTransition(
       Router.events.off('routeChangeError', onRouteError);
       window.clearTimeout(stuckTimer);
       releaseScroll();
+      stopBounce();
       gsap.killTweensOf([curtain, wordmark, content]);
       gsap.set(content, { clearProps: 'opacity' });
     };
