@@ -3,12 +3,17 @@ precision highp float;
 uniform float uTime;
 uniform float uDuration;
 uniform float uPointSizeBase;
-uniform vec3 uMouse;
+// The pointer's ray in local space (localRay.ts).
+uniform vec3 uRayOrigin;
+uniform vec3 uRayDir;
 uniform float uRepelRadius;
 uniform float uRepelStrength;
 
-// Click shockwaves: (localX, localY, age01, intensity); age01 < 0 = inactive.
-uniform vec4 uPulses[2];
+// Click shockwaves: the tap's local ray, and (age01, intensity) with
+// age01 < 0 = inactive.
+uniform vec3 uPulseOrigins[2];
+uniform vec3 uPulseDirs[2];
+uniform vec2 uPulses[2];
 uniform float uPulseStrength;
 uniform float uMaxRadius;
 uniform float uRingThick;
@@ -30,6 +35,13 @@ varying float vAlpha;
 vec3 cubicBezier(vec3 p0, vec3 c0, vec3 c1, vec3 p1, float t) {
   float tn = 1.0 - t;
   return tn * tn * tn * p0 + 3.0 * tn * tn * t * c0 + 3.0 * tn * t * t * c1 + t * t * t * p1;
+}
+
+// The part of `p` square to the ray: its length is the distance from the ray,
+// the same at every depth along the cursor's line of sight.
+vec3 awayFromRay(vec3 p, vec3 origin, vec3 dir) {
+  vec3 toRay = p - origin;
+  return toRay - dir * dot(toRay, dir);
 }
 
 vec4 quatFromAxisAngle(vec3 axis, float angle) {
@@ -58,15 +70,16 @@ void main() {
   pos += cubicBezier(aStartPosition, aControlPoint1, aControlPoint2, aEndPosition, tProgress);
 
   // ---- Continuous mouse repel (desktop hover) ----------------------------
-  vec2 diff2 = pos.xy - uMouse.xy;
-  float dist2 = length(diff2);
-  float influence = smoothstep(uRepelRadius, 0.0, dist2);
+  // The stream runs tens of units deep, so a plane through it would put the
+  // hole beside the cursor everywhere but the middle of the screen.
+  vec3 away = awayFromRay(pos, uRayOrigin, uRayDir);
+  float influence = smoothstep(uRepelRadius, 0.0, length(away));
   if (influence > 0.001) {
-    vec2 dir = normalize(diff2 + 0.001);
-    vec2 tangent = vec2(-dir.y, dir.x);
+    vec3 dir = normalize(away + 0.001);
+    vec3 tangent = cross(dir, uRayDir);
     float drift = sin(aOffset * 31.4) * 0.4;
-    pos.xy += (dir + tangent * drift) * influence * uRepelStrength;
-    pos.z += influence * 1.5;
+    pos += (dir + tangent * drift) * influence * uRepelStrength;
+    pos -= uRayDir * influence * 1.5;
   }
 
   // ---- Click-driven shockwave pulses --------------------------------------
@@ -76,7 +89,7 @@ void main() {
 
 
   for (int i = 0; i < 2; i++) {
-    float age = uPulses[i].z;
+    float age = uPulses[i].x;
     if (age < 0.0) continue;
     float ageJ = age - jitter * 0.04;
     float env = pulseEnv(ageJ);
@@ -88,20 +101,20 @@ void main() {
     float radius = uMaxRadius * (0.18 + 0.82 * ageJ)
                  + sin(ageJ * 16.0) * exp(-ageJ * 4.0) * 0.45;
 
-    vec2 dP = pos.xy - uPulses[i].xy;
+    vec3 dP = awayFromRay(pos, uPulseOrigins[i], uPulseDirs[i]);
     float dPlen = length(dP);
     // Ring band: nonzero only inside [radius - thick, radius + thick].
     float ringIn  = smoothstep(radius - uRingThick, radius, dPlen);
     float ringOut = 1.0 - smoothstep(radius, radius + uRingThick, dPlen);
     float ring = ringIn * ringOut;
 
-    float force = ring * env * uPulses[i].w * uPulseStrength;
+    float force = ring * env * uPulses[i].y * uPulseStrength;
     if (force > 0.001) {
-      vec2 dir = normalize(dP + 0.0001);
-      vec2 tangent = vec2(-dir.y, dir.x);
+      vec3 dir = normalize(dP + 0.0001);
+      vec3 tangent = cross(dir, uPulseDirs[i]);
       float drift = sin(aOffset * 31.4) * 0.4;
-      pos.xy += (dir + tangent * drift) * force;
-      pos.z += force * 0.35;
+      pos += (dir + tangent * drift) * force;
+      pos -= uPulseDirs[i] * force * 0.35;
     }
 
     // Impact flash for very young pulses.

@@ -4,7 +4,8 @@ uniform float uTime;
 uniform float uRandom;
 uniform float uDepth;
 uniform float uSize;
-uniform vec3 uMouse;
+uniform vec3 uRayOrigin;
+uniform vec3 uRayDir;
 uniform float uRepelRadius;
 uniform float uRepelStrength;
 
@@ -44,15 +45,17 @@ void main() {
   displaced.z += sin(waveArg) * 0.12;
   displaced.y += cos(waveArg * 0.9) * 0.035;
 
-  vec2 diff = displaced.xy - uMouse.xy;
-  float dist = length(diff);
-  float influence = smoothstep(uRepelRadius, 0.0, dist);
+  // Distance to the pointer's ray (localRay.ts), pushed square to it: from the
+  // camera the hole opens round the cursor wherever the portrait sits.
+  vec3 toRay = displaced - uRayOrigin;
+  vec3 away = toRay - uRayDir * dot(toRay, uRayDir);
+  float influence = smoothstep(uRepelRadius, 0.0, length(away));
   if (influence > 0.001) {
-    vec2 dir = normalize(diff + 0.001);
-    vec2 tangent = vec2(-dir.y, dir.x);
+    vec3 dir = normalize(away + 0.001);
+    vec3 tangent = cross(dir, uRayDir);
     float drift = sin(pindex * 31.4) * 0.35;
-    displaced.xy += (dir + tangent * drift) * influence * uRepelStrength;
-    displaced.z += influence * 0.15;
+    displaced += (dir + tangent * drift) * influence * uRepelStrength;
+    displaced -= uRayDir * influence * 0.15;
   }
 
   float psize = (sin(uTime * 0.8 + pindex * 0.17) + 2.0);

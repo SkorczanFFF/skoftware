@@ -14,6 +14,10 @@ import {
   getImageSourceFromTexture,
   sampleTextureToParticleGeometry,
 } from '@/components/Hero/Partials/imageParticles/geometryFromImageSource';
+import {
+  localRay,
+  parkRay,
+} from '@/components/Hero/Partials/imageParticles/localRay';
 import fragmentShader from '@/components/Hero/Partials/shaders/heroParticles.frag.glsl';
 import vertexShader from '@/components/Hero/Partials/shaders/heroParticles.vert.glsl';
 
@@ -103,18 +107,10 @@ function ImageParticleFieldCore({
   const alphaMap = useMemo(() => sampleAlphaMap(texture), [texture]);
   const { camera, pointer } = useThree();
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
-  const localMouse = useMemo(() => new THREE.Vector3(9999, 9999, 0), []);
-  const _wPos = useMemo(() => new THREE.Vector3(), []);
-  const _hitPlane = useMemo(
-    () => new THREE.Plane(new THREE.Vector3(0, 0, 1)),
-    [],
-  );
-  const _hit = useMemo(() => new THREE.Vector3(), []);
+  const pointerRay = useMemo(() => parkRay(new THREE.Ray()), []);
   const _ndc = useMemo(() => new THREE.Vector2(), []);
-  // pulse.startedAt → cached local-space tap position (world-anchored).
-  const localPulsesRef = useRef<Map<number, { x: number; y: number }>>(
-    new Map(),
-  );
+  // pulse.startedAt → cached local-space tap ray (world-anchored).
+  const localPulsesRef = useRef<Map<number, THREE.Ray>>(new Map());
 
   const geometryData = useMemo(() => {
     const src = getImageSourceFromTexture(texture);
@@ -138,7 +134,8 @@ function ImageParticleFieldCore({
       uSize: { value: idleSize },
       uOpacity: { value: idleOpacity },
       uTexture: { value: texture },
-      uMouse: { value: new THREE.Vector3(9999, 9999, 0) },
+      uRayOrigin: { value: pointerRay.origin.clone() },
+      uRayDir: { value: pointerRay.direction.clone() },
       uRepelRadius: { value: 1.7 },
       uRepelStrength: { value: 0.9 },
     }),
@@ -172,12 +169,10 @@ function ImageParticleFieldCore({
     // while an envelope is active, otherwise we fall through to hover.
     let pulseActive = false;
     let maxEnv = 0;
-    let latestLocal: { x: number; y: number } | null = null;
+    let latestLocal: THREE.Ray | null = null;
 
     if (pulse && particleMeshRef.current) {
       const now = performance.now();
-      const wPos = particleMeshRef.current.getWorldPosition(_wPos);
-      _hitPlane.constant = -wPos.z;
       let latestStartedAt = -1;
 
       const arr = pulse.pulses.current;
@@ -192,14 +187,16 @@ function ImageParticleFieldCore({
           let local = localPulsesRef.current.get(p.startedAt);
           if (!local) {
             _ndc.set(p.ndcX, p.ndcY);
-            raycaster.setFromCamera(_ndc, camera);
-            if (raycaster.ray.intersectPlane(_hitPlane, _hit)) {
-              particleMeshRef.current.worldToLocal(_hit);
-              local = { x: _hit.x, y: _hit.y };
-              localPulsesRef.current.set(p.startedAt, local);
-            }
+            local = localRay(
+              raycaster,
+              camera,
+              _ndc,
+              particleMeshRef.current,
+              new THREE.Ray(),
+            );
+            localPulsesRef.current.set(p.startedAt, local);
           }
-          if (local) latestLocal = local;
+          latestLocal = local;
         }
       }
       pulseActive = maxEnv > 0;
@@ -216,12 +213,10 @@ function ImageParticleFieldCore({
 
     if (pulseActive && latestLocal && particleMeshRef.current) {
       // Click branch. Snap (don't lerp) — lerping from the parked sentinel
-      // would sweep uMouse across the cluster from offscreen to the tap. The
-      // ramp is supplied by uRepelStrength's envelope, not by uMouse motion;
-      // at age ≈ 0 the envelope is ~0 so the position jump applies no force.
-      localMouse.x = latestLocal.x;
-      localMouse.y = latestLocal.y;
-      uniforms.uMouse.value.copy(localMouse);
+      // would sweep the ray across the cluster from offscreen to the tap. The
+      // ramp is supplied by uRepelStrength's envelope, not by ray motion; at
+      // age ≈ 0 the envelope is ~0 so the jump applies no force.
+      pointerRay.copy(latestLocal);
       uniforms.uRepelStrength.value = 0.9 * Math.max(maxEnv, 0.001);
       uniforms.uRepelRadius.value = 1.7 * (0.55 + 0.45 * maxEnv);
 
@@ -248,21 +243,22 @@ function ImageParticleFieldCore({
       uniforms.uRepelRadius.value += (1.7 - uniforms.uRepelRadius.value) * t;
 
       if (enableHover && particleMeshRef.current) {
-        raycaster.setFromCamera(pointer, camera);
-        const wPos = particleMeshRef.current.getWorldPosition(_wPos);
-        _hitPlane.constant = -wPos.z;
-        if (raycaster.ray.intersectPlane(_hitPlane, _hit)) {
-          particleMeshRef.current.worldToLocal(_hit);
-          localMouse.copy(_hit);
-        }
+        localRay(
+          raycaster,
+          camera,
+          pointer,
+          particleMeshRef.current,
+          pointerRay,
+        );
       } else {
         // No hover plane: state.pointer defaults to (0, 0) (NDC centre) until
         // a real event, which would project into the cluster and produce a
         // phantom repel before the first tap. Park at the sentinel.
-        localMouse.set(9999, 9999, 0);
+        parkRay(pointerRay);
       }
-      uniforms.uMouse.value.copy(localMouse);
     }
+    uniforms.uRayOrigin.value.copy(pointerRay.origin);
+    uniforms.uRayDir.value.copy(pointerRay.direction);
   });
 
   if (!geometryData) return null;

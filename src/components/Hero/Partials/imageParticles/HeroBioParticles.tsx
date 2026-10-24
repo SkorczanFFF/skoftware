@@ -4,6 +4,10 @@ import * as THREE from 'three';
 
 import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 
+import {
+  localRay,
+  parkRay,
+} from '@/components/Hero/Partials/imageParticles/localRay';
 import bioFragShader from '@/components/Hero/Partials/shaders/bioParticles.frag.glsl';
 import bioVertShader from '@/components/Hero/Partials/shaders/bioParticles.vert.glsl';
 
@@ -116,36 +120,29 @@ export default function HeroBioParticles({
   const pointsRef = useRef<THREE.Points>(null);
   const { camera, pointer } = useThree();
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
-  const hitPoint = useMemo(() => new THREE.Vector3(), []);
-  const localMouse = useMemo(() => new THREE.Vector3(9999, 9999, 0), []);
-  const _hitPlane = useMemo(
-    () => new THREE.Plane(new THREE.Vector3(0, 0, 1)),
-    [],
-  );
-  const _intersect = useMemo(() => new THREE.Vector3(), []);
+  const pointerRay = useMemo(() => parkRay(new THREE.Ray()), []);
   const _ndc = useMemo(() => new THREE.Vector2(), []);
-  // pulse.startedAt → cached local-space position; world-anchors the shockwave
-  // so it doesn't slide as the camera drifts.
-  const localPulsesRef = useRef<Map<number, { x: number; y: number }>>(
-    new Map(),
-  );
+  // pulse.startedAt → cached local-space ray; world-anchors the shockwave so
+  // it doesn't slide as the camera drifts.
+  const localPulsesRef = useRef<Map<number, THREE.Ray>>(new Map());
 
   const particleGeometry = useMemo(() => buildParticleGeometry(), []);
 
   const particleMaterial = useMemo(() => {
-    const pulseSlots: THREE.Vector4[] = [];
-    for (let i = 0; i < MAX_PULSES; i++) {
-      pulseSlots.push(new THREE.Vector4(0, 0, -1, 0));
-    }
+    const slots = <T,>(make: () => T) =>
+      Array.from({ length: MAX_PULSES }, make);
     return new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
         uDuration: { value: DURATION },
         uPointSizeBase: { value: 2.0 },
-        uMouse: { value: new THREE.Vector3(9999, 9999, 0) },
+        uRayOrigin: { value: new THREE.Vector3() },
+        uRayDir: { value: new THREE.Vector3() },
         uRepelRadius: { value: 8.0 },
         uRepelStrength: { value: 4.0 },
-        uPulses: { value: pulseSlots },
+        uPulseOrigins: { value: slots(() => new THREE.Vector3()) },
+        uPulseDirs: { value: slots(() => new THREE.Vector3(0, 0, -1)) },
+        uPulses: { value: slots(() => new THREE.Vector2(-1, 0)) },
         uPulseStrength: { value: 5.5 },
         uMaxRadius: { value: 11.0 },
         uRingThick: { value: 2.4 },
@@ -168,26 +165,19 @@ export default function HeroBioParticles({
       // at the last touch and would create a sticky repel. The shader sums
       // this branch with the per-pulse loop, so on desktop hover and click
       // shockwaves fire at the same time.
-      if (isMobile) {
-        localMouse.set(9999, 9999, 0);
-      } else {
-        raycaster.setFromCamera(pointer, camera);
-        const wPos = pointsRef.current.getWorldPosition(hitPoint);
-        _hitPlane.constant = -wPos.z;
-        if (raycaster.ray.intersectPlane(_hitPlane, _intersect)) {
-          pointsRef.current.worldToLocal(_intersect);
-          localMouse.copy(_intersect);
-        }
-      }
+      if (isMobile) parkRay(pointerRay);
+      else localRay(raycaster, camera, pointer, pointsRef.current, pointerRay);
     }
-    particleMaterial.uniforms.uMouse.value.copy(localMouse);
+    particleMaterial.uniforms.uRayOrigin.value.copy(pointerRay.origin);
+    particleMaterial.uniforms.uRayDir.value.copy(pointerRay.direction);
 
     // Fill uPulses[] from the shared pulse source (per-pulse shockwave loop).
     if (pulse && pointsRef.current) {
-      const slots = particleMaterial.uniforms.uPulses.value as THREE.Vector4[];
+      const { uPulseOrigins, uPulseDirs, uPulses } = particleMaterial.uniforms;
+      const origins = uPulseOrigins.value as THREE.Vector3[];
+      const dirs = uPulseDirs.value as THREE.Vector3[];
+      const slots = uPulses.value as THREE.Vector2[];
       const now = performance.now();
-      const wPos = pointsRef.current.getWorldPosition(hitPoint);
-      _hitPlane.constant = -wPos.z;
 
       let slotIdx = 0;
       const arr = pulse.pulses.current;
@@ -199,21 +189,24 @@ export default function HeroBioParticles({
         let local = localPulsesRef.current.get(p.startedAt);
         if (!local) {
           _ndc.set(p.ndcX, p.ndcY);
-          raycaster.setFromCamera(_ndc, camera);
-          if (raycaster.ray.intersectPlane(_hitPlane, _intersect)) {
-            pointsRef.current.worldToLocal(_intersect);
-            local = { x: _intersect.x, y: _intersect.y };
-            localPulsesRef.current.set(p.startedAt, local);
-          }
+          local = localRay(
+            raycaster,
+            camera,
+            _ndc,
+            pointsRef.current,
+            new THREE.Ray(),
+          );
+          localPulsesRef.current.set(p.startedAt, local);
         }
-        if (!local) continue;
 
-        slots[slotIdx].set(local.x, local.y, age, 1.0);
+        origins[slotIdx].copy(local.origin);
+        dirs[slotIdx].copy(local.direction);
+        slots[slotIdx].set(age, 1.0);
         slotIdx++;
       }
       // Mark remaining slots inactive.
       for (let i = slotIdx; i < MAX_PULSES; i++) {
-        slots[i].set(0, 0, -1, 0);
+        slots[i].set(-1, 0);
       }
       // Drop cached locals for pulses that have aged out.
       if (localPulsesRef.current.size > 0) {
