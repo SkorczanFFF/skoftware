@@ -13,7 +13,6 @@ export const projects: ProjectEntry[] = [
       'Animacja 3D w stylu lat 80./synthwave w formie kolorowanki z personalizacją kolorów i modeli na scenie w czasie rzeczywistym za pomocą wbudowanego GUI. Model Poloneza i palmy powstały w 3D Studio Max, reszta sceny jest generowana proceduralnie. Zawiera zręcznościową mini-grę.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
-    inResume: true,
   },
   {
     id: 1,
@@ -26,7 +25,6 @@ export const projects: ProjectEntry[] = [
       'Kolejna aplikacja pogodowa, ale ta jest zgoła inna. Tło aplikacji to trójwymiarowa scena z wolumetrycznymi chmurami, symulująca pogodę w czasie rzeczywistym na podstawie danych z Open-Meteo. Prognoza pogody jest wyświetlana dla wybranego miasta przez mapę, geolokalizację lub wpisaną nazwę.',
     live: 'https://www.yet-another-weather-app.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
-    inResume: true,
   },
   {
     id: 2,
@@ -36,7 +34,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
     description:
-      "Pokédex oparty na PokéAPI — z trybem retro, listą ruchów, łańcuchami ewolucji i podglądem sprite'ów z każdej wersji gry w widoku danego Pokémona. Interfejs po polsku i angielsku. Zaczęło się jako zadanie rekrutacyjne, dalej rozwijane hobbystycznie.",
+      "Pokédex na PokéAPI (PL/EN), w erze współczesnej i retro (Gen II). Versus liczy obrażenia i trafienia do nokautu, tabela efektywności typów dla każdej generacji; do tego ewolucje, okrzyki, sprite'y z każdej wersji gry i opisy czytane na głos.",
     live: 'https://www.pokedex.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
@@ -51,7 +49,6 @@ export const projects: ProjectEntry[] = [
       'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML i CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
-    inResume: true,
   },
   {
     id: 4,
@@ -63,7 +60,6 @@ export const projects: ProjectEntry[] = [
     live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
     git: 'https://github.com/SkorczanFFF/VAT-OFF',
     liveLabel: 'Chrome Web Store',
-    inResume: true,
   },
   {
     id: 5,
@@ -74,7 +70,6 @@ export const projects: ProjectEntry[] = [
       'Lekkie narzędzie automatyzacji do gry Tibia (MMORPG), obsługujące do ośmiu konfigurowalnych par klawisz-opóźnienie. Automatycznie wykrywa okno gry, działa w tle bez przerywania innych aktywności i gier.',
     live: '',
     git: 'https://github.com/SkorczanFFF/tibia-key-presser',
-    inResume: true,
     resumeOnly: true,
   },
 ];

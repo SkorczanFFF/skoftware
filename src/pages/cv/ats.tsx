@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 
+import { resumeProjects } from '@/lib/resume';
 import { resumeTechList } from '@/lib/shared/techMap';
 import { COMPANY_FOUNDER, SITE_DOMAIN, SITE_URL, SOCIALS } from '@/lib/site';
 
@@ -110,22 +111,20 @@ export default function AtsCv(): React.JSX.Element {
           </Section>
 
           <Section title={t.resumeHeaderSelectedProjects}>
-            {t.projects
-              .filter((p) => p.inResume)
-              .map((project) => (
-                <div key={project.id} className='mb-2'>
-                  <h3 className='font-grotesk text-[12px] font-bold'>
-                    {project.title.replace(/^★ /, '')}
-                  </h3>
-                  <p>{project.technos.split(' • ').join(', ')}</p>
-                  <p>{project.description}</p>
-                  <p>
-                    {project.git && <a href={project.git}>{project.git}</a>}
-                    {project.git && project.live && ' | '}
-                    {project.live && <a href={project.live}>{project.live}</a>}
-                  </p>
-                </div>
-              ))}
+            {resumeProjects(t).map((project) => (
+              <div key={project.id} className='mb-2'>
+                <h3 className='font-grotesk text-[12px] font-bold'>
+                  {project.title.replace(/^★ /, '')}
+                </h3>
+                <p>{project.technos.split(' • ').join(', ')}</p>
+                <p>{project.description}</p>
+                <p>
+                  {project.git && <a href={project.git}>{project.git}</a>}
+                  {project.git && project.live && ' | '}
+                  {project.live && <a href={project.live}>{project.live}</a>}
+                </p>
+              </div>
+            ))}
           </Section>
 
           <Section title={t.resumeHeaderHobbies}>

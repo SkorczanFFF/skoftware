@@ -19,8 +19,6 @@ export type ProjectEntry = {
   git: string;
   /** Overrides `portfolioLiveDemo` for the live link label (e.g. Chrome Web Store). */
   liveLabel?: string;
-  /** Whether to display this project in the resume. */
-  inResume?: boolean;
   /** Whether to hide this project from the portfolio section. */
   resumeOnly?: boolean;
 };

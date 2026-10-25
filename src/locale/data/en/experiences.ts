@@ -72,7 +72,7 @@ export const experiences: ExperienceEntry[] = [
       'Engineered a decentralized app built on smart contracts and ImmutableX collections: a marketplace, NFT bridging between L1 and L2, wallet-to-wallet transfers and a live blockchain auction system',
       'Handled Moralis and Firebase databases and cloud functions in TypeScript and Next.js, with GSAP for motion; GitLab and Bitbucket for version control',
       'Launched a new homepage, added a Sanity CMS blog and produced custom event websites and features across the company’s platforms',
-      'Tested Pirates of the Arrland manually, including the 3D MOBA game and the 2D strategy map inside the decentralized app',
+      'Tested Pirates of the Arrland manually, including the 3D MOBA game and the 2D strategy map',
       'Collaborated closely with a cross-functional, international team on Web3 experiences',
     ],
   },

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 
+import { resumeProjects } from '@/lib/resume';
 import {
   CallIcon,
   CarIcon,
@@ -368,49 +369,47 @@ export default function CV(): React.JSX.Element {
                     {t.resumeHeaderSelectedProjects}
                   </h2>
                   <div className='flex flex-col gap-1'>
-                    {t.projects
-                      .filter((p) => p.inResume)
-                      .map((project) => (
-                        <div key={project.id}>
-                          <div className='flex items-baseline justify-between'>
-                            <p className='text-[11px] font-bold text-primary-blue'>
-                              {project.title}
-                            </p>
-                            <p className='text-[9px] text-primary-blue/50'>
-                              {project.technos}
-                            </p>
-                          </div>
-                          <p className='text-[9px] leading-[11px] text-primary-blue/80 mt-[1px] text-justify'>
-                            {project.description}
+                    {resumeProjects(t).map((project) => (
+                      <div key={project.id}>
+                        <div className='flex items-baseline justify-between'>
+                          <p className='text-[11px] font-bold text-primary-blue'>
+                            {project.title}
                           </p>
-                          {(project.git || project.live) && (
-                            <div className='mt-[1px] flex gap-3 text-[8px] text-raspberry'>
-                              {project.git && (
-                                <a
-                                  href={project.git}
-                                  target='_blank'
-                                  rel='noreferrer'
-                                  className='flex items-center gap-[2px] hover:text-primary-blue'
-                                >
-                                  <GithubIcon className='text-[8px]' />
-                                  {t.resumeRepo}
-                                </a>
-                              )}
-                              {project.live && (
-                                <a
-                                  href={project.live}
-                                  target='_blank'
-                                  rel='noreferrer'
-                                  className='flex items-center gap-[2px] hover:text-primary-blue'
-                                >
-                                  <GlobalIcon className='text-[8px]' />
-                                  {project.liveLabel || t.resumeDemo}
-                                </a>
-                              )}
-                            </div>
-                          )}
+                          <p className='text-[9px] text-primary-blue/50'>
+                            {project.technos}
+                          </p>
                         </div>
-                      ))}
+                        <p className='text-[9px] leading-[11px] text-primary-blue/80 mt-[1px] text-justify'>
+                          {project.description}
+                        </p>
+                        {(project.git || project.live) && (
+                          <div className='mt-[1px] flex gap-3 text-[8px] text-raspberry'>
+                            {project.git && (
+                              <a
+                                href={project.git}
+                                target='_blank'
+                                rel='noreferrer'
+                                className='flex items-center gap-[2px] hover:text-primary-blue'
+                              >
+                                <GithubIcon className='text-[8px]' />
+                                {t.resumeRepo}
+                              </a>
+                            )}
+                            {project.live && (
+                              <a
+                                href={project.live}
+                                target='_blank'
+                                rel='noreferrer'
+                                className='flex items-center gap-[2px] hover:text-primary-blue'
+                              >
+                                <GlobalIcon className='text-[8px]' />
+                                {project.liveLabel || t.resumeDemo}
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
 

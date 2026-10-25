@@ -72,7 +72,7 @@ export const experiences: ExperienceEntry[] = [
       'Realizacja zdecentralizowanej aplikacji zintegrowanej ze Smart Contracts i kolekcjami ImmutableX, w tym budowa marketplace\u2019u, mostkowanie NFT między L1 i L2, umożliwienie transferów między kontami oraz implementacja i wdrożenie systemu aukcji na żywo opartego na blockchainie',
       'Obsługa baz danych Moralis i Firebase oraz funkcji w chmurze, z wykorzystaniem TypeScript, Next.js, GSAP i systemów kontroli wersji takich jak GitLab i Bitbucket',
       'Wdrożenie nowej strony głównej, integracja bloga opartego na Sanity CMS oraz tworzenie dedykowanych stron i funkcji związanych z wydarzeniami w ramach platform firmy',
-      'Manualne testowanie gry Pirates of the Arrland, w tym komponentów MOBA 3D oraz strategicznej mapy 2D w ramach zdecentralizowanej aplikacji',
+      'Manualne testowanie gry Pirates of the Arrland, w tym komponentów MOBA 3D oraz strategicznej mapy 2D',
       'Ścisła współpraca w międzynarodowym i interdyscyplinarnym zespole',
     ],
   },

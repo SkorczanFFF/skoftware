@@ -194,7 +194,7 @@ export const en: Dictionary = {
     'pottery',
   ],
   resumeRodo:
-    'I consent to the processing of the personal data provided in this document for the purposes of the recruitment process, pursuant to the Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000) and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation).',
+    'I consent to the processing of the personal data provided in this document for the purposes of the recruitment process, in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (GDPR) and the Polish Personal Data Protection Act of 10 May 2018 (Journal of Laws 2018, item 1000).',
   resumeRepo: 'repository',
   resumeDemo: 'web demo',
   resumeAtsHeadline: 'Creative Fullstack Developer',

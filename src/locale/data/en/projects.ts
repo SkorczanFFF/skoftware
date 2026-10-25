@@ -13,7 +13,6 @@ export const projects: ProjectEntry[] = [
       'An 80s/synthwave-style 3D animation in the form of a coloring book, with real-time customization of colors and models in the scene via a built-in GUI. The Polonez and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Includes an arcade mini-game.',
     live: 'https://www.polonez-autodrive.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
-    inResume: true,
   },
   {
     id: 1,
@@ -26,7 +25,6 @@ export const projects: ProjectEntry[] = [
       'Weather apps are a dime a dozen, but this one is built differently. The background is a 3D scene with volumetric clouds that simulates the weather in real time from Open-Meteo data. The forecast is shown for a city selected via map, geolocation or entered city name.',
     live: 'https://www.yet-another-weather-app.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
-    inResume: true,
   },
   {
     id: 2,
@@ -36,7 +34,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
     description:
-      "A PokéAPI-powered Pokédex with a retro mode, move lists, evolution chains and a preview of sprites from every game version on each Pokémon's page. Interface in Polish and English. Started as a recruitment task, developed further as a hobby.",
+      'A Pokédex on PokéAPI in Polish and English, with a modern and a retro (Gen II) era. Versus calculates damage and hits to knock out, the type effectiveness chart tracks changes between generations; plus evolutions, cries, sprites from every game version and entries read aloud.',
     live: 'https://www.pokedex.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
@@ -51,7 +49,6 @@ export const projects: ProjectEntry[] = [
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: SITE_URL,
     git: 'https://github.com/SkorczanFFF/mskorus-remaster',
-    inResume: true,
   },
   {
     id: 4,
@@ -63,7 +60,6 @@ export const projects: ProjectEntry[] = [
     live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
     git: 'https://github.com/SkorczanFFF/VAT-OFF',
     liveLabel: 'Chrome Web Store',
-    inResume: true,
   },
   {
     id: 5,
@@ -74,7 +70,6 @@ export const projects: ProjectEntry[] = [
       'A lightweight Python automation tool for Tibia (MMORPG), supporting up to eight configurable key-delay pairs. Auto-detects the game window, runs silently in the background without interrupting other activities or games.',
     live: '',
     git: 'https://github.com/SkorczanFFF/tibia-key-presser',
-    inResume: true,
     resumeOnly: true,
   },
 ];
