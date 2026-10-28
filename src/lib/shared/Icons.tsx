@@ -4,6 +4,7 @@ import {
   AiFillCompass,
   AiFillFilePdf,
   AiFillMail,
+  AiFillPrinter,
   AiOutlineGlobal,
 } from 'react-icons/ai';
 import { BiLogoJava } from 'react-icons/bi';
@@ -84,6 +85,7 @@ export const GlobeIcon = BsGlobe2 as IconType;
 export const MailIcon = AiFillMail as IconType;
 export const CallIcon = IoCallSharp as IconType;
 export const PdfIcon = AiFillFilePdf as IconType;
+export const PrintIcon = AiFillPrinter as IconType;
 
 export const JavaIcon = BiLogoJava as IconType;
 export const PhpIcon = DiPhp as IconType;

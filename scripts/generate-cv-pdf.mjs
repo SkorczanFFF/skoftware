@@ -171,7 +171,7 @@ async function generateDesigned(browser, locale) {
   const title = `${AUTHOR} - CV (${L})`;
   const { page, url } = await openPage(browser, locale, '/cv', title);
 
-  await isolate(page, 'div[class*="overflow-hidden"][class*="w-[794px]"]');
+  await isolate(page, '#resume');
   await embedTtfFonts(page);
 
   await page.addStyleTag({

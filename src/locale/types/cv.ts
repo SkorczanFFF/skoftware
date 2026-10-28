@@ -17,6 +17,7 @@ export type CvStrings = {
   resumeHeaderSelectedProjects: string;
   resumeHeaderSkills: string;
   resumeHeaderDownload: string;
+  resumeHeaderPrint: string;
   resumeAboutMe: string;
   resumeEducation: {
     university: string;

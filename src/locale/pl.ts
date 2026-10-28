@@ -174,6 +174,7 @@ export const pl: Dictionary = {
   resumeHeaderSelectedProjects: 'WYBRANE PROJEKTY',
   resumeHeaderSkills: 'UMIEJĘTNOŚCI I NARZĘDZIA',
   resumeHeaderDownload: 'POBIERZ',
+  resumeHeaderPrint: 'DRUKUJ',
   resumeAboutMe:
     "Kreatywny fullstack developer z praktycznym doświadczeniem w aplikacjach webowych i mobilnych, systemach wewnętrznych i 3D. Doświadczony w branży medycznej – od dedykowanego oprogramowania: aplikacje webowe dla klientów z sektora medycznego, pipeline'y do przetwarzania dokumentów i skanów, rozwój istniejących systemów, po krajowe i międzynarodowe kongresy i konferencje, dla których dostarczałem rozwiązania (VOD, wirtualne stoiska, aplikacje mobilne) oraz wsparcie IT na miejscu i w delegacji. Zrealizowałem system aukcji NFT i dApp powiązaną z grą 3D MOBA na Unity. Od VanillaJS przez frameworki frontendowe i backendowe, bazy relacyjne i nierelacyjne po Dockera – poruszam się swobodnie po całym stacku, integruję modele AI/LLM. Prywatnie pasjonat eksperymentów, moddingu oraz tworzenia użytecznych i niebanalnych rozwiązań.",
   resumeEducation: {

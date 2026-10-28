@@ -391,6 +391,33 @@ html.custom-cursor * {
   }
 }
 
+/* Printing /cv (cv/index.tsx): only the sheet, 1:1 on a page of its own
+   size, like the downloadable PDF. Its ancestors give up their boxes but
+   still pass fonts down; everything else is hidden. Scoped by `body:has()`,
+   so no other page is affected. */
+@media print {
+  body:has(#resume) :not(:has(#resume), #resume, #resume *) {
+    display: none;
+  }
+
+  body:has(#resume) :has(#resume) {
+    display: contents;
+  }
+
+  /* !important beats the inline on-screen scale. The backgrounds are the
+     design, so they print with "Background graphics" unticked too. */
+  #resume {
+    page: resume;
+    transform: none !important;
+    print-color-adjust: exact;
+  }
+
+  @page resume {
+    size: 794px 1123px;
+    margin: 0;
+  }
+}
+
 /* Hero tap feedback (TapRipple.tsx). */
 @keyframes tapRipple {
   0% {

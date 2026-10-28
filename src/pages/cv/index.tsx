@@ -18,6 +18,7 @@ import {
   MusicIcon,
   PdfIcon,
   PotteryIcon,
+  PrintIcon,
   VercelIcon,
 } from '@/lib/shared/Icons';
 import { resumeTechList, techIconMap } from '@/lib/shared/techMap';
@@ -88,7 +89,15 @@ export default function CV(): React.JSX.Element {
         />
       </Head>
       <section className='font-grotesk pt-[60px] flex flex-col items-center justify-start md:justify-between bg-linear-to-b from-[#1A1A28] to-[#3a1323] min-h-screen'>
-        <div className='flex justify-end h-auto flex-row items-stretch w-full max-w-[794px] px-2 md:px-0'>
+        <div className='flex justify-end gap-2 h-auto flex-row items-stretch w-full max-w-[794px] px-2 md:px-0'>
+          <button
+            type='button'
+            onClick={() => window.print()}
+            className='hover:bg-orange bg-raspberry my-6 flex items-center px-2 py-1 text-sm tracking-wider text-white duration-150 cursor-pointer'
+          >
+            {t.resumeHeaderPrint}
+            <PrintIcon className='ml-1 text-lg' />
+          </button>
           <a
             href={pdfHref}
             download
@@ -107,7 +116,10 @@ export default function CV(): React.JSX.Element {
               height: 1123 * scale,
             }}
           >
+            {/* #resume is what gets printed (globals.css) and what
+                scripts/generate-cv-pdf.mjs cuts out for the PDF. */}
             <div
+              id='resume'
               className='overflow-hidden flex h-[1123px] w-[794px] justify-center bg-primary-blue flex-row origin-top-left'
               style={{ transform: `scale(${scale})` }}
             >
