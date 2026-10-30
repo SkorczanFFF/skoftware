@@ -34,6 +34,12 @@ import BottomBar from '@/components/layout/BottomBar';
 
 import { useLocale } from '@/locale/LocaleContext';
 
+/** Safari and every iOS browser (all WebKit) ignore `@page { margin: 0 }`
+ *  and frame the sheet in margins of their own; the PDF prints edge to edge. */
+const printsWithOwnMargins = (): boolean =>
+  /AppleWebKit/.test(navigator.userAgent) &&
+  !/Chrome\/|Chromium\/|Android/.test(navigator.userAgent);
+
 export default function CV(): React.JSX.Element {
   const { locale, t } = useLocale();
   const pdfHref = `/Maciej-Skorus-CV-${locale.toUpperCase()}.pdf`;
@@ -65,6 +71,14 @@ export default function CV(): React.JSX.Element {
     }
   }, [searchParams, pdfHref]);
 
+  const handlePrint = () => {
+    if (printsWithOwnMargins()) {
+      window.open(pdfHref, '_blank', 'noopener');
+      return;
+    }
+    window.print();
+  };
+
   return (
     <>
       <Head>
@@ -92,7 +106,7 @@ export default function CV(): React.JSX.Element {
         <div className='flex justify-end gap-2 h-auto flex-row items-stretch w-full max-w-[794px] px-2 md:px-0'>
           <button
             type='button'
-            onClick={() => window.print()}
+            onClick={handlePrint}
             className='hover:bg-orange bg-raspberry my-6 flex items-center px-2 py-1 text-sm tracking-wider text-white duration-150 cursor-pointer'
           >
             {t.resumeHeaderPrint}
