@@ -22,10 +22,10 @@ export const experiences: ExperienceEntry[] = [
       'Git',
     ],
     duties: [
-      'Designed and built dedicated web applications from scratch for clients in the medical sector: advanced content editors, print and PDF export, full touch support on mobile devices',
+      'Designed and built web applications: advanced content editors and custom solutions with print and PDF export, plus full touch support on mobile devices',
       'Integrated applications with external systems and APIs, including user authorization; extracted shared libraries and reusable components that tolerate network failures',
       'Created a design system and documentation for components shared across applications',
-      'Engineered tools and pipelines for processing digital documents and scans; gathered requirements with the client and wrote technical documentation',
+      'Engineered tools and pipelines for processing digital documents and scans; authored technical documentation',
     ],
   },
   {

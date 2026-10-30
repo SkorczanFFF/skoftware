@@ -95,7 +95,7 @@ export const caseStudies: CaseStudyEntry[] = [
     },
     links: {
       live: SITE_URL,
-      git: 'https://github.com/SkorczanFFF/mskorus-remaster',
+      git: 'https://github.com/SkorczanFFF/skoftware',
     },
     projectId: 3,
     serviceSlug: 'strony-internetowe',

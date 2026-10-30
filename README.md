@@ -207,7 +207,7 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 | **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max         | [Live](https://www.polonez-autodrive.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                         |
 | **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS       | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
 | **Pokédex**                 | React, TypeScript, Vite, TanStack Query     | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                             |
-| **SKOFTWARE**               | Next.js, TypeScript, TailwindCSS, R3F, GSAP | [Live](https://www.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                            |
+| **SKOFTWARE**               | Next.js, TypeScript, TailwindCSS, R3F, GSAP | [Live](https://www.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/skoftware)                                                                   |
 | **Yet Another Weather App** | React, TypeScript, Sass, R3F, Open-Meteo    | [Live](https://www.yet-another-weather-app.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                               |
 
 ## Case studies

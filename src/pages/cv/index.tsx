@@ -189,14 +189,19 @@ export default function CV(): React.JSX.Element {
                       {t.resumeHeaderEducation}
                     </h2>
                     <div className='pl-2 pt-1 text-white/80'>
+                      {/* Last word glued to the one before so it never wraps
+                          alone; the ATS page keeps plain spaces for parsers. */}
                       <p className='font-semibold text-white'>
-                        {t.resumeEducation.university}
+                        {t.resumeEducation.university.replace(
+                          / (\S+)$/,
+                          '\u00A0$1',
+                        )}
                       </p>
                       <p>{t.resumeEducation.field}</p>
-                      <p className='text-orange brightness-150'>
+                      <p className='text-orange-bright'>
                         {t.resumeEducation.degree}
                       </p>
-                      <p className='text-orange brightness-150'>
+                      <p className='text-orange-bright'>
                         {t.resumeEducation.dates}
                       </p>
                     </div>

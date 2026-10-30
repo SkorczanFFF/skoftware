@@ -112,6 +112,7 @@ function useActiveSection() {
 
 export default function Header(): React.JSX.Element {
   const { t } = useLocale();
+  const { pathname } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const activeSection = useActiveSection();
 
@@ -142,7 +143,6 @@ export default function Header(): React.JSX.Element {
     };
   }, [isMenuOpen]);
 
-  // Focus management: move focus into menu on open, return to hamburger on close
   useEffect(() => {
     if (isMenuOpen) {
       wasOpen.current = true;
@@ -157,7 +157,6 @@ export default function Header(): React.JSX.Element {
     }
   }, [isMenuOpen]);
 
-  // Focus trap + Escape
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -207,16 +206,16 @@ export default function Header(): React.JSX.Element {
         {/* Reading progress, drawn over the bottom border: the frame spans the
             border box and clips to the same radius, so the line bends round
             the corners like the border it fills instead of poking past them.
-            Bright tints rather than the brand gradient, which shares the
-            border's colours and would vanish into it. Scaled by
-            useHeaderScroll; the inline value is for the server render. */}
+            Scaled by useHeaderScroll; the inline value is for the server render.
+            Off on /cv, hidden rather than unmounted: the hook takes the line
+            once, and the header outlives every page. */}
         <span
           aria-hidden='true'
-          className='pointer-events-none absolute -inset-[2px] overflow-hidden rounded-[3px]'
+          className={`pointer-events-none absolute -inset-[2px] overflow-hidden rounded-[3px] ${pathname === '/cv' ? 'hidden' : ''}`}
         >
           <span
             ref={progressRef}
-            className='absolute inset-x-0 bottom-0 h-[2px] origin-left bg-linear-to-r from-orange-bright to-raspberry-bright'
+            className='absolute inset-x-0 bottom-0 h-[2px] origin-left bg-linear-to-r from-orange to-raspberry'
             style={{ transform: 'scaleX(0)' }}
           />
         </span>

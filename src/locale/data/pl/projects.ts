@@ -48,7 +48,7 @@ export const projects: ProjectEntry[] = [
     description:
       'Moja strona portfolio — poligon do eksperymentów webowych. Zawiera scenę 3D stworzoną w React Three Fiber, przejścia i animacje w GSAP oraz i18n do obsługi wielojęzyczności. Wyposażona w webową wersję CV (HTML i CSS) w języku polskim i angielskim. Projekt nieustannie ewoluujący, prawdopodobnie nigdy nie wyjdzie z fazy "WIP".',
     live: SITE_URL,
-    git: 'https://github.com/SkorczanFFF/mskorus-remaster',
+    git: 'https://github.com/SkorczanFFF/skoftware',
   },
   {
     id: 4,

@@ -48,7 +48,7 @@ export const projects: ProjectEntry[] = [
     description:
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: SITE_URL,
-    git: 'https://github.com/SkorczanFFF/mskorus-remaster',
+    git: 'https://github.com/SkorczanFFF/skoftware',
   },
   {
     id: 4,
