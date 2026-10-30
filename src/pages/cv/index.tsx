@@ -147,13 +147,15 @@ export default function CV(): React.JSX.Element {
                 />
                 {/* <div className="bg-raspberry h-[8px] w-full"></div> */}
                 {/* Grid rows interleave name and title visually; the DOM keeps
-                    the name whole, and the PDF text stream follows the DOM. */}
+                    the name whole, and the PDF text stream follows the DOM.
+                    The name bars run 2px into the raspberry border, so no
+                    seam shows between them when the sheet is scaled. */}
                 <div className='grid grid-cols-1 text-2xl tracking-wide'>
                   <h1 className='contents font-grotesk font-[500] text-primary-blue'>
-                    <span className='row-start-2 bg-raspberry pl-2 text-left'>
+                    <span className='row-start-2 -mr-[2px] bg-raspberry pl-2 text-left'>
                       MACIEJ
                     </span>{' '}
-                    <span className='row-start-4 bg-raspberry pl-2 text-left'>
+                    <span className='row-start-4 -mr-[2px] bg-raspberry pl-2 text-left'>
                       SKORUS
                     </span>
                   </h1>

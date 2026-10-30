@@ -42,11 +42,6 @@ const KEYWORDS = [
   'React Native',
 ];
 
-// Resume container is 794x1123px — convert to mm for PDF page size
-const pxToMm = (px) => (px * 25.4) / 96;
-const WIDTH_MM = pxToMm(794);
-const HEIGHT_MM = pxToMm(1123);
-
 const localeUrl = (locale, path) =>
   locale === 'pl' ? `${BASE_URL}${path}` : `${BASE_URL}/${locale}${path}`;
 
@@ -176,7 +171,7 @@ async function generateDesigned(browser, locale) {
 
   await page.addStyleTag({
     content: `
-      @page { size: ${WIDTH_MM}mm ${HEIGHT_MM}mm; margin: 0; }
+      @page { size: 794px 1123px; margin: 0; }
       html, body {
         margin: 0 !important; padding: 0 !important;
         width: 794px !important; height: 1123px !important;
@@ -188,13 +183,13 @@ async function generateDesigned(browser, locale) {
   const outPath = resolve(OUT_DIR, `Maciej-Skorus-CV-${L}.pdf`);
   await page.pdf({
     path: outPath,
-    width: `${WIDTH_MM}mm`,
-    height: `${HEIGHT_MM}mm`,
     printBackground: true,
     // Structure tree from the DOM (h1, h2, ul, address): parsers that read it
     // get the sections in order instead of guessing from the layout.
     tagged: true,
-    preferCSSPageSize: false,
+    // The @page size above, not width/height: with those Chromium rounds the
+    // page up and draws the sheet 1px down, leaving a white line on top.
+    preferCSSPageSize: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
   });
   await page.close();

@@ -197,11 +197,13 @@ export default function Header(): React.JSX.Element {
       {/* `data-scrolled` comes from useHeaderScroll. Scrolled, the bar
           flattens by a quarter and takes a light tint — the nav text keeps
           its offset duplicate for contrast, so the tint only has to settle
-          busy backgrounds, not carry the legibility. The bar never hides:
+          busy backgrounds, not carry the legibility. The logo side alone
+          lifts off the progress line: its white duplicates hang below the
+          text, the links' dark ones barely do. The bar never hides:
           the CV and the case studies are long reads with no in-page nav. */}
       <header
         ref={headerRef}
-        className='font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] transition-[height,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-scrolled:h-[34px] data-scrolled:bg-primary-blue/35 data-scrolled:border-raspberry/40'
+        className='group/header font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] transition-[height,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-scrolled:h-[34px] data-scrolled:bg-primary-blue/35 data-scrolled:border-raspberry/40'
       >
         {/* Reading progress, drawn over the bottom border: the frame spans the
             border box and clips to the same radius, so the line bends round
@@ -220,7 +222,7 @@ export default function Header(): React.JSX.Element {
           />
         </span>
         <div className='flex h-full w-full items-center justify-between'>
-          <div className='flex h-full items-center gap-3'>
+          <div className='flex h-full items-center gap-3 transition-[padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-scrolled/header:pb-[4px]'>
             <div className='ml-3 flex items-center'>
               <Logo />
             </div>
