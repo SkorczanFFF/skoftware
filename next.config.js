@@ -25,6 +25,19 @@ const nextConfig = {
     ];
   },
 
+  async headers() {
+    // The CV PDFs are linked from the site but should not show up in search.
+    // A header is the only noindex a PDF can carry; blocking them in
+    // robots.txt instead would stop crawlers from ever seeing it.
+    return [
+      {
+        source: '/:file(.*\\.pdf)',
+        locale: false,
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+    ];
+  },
+
   webpack(config) {
     config.module.rules.push({
       test: /\.(glsl|vs|fs)$/i,
