@@ -1,25 +1,24 @@
 import {
   AutodeskIcon,
+  AwsIcon,
   BitbucketIcon,
   BlenderIcon,
-  CanvaIcon,
   ClaudeIcon,
-  CssIcon,
-  CursorIcon,
   DockerIcon,
+  DynamodbIcon,
   FigmaIcon,
   FirebaseIcon,
   GithubActionsIcon,
   GitIcon,
   GitlabIcon,
   GsapIcon,
-  HtmlIcon,
+  HonoIcon,
   type IconType,
-  JavaIcon,
   JavascriptIcon,
   JestIcon,
   JetpackComposeIcon,
   KotlinIcon,
+  LambdaIcon,
   LaravelIcon,
   MantineIcon,
   MobxIcon,
@@ -27,8 +26,7 @@ import {
   MysqlIcon,
   NextjsIcon,
   NodejsIcon,
-  NpmIcon,
-  PhotoshopIcon,
+  OpencvIcon,
   PhpIcon,
   PostgresqlIcon,
   PytestIcon,
@@ -47,13 +45,11 @@ import {
   TypescriptIcon,
   ViteIcon,
   VitestIcon,
-  WordpressIcon,
+  ZodIcon,
 } from './Icons';
 
 /** Canonical label → Icon component. Superset of all tech icons used across the app. */
 export const techIconMap: Record<string, IconType> = {
-  HTML5: HtmlIcon,
-  CSS3: CssIcon,
   TypeScript: TypescriptIcon,
   React: ReactIcon,
   'Next.js': NextjsIcon,
@@ -79,25 +75,24 @@ export const techIconMap: Record<string, IconType> = {
 
   PHP: PhpIcon,
   'Node.js': NodejsIcon,
-  Java: JavaIcon,
   Python: PythonIcon,
   Laravel: LaravelIcon,
-  Wordpress: WordpressIcon,
-  Sanity: SanityIcon,
   MySQL: MysqlIcon,
   Firebase: FirebaseIcon,
   MongoDB: MongodbIcon,
   PostgreSQL: PostgresqlIcon,
-  Photoshop: PhotoshopIcon,
   '3Ds Max': AutodeskIcon,
   Blender: BlenderIcon,
   Figma: FigmaIcon,
-  Canva: CanvaIcon,
   Docker: DockerIcon,
+  AWS: AwsIcon,
+  'AWS Lambda': LambdaIcon,
+  DynamoDB: DynamodbIcon,
+  Hono: HonoIcon,
+  Zod: ZodIcon,
+  OpenCV: OpencvIcon,
   GitHub: GitIcon,
-  CursorAI: CursorIcon,
   Claude: ClaudeIcon,
-  npm: NpmIcon,
   // Aliases — extra labels used in experience stack arrays
   'Vanilla JS': JavascriptIcon,
   Git: GitIcon,
@@ -110,49 +105,45 @@ export const techIconMap: Record<string, IconType> = {
 /** Flat ordered list for the resume skills section — manually sorted for symmetric 3-per-row wrapping. */
 export const resumeTechList: string[] = [
   'TypeScript',
-  'React',
-  'Next.js', // frontend core
-  'React Native',
-  'Redux',
-  'MobX', // frontend state
-  'TailwindCSS',
-  'Sass',
-  'GSAP', // frontend styling
-  'TanStack',
-  'Mantine',
-  'Vite', // frontend data, UI kit, tooling
-  'Three.js',
-  'HTML5',
-  'CSS3', // frontend web/3D
-  'Python',
-  'Node.js',
-  'Java', // backend languages
-  'Kotlin',
-  'Jetpack Compose',
-  'Vitest', // mobile native + testing
   'JavaScript',
-  'Jest',
-  'GitHub Actions', // language, testing, CI
-  'SQL',
-  'REST API',
-  'Storybook', // data access, APIs, UI workshop
-
+  'React', // languages and the UI library
+  'Next.js',
+  'React Native',
+  'Kotlin', // frameworks and mobile
+  'TanStack',
+  'Redux',
+  'MobX', // data and state
+  'TailwindCSS',
+  'Mantine',
+  'Sass', // styling and UI kit
+  'Three.js',
+  'GSAP',
+  'Storybook', // 3D, motion and the UI workshop
+  'Node.js',
+  'Hono',
+  'Zod', // TypeScript backend
+  'Python',
+  'OpenCV',
+  'pytest', // Python
   'PHP',
   'Laravel',
-  'Wordpress', // backend frameworks
-  'Sanity',
+  'REST API', // PHP and APIs
   'PostgreSQL',
-  'MySQL', // CMS + databases
+  'MySQL',
+  'SQL', // relational databases
   'MongoDB',
   'Firebase',
-  'Docker', // databases + devops
-  'Photoshop',
-  '3Ds Max',
-  'Blender', // design 3D
+  'DynamoDB', // non-relational databases
+  'AWS',
+  'AWS Lambda',
+  'Docker', // cloud and containers
+  'Vitest',
+  'Jest',
+  'GitHub Actions', // testing and CI
+  'GitHub',
+  'Vite',
+  'Claude', // tools
   'Figma',
-  'Canva',
-  'GitHub', // design + VCS
-  'npm',
-  'CursorAI',
-  'Claude', // tools + AI
+  'Blender',
+  '3Ds Max', // design and 3D
 ];

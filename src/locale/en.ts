@@ -9,7 +9,7 @@ export const en: Dictionary = {
     'SKOFTWARE | Maciej Skorus - Creative Fullstack Developer | Web Apps, Services & 3D',
   seoSiteName: 'SKOFTWARE | Maciej Skorus - Creative Fullstack Developer',
   seoDescription:
-    'Creative fullstack developer from Poland. Web applications, digital services, 3D experiences, and mobile apps. React, Next.js, Python, TypeScript. B2B invoices, worldwide availability.',
+    'Creative fullstack developer from Poland. Web applications, digital services, 3D experiences, and mobile apps. React, Next.js, TypeScript, Python, AWS. B2B invoices, worldwide availability.',
 
   notFoundTitle: 'Page Not Found',
   notFoundBack: 'Back to Home',
@@ -99,7 +99,7 @@ export const en: Dictionary = {
     },
     {
       q: 'Which technologies do you work with?',
-      a: 'React, Next.js, TypeScript, Python, Three.js, React Native, and related tools. I pick the stack to fit the problem, not the other way around.',
+      a: 'React, Next.js, TypeScript, Python, Three.js, React Native, and in the cloud AWS (serverless) and Docker. I pick the stack to fit the problem, not the other way around.',
     },
     {
       q: 'Do you handle maintenance after launch?',
@@ -176,7 +176,7 @@ export const en: Dictionary = {
   resumeHeaderDownload: 'DOWNLOAD',
   resumeHeaderPrint: 'PRINT',
   resumeAboutMe:
-    'Creative fullstack developer with hands-on experience in web and mobile applications, internal systems and 3D. Well-versed in the medical industry – from dedicated web applications (advanced content editors, print and PDF export, API integrations, a design system), document and scan processing pipelines and improvements to existing systems, to national and international congresses and conferences, for which I delivered applications (VOD, virtual booths, mobile apps) and provided on-site IT support, also on business trips. Shipped an NFT auction system and a dApp tied to a 3D MOBA game built in Unity. From vanilla JS through frontend and backend frameworks and relational and non-relational databases to Docker – comfortable across the full stack, including AI/LLM model integration. Particularly drawn to creative frontend work and WebGL. Personally passionate about modding and creating useful, unconventional solutions.',
+    'Creative fullstack developer with hands-on experience in web and mobile applications, internal systems and 3D. Well-versed in the medical industry – from dedicated web applications (advanced content editors, print and PDF export, API integrations, a design system), document and scan processing pipelines and improvements to existing systems, to national and international congresses and conferences, for which I delivered applications (VOD, virtual booths, mobile apps) and provided on-site IT support, also on business trips. Shipped an NFT auction system and a dApp tied to a 3D MOBA game built in Unity. From vanilla JS through frontend and backend frameworks and relational and non-relational databases to Docker and serverless on AWS – comfortable across the full stack, including AI/LLM model integration. Particularly drawn to creative frontend work and WebGL. Personally passionate about modding and creating useful, unconventional solutions.',
   resumeEducation: {
     university: 'University of Silesia – Faculty of Science and Technology',
     field: 'Web Application Programming',
@@ -202,7 +202,8 @@ export const en: Dictionary = {
   resumeAtsMethodsTitle: 'METHODS AND PRACTICES',
   resumeAtsMethods: [
     'Agile / Scrum',
-    'CI/CD (GitHub Actions)',
+    'CI/CD (GitHub Actions, AWS CodePipeline)',
+    'Infrastructure as code (AWS CDK)',
     'Git',
     'Unit testing (Jest, Vitest, pytest)',
     'Technical and handover documentation',

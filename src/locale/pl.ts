@@ -9,7 +9,7 @@ export const pl: Dictionary = {
     'SKOFTWARE | Maciej Skorus - Creative Fullstack Developer | Aplikacje, Usługi i 3D',
   seoSiteName: 'SKOFTWARE | Maciej Skorus - Creative Fullstack Developer',
   seoDescription:
-    'Creative fullstack developer z Polski. Aplikacje webowe, usługi cyfrowe, doświadczenia 3D i aplikacje mobilne. React, Next.js, Python, TypeScript. Faktury VAT, współpraca na całym świecie.',
+    'Creative fullstack developer z Polski. Aplikacje webowe, usługi cyfrowe, doświadczenia 3D i aplikacje mobilne. React, Next.js, TypeScript, Python, AWS. Faktury VAT, współpraca na całym świecie.',
 
   notFoundTitle: 'Strona nie znaleziona',
   notFoundBack: 'Powrót na stronę główną',
@@ -99,7 +99,7 @@ export const pl: Dictionary = {
     },
     {
       q: 'W jakich technologiach pracujesz?',
-      a: 'React, Next.js, TypeScript, Python, Three.js, React Native i pokrewne. Stack dobieram do problemu, nie odwrotnie.',
+      a: 'React, Next.js, TypeScript, Python, Three.js, React Native, a w chmurze AWS (serverless) i Docker. Stack dobieram do problemu, nie odwrotnie.',
     },
     {
       q: 'Zajmujesz się utrzymaniem po wdrożeniu?',
@@ -176,7 +176,7 @@ export const pl: Dictionary = {
   resumeHeaderDownload: 'POBIERZ',
   resumeHeaderPrint: 'DRUKUJ',
   resumeAboutMe:
-    "Kreatywny fullstack developer z praktycznym doświadczeniem w aplikacjach webowych i mobilnych, systemach wewnętrznych i 3D. Doświadczony w branży medycznej – od dedykowanych aplikacji webowych (zaawansowane edytory treści, druk i eksport do PDF, integracje z API, design system), pipeline'ów do przetwarzania dokumentów i skanów, rozwoju istniejących systemów, po krajowe i międzynarodowe kongresy i konferencje, dla których dostarczałem rozwiązania (VOD, wirtualne stoiska, aplikacje mobilne) oraz wsparcie IT na miejscu i w delegacji. Zrealizowałem system aukcji NFT i dApp powiązaną z grą 3D MOBA na Unity. Od VanillaJS przez frameworki frontendowe i backendowe, bazy relacyjne i nierelacyjne po Dockera – poruszam się swobodnie po całym stacku, integruję modele AI/LLM. Prywatnie pasjonat eksperymentów, moddingu oraz tworzenia użytecznych i niebanalnych rozwiązań.",
+    "Kreatywny fullstack developer z praktycznym doświadczeniem w aplikacjach webowych i mobilnych, systemach wewnętrznych i 3D. Doświadczony w branży medycznej – od dedykowanych aplikacji webowych (zaawansowane edytory treści, druk i eksport do PDF, integracje z API, design system), pipeline'ów do przetwarzania dokumentów i skanów, rozwoju istniejących systemów, po krajowe i międzynarodowe kongresy i konferencje, dla których dostarczałem rozwiązania (VOD, wirtualne stoiska, aplikacje mobilne) oraz wsparcie IT na miejscu i w delegacji. Zrealizowałem system aukcji NFT i dApp powiązaną z grą 3D MOBA na Unity. Od VanillaJS przez frameworki frontendowe i backendowe, bazy relacyjne i nierelacyjne po Dockera i serverless na AWS – poruszam się swobodnie po całym stacku, integruję modele AI/LLM. Prywatnie pasjonat eksperymentów, moddingu oraz tworzenia użytecznych i niebanalnych rozwiązań.",
   resumeEducation: {
     university: 'Uniwersytet Śląski – WNST',
     field: 'Programowanie Aplikacji Webowych',
@@ -202,7 +202,8 @@ export const pl: Dictionary = {
   resumeAtsMethodsTitle: 'METODYKI I PRAKTYKI',
   resumeAtsMethods: [
     'Agile / Scrum',
-    'CI/CD (GitHub Actions)',
+    'CI/CD (GitHub Actions, AWS CodePipeline)',
+    'Infrastruktura jako kod (AWS CDK)',
     'Git',
     'Testy jednostkowe (Jest, Vitest, pytest)',
     'Dokumentacja techniczna i przekazanie projektu',

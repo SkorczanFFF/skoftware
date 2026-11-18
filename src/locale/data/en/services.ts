@@ -20,7 +20,7 @@ export const services: ServiceEntry[] = [
     title: 'Web applications',
     tagline: 'Software that runs your business.',
     description:
-      'Dashboards, admin panels, SaaS, internal tools, and browser extensions. Scalable solutions in React, Next.js, and TypeScript.',
+      'Dashboards, admin panels, SaaS, internal tools, and browser extensions. Scalable solutions in React, Next.js, and TypeScript, with a backend on AWS or on your own server.',
     deliverables: [
       'Dashboards & admin panels',
       'SaaS & internal tools',

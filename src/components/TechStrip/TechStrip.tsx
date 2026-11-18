@@ -16,6 +16,7 @@ const HEADLINE_TECH = [
   'TypeScript',
   'Python',
   'Three.js',
+  'AWS',
   'PostgreSQL',
   'Docker',
   'TailwindCSS',

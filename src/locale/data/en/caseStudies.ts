@@ -137,6 +137,5 @@ export const caseStudies: CaseStudyEntry[] = [
       live: 'https://github.com/SkorczanFFF/tibia-key-presser/releases',
       liveLabel: '.exe',
     },
-    projectId: 5,
   },
 ];

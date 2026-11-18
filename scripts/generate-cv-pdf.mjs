@@ -40,6 +40,8 @@ const KEYWORDS = [
   'Python',
   'Three.js',
   'React Native',
+  'AWS',
+  'Serverless',
 ];
 
 const localeUrl = (locale, path) =>

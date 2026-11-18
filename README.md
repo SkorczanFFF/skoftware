@@ -204,6 +204,7 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 
 | Project                     | Stack                                       | Links                                                                                                                                                  |
 | --------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Segregator**              | React, TypeScript, Hono, AWS CDK, OpenCV    | [Live](https://segregator.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/segregator)                                                           |
 | **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max         | [Live](https://www.polonez-autodrive.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                         |
 | **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS       | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
 | **Pokédex**                 | React, TypeScript, Vite, TanStack Query     | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                             |
@@ -218,7 +219,7 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 | `polonez-autodrive-rewrite`          | An interactive 3D colouring book evolving from plain JS and HTML into Vite | Portfolio (Polonez)                     |
 | `capcam-head-tracking`               | Android phone as a head tracker over UDP to opentrack                      | Mobile service                          |
 | `skoftware-hero-particles`           | The particle hero that never blocks the offer                              | Portfolio (SKOFTWARE), Websites service |
-| `tibia-key-presser-background-input` | Background hotkeys for a game, one generation and two years later          | CV project                              |
+| `tibia-key-presser-background-input` | Background hotkeys for a game, one generation and two years later          | —                                       |
 | `derdum-wyplatum-google-calendar`    | Google Calendar as a serverless database (draft, not built)                | —                                       |
 
 ---

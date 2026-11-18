@@ -4,6 +4,18 @@ import type { ProjectEntry } from '@/locale/types';
 
 export const projects: ProjectEntry[] = [
   {
+    id: 6,
+    pic: '/projects/segregator.jpg',
+    pic2: '/projects/segregator_2.jpg',
+    title: 'Segregator',
+    technos:
+      'TypeScript • React • Node.js • AWS (Lambda, DynamoDB, CDK) • Python • OpenCV',
+    description:
+      'An archive of receipts, invoices and warranties. A photo goes through a queue to Python with OpenCV, which cuts the document out of the background and corrects the perspective, and AI (Amazon Bedrock) suggests the issuer, amount and dates. Serverless on AWS, infrastructure in CDK, deployments through CodePipeline with an approval before production. Demo without signing up.',
+    live: 'https://segregator.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/segregator',
+  },
+  {
     id: 0,
     pic: '/projects/polonez_autodrive.jpg',
     pic2: '/projects/polonez_autodrive_2.jpg',
@@ -60,16 +72,5 @@ export const projects: ProjectEntry[] = [
     live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
     git: 'https://github.com/SkorczanFFF/VAT-OFF',
     liveLabel: 'Chrome Web Store',
-  },
-  {
-    id: 5,
-    pic: '/projects/tba.jpg',
-    title: '★ Tibia Key Presser',
-    technos: 'Python • Tkinter • pywinauto',
-    description:
-      'A lightweight Python automation tool for Tibia (MMORPG), supporting up to eight configurable key-delay pairs. Auto-detects the game window, runs silently in the background without interrupting other activities or games.',
-    live: '',
-    git: 'https://github.com/SkorczanFFF/tibia-key-presser',
-    resumeOnly: true,
   },
 ];
