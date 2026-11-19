@@ -2,7 +2,6 @@ import {
   AutodeskIcon,
   AwsIcon,
   BitbucketIcon,
-  BlenderIcon,
   ClaudeIcon,
   DockerIcon,
   DynamodbIcon,
@@ -27,6 +26,7 @@ import {
   NextjsIcon,
   NodejsIcon,
   OpencvIcon,
+  PhotoshopIcon,
   PhpIcon,
   PostgresqlIcon,
   PytestIcon,
@@ -82,7 +82,7 @@ export const techIconMap: Record<string, IconType> = {
   MongoDB: MongodbIcon,
   PostgreSQL: PostgresqlIcon,
   '3Ds Max': AutodeskIcon,
-  Blender: BlenderIcon,
+  Photoshop: PhotoshopIcon,
   Figma: FigmaIcon,
   Docker: DockerIcon,
   AWS: AwsIcon,
@@ -102,48 +102,52 @@ export const techIconMap: Record<string, IconType> = {
   MobX: MobxIcon,
 };
 
-/** Flat ordered list for the resume skills section — manually sorted for symmetric 3-per-row wrapping. */
+/** Resume skills grouped by area: frontend, backend, mobile and the rest, tools. Each group fills whole rows of 3. */
 export const resumeTechList: string[] = [
+  // Frontend
   'TypeScript',
   'JavaScript',
-  'React', // languages and the UI library
+  'React',
   'Next.js',
-  'React Native',
-  'Kotlin', // frameworks and mobile
   'TanStack',
   'Redux',
-  'MobX', // data and state
+  'MobX',
   'TailwindCSS',
   'Mantine',
-  'Sass', // styling and UI kit
+  'Sass',
   'Three.js',
   'GSAP',
-  'Storybook', // 3D, motion and the UI workshop
+  // Backend
   'Node.js',
   'Hono',
-  'Zod', // TypeScript backend
+  'Zod',
   'Python',
   'OpenCV',
-  'pytest', // Python
+  'pytest',
   'PHP',
   'Laravel',
-  'REST API', // PHP and APIs
+  'REST API',
   'PostgreSQL',
   'MySQL',
-  'SQL', // relational databases
+  'SQL',
   'MongoDB',
+  'DynamoDB',
   'Firebase',
-  'DynamoDB', // non-relational databases
+  // Mobile and the rest
+  'React Native',
+  'Kotlin',
+  'Jest',
   'AWS',
   'AWS Lambda',
-  'Docker', // cloud and containers
-  'Vitest',
-  'Jest',
-  'GitHub Actions', // testing and CI
+  'Docker',
+  // Tools
   'GitHub',
+  'GitHub Actions',
+  'Claude',
   'Vite',
-  'Claude', // tools
+  'Vitest',
+  'Storybook',
   'Figma',
-  'Blender',
-  '3Ds Max', // design and 3D
+  'Photoshop',
+  '3Ds Max',
 ];

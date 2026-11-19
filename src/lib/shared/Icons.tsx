@@ -15,7 +15,7 @@ import {
   BsGlobe2,
   BsLinkedin,
 } from 'react-icons/bs';
-import { DiMongodb, DiPhp } from 'react-icons/di';
+import { DiMongodb, DiPhotoshop, DiPhp } from 'react-icons/di';
 import { FaAws, FaDatabase, FaGitAlt } from 'react-icons/fa6';
 import { GiAmphora, GiGuitarBassHead } from 'react-icons/gi';
 import { GrMysql } from 'react-icons/gr';
@@ -33,7 +33,6 @@ import { LiaCookieBiteSolid } from 'react-icons/lia';
 import {
   SiAutodesk,
   SiBitbucket,
-  SiBlender,
   SiFigma,
   SiFirebase,
   SiGithubactions,
@@ -105,7 +104,7 @@ export const PostgresqlIcon = SiPostgresql as IconType;
 export const SanityIcon = SiSanity as IconType;
 
 export const AutodeskIcon = SiAutodesk as IconType;
-export const BlenderIcon = SiBlender as IconType;
+export const PhotoshopIcon = DiPhotoshop as IconType;
 export const FigmaIcon = SiFigma as IconType;
 
 export const CursorIcon = BsCursorFill as IconType;
