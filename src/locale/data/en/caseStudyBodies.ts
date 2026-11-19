@@ -7,335 +7,313 @@ import type { CaseStudyBody } from '@/locale/types';
  * must match `./caseStudies.ts` (`__tests__/locale/caseStudies.test.ts`).
  */
 export const caseStudyBodies: Record<string, CaseStudyBody> = {
-  'yawa-volumetric-clouds': {
+  'segregator-documents-ai': {
     facts: [
-      { value: '4 032', label: 'place-hours used to calibrate coverage' },
-      { value: '4', label: 'quality tiers from desktop down to “potato”' },
-      { value: '5–9', label: 'draw calls per frame, no post-processing' },
+      { value: '7', label: 'document types, from a receipt to a contract' },
+      {
+        value: '3',
+        label:
+          'steps to add a document: the photo, the AI reading and the check',
+      },
+      {
+        value: '100',
+        label:
+          'AI readings per account a month, so the cost is known in advance',
+      },
     ],
     problem: [
       {
         type: 'p',
-        text: 'Yet Another Weather App started in 2022 as an ordinary weather app. I wanted the background to be not an illustration but a sky computed from the same forecast the user reads: if Open-Meteo reports 80 percent low cloud and a thunderstorm, the scene should look like a closed grey deck with lightning, not a pretty library animation.',
+        text: 'Receipts, invoices, warranties and insurance policies usually end up in a drawer or in the phone’s gallery, between holiday photos. When a device has to go back under warranty, or you need to know when a policy runs out, the search begins. I wanted an app where taking a photo of a document is enough and the app does the rest: cuts the sheet out of the background, reads the key details and files the document in the right place, with its deadline in plain sight.',
       },
       {
         type: 'p',
-        text: 'Off-the-shelf options failed in testing. A volumetric cloud library for Three.js rendered at full resolution and killed mid-range phones, drei’s sprite clouds looked flat and drowned the GPU in overdraw, and post-processing added yet another full-screen pass. A second problem sat behind the first: how to translate forecast numbers honestly (layered coverage, CAPE, boundary-layer height, winds at pressure levels) into scene parameters so the model does not contradict a “mainly clear” label.',
+        text: 'Phone photos are rarely perfect: the sheet lies askew, on a patterned tablecloth or in light from one side. AI can read a document, but it sometimes gets things wrong, and every reading costs money. And these are private documents with amounts, addresses and numbers, so they need proper protection.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'I wrote a Nubis-style raymarcher (the technique known from Horizon Zero Dawn): the ray travels through a spherical shell above a curved Earth, in metres. Density is Perlin-Worley noise shaping the body, a separate height gradient for stratus, cumulus and cumulonimbus, a remap by the coverage field and Worley detail erosion. Lighting combines Beer’s law, the powder effect, a three-lobe Henyey-Greenstein phase function and three octaves of scattering, while a two-stream “diffuse floor” keeps overcast skies grey instead of black.',
+        text: 'I split adding a document into three steps the user sees one after another. First the photo: a separate Python program finds the sheet on it, cuts it out of the background and straightens it as if it had been scanned. Then the reading: AI fills in the document type, the issuer, the amount and the dates. Last, the check: every field AI filled in is marked and can be corrected, and nothing is saved until you click “Save”.',
       },
       {
         type: 'p',
-        text: 'I cut the cost on phones with four passes on a fraction of the canvas. The march draws one pixel of every 2×2 block per frame, and a temporal resolve reprojects the history along the view direction and clamps it to the mean ± 1.5σ of the neighbouring fresh texels, so ghosting disappears without blur. The march itself is adaptive: cheap steps through empty air, a step back on hitting cloud, fine steps of about 2 percent of the distance. Four quality tiers pick the DPR, step count, 3D noise size and range; drei’s PerformanceMonitor drops a tier when frames fall below 75 percent of the cap.',
+        text: 'The app runs in Amazon’s cloud (AWS) on a pay-for-what-you-use model, not on a server switched on around the clock. The whole cloud setup is written as code, so it can be rebuilt from scratch with one command. Every change goes to a test version first and reaches production only after I approve it.',
       },
       {
-        type: 'p',
-        text: 'Forecast data runs through a custom cloud-physics module: the base from the lifting condensation level (about 125 m per degree of temperature-dewpoint spread), the top from the boundary layer and CAPE, layer heights from pressure levels, and optical depth from layer thickness blended with a value inverted from the clearness index. Coverage is calibrated so that the API number means exactly that share of the sky, not “some” noise threshold.',
+        type: 'image',
+        src: '/case-studies/segregator/before-after.jpg',
+        width: 1800,
+        height: 800,
+        alt: 'Six made-up documents: crooked photos on a table at the top, the same sheets cut out and straightened below',
+        caption:
+          'Top: photos from a phone. Bottom: the same after automatic processing. The documents are made up, generated for the demo account.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'The shader split into modules: march, density, lighting, resolve. Constants shared between TypeScript and GLSL come from one export, so they cannot drift apart as the code evolves.',
-          'Cloud drift in noise space from the 850 hPa wind (low clouds) and 300 hPa wind (cirrus), wrapped by tile periods, because after a day float32 quantised the noise every 520 metres.',
-          'An ANGLE/D3D11 driver bug on Windows: texture() with implicit derivatives inside a data-dependent loop returned an empty ray and clouds near the camera vanished. The fix was textureLod at level 0.',
-          'The model contradicted the label: for Jēkabpils the API said “mainly clear, 26 percent” while the low layer read 78 percent. I measured it on 4 032 real place-hours from 42 locations and introduced one rule: no layer exceeds the total. Closed decks under a total below 50 percent went from 12 to 0, and the correction touched 2.4 percent of hours.',
-          'Frames issued by a FrameRateGate every Nth rAF frame instead of a time-based gate, which dropped frames at random.',
+          'Straightening photos: the program looks for the sheet in several ways (by brightness, by the whiteness of paper and by its edges) and picks the clearest result, so it copes with a wooden table, a dotted or checked tablecloth and light from one side. The original stays alongside, and the user chooses which version to keep.',
+          'Reading with AI: the Amazon Nova model returns the data in a strictly defined form, and the app checks it against the rules of that document type. A receipt never gets a payment deadline, and a subcategory outside the list is dropped. A reading takes a few seconds.',
+          'Costs under control: each account has 100 AI readings a month and 500 MB for files, and the whole app has a shared reading limit it cannot exceed. Files older than 90 days move to cheaper storage at about a fifth of the price and still open at once.',
+          'Privacy: the photo is shrunk on the phone before it is sent, which also removes the location stored in it. Files sit in private, encrypted storage, and a link to a file works for 5 minutes and only for the account’s owner. An account can be deleted together with all its documents.',
+          'Order, as in a binder: documents are grouped by month like dividers, each type has its own colour and icon, and the deadline is named the way the document puts it: “pay by” on an invoice, “warranty until” on a warranty card, “valid until” on a policy. The same file added a second time, even from another device, is recognised.',
+          'Convenience: sign-in by email or with Google, Polish and English, light and dark mode. On a phone the photo is taken straight from the app, and the menu sits at the bottom of the screen, under the thumb.',
+          'A demo without signing up: a view-only account with made-up documents. I generated them as photos “from a phone” and ran them through the same processing as real files, so the demo shows exactly what happens to a user’s document.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'The scene runs without post-processing and without an API key, in 5–9 draw calls per frame. On desktop the cloud target is half the canvas at 64 lit steps and 128³ noise; on the lowest tier a third of the canvas, 32 steps and 64³ noise; on “potato” a flat deck. Rebuilding the shader into modules closed with bit-identical output across 760 000 comparisons on 20 000 random inputs and a bundle 197 kB smaller.',
+        text: 'Segregator is live at segregator.skoftware.pl, and the demo account opens with one click, without signing up. A few steps lead from a photo to a saved document: add the photo, approve the straightened version, read the details with AI, check them and save. The next stage is email reminders of upcoming deadlines, such as the end of a warranty.',
       },
     ],
     lessons: [
-      'Measure, do not guess: the coverage rule changed only after statistics on thousands of real hours, not after one screenshot.',
-      'Pure logic outside the frame loop and one source of constants for TS and GLSL are what make it possible to keep developing a shader without fear.',
-      'Premultiplied alpha with sRGB gives white fringes, float32 uniforms grow over time, and renderer.info resets inside useFrame. Each of those cost an evening.',
+      'AI works best as a suggestion, not a decision. Marked fields and a check before saving mean a model’s mistake costs one click, not a wrong entry in the archive.',
+      'Limits set from day one mean the cost of the cloud and of AI is known in advance, before the first user turns up.',
+      'A demo built from the same parts as the real app says more than screenshots, and nothing in it has to be faked.',
+    ],
+  },
+  'yawa-volumetric-clouds': {
+    facts: [
+      {
+        value: '4 032',
+        label:
+          'hours of real weather from 42 places, used to check the cloud cover',
+      },
+      {
+        value: '1/4',
+        label:
+          'of the cloud image computed in each frame, the rest filled in from earlier ones',
+      },
+      {
+        value: '4',
+        label: 'quality tiers, from a powerful computer to a weak phone',
+      },
+    ],
+    problem: [
+      {
+        type: 'p',
+        text: 'Yet Another Weather App started in 2022 as an ordinary weather app. I wanted its background to be more than decoration: it should show the sky that is really over the chosen place. If the forecast says low, thick cloud and a thunderstorm, the screen should show a heavy grey sky with lightning, not a pretty animation of a sun.',
+      },
+      {
+        type: 'p',
+        text: 'There were two challenges. Realistic 3D clouds are heavy on hardware, and the ready-made options I tested either looked flat or could not keep up on phones. On top of that, a forecast is dry numbers: cloud cover in percent at several heights, humidity, storm energy, wind. They had to be turned into the look of the sky so that the picture matches the weather description next to it.',
+      },
+    ],
+    approach: [
+      {
+        type: 'p',
+        text: 'I wrote my own cloud engine, modelled on a technique known from the game Horizon Zero Dawn. For every point on the screen the program sends a ray into the sky and checks how much cloud it meets on the way and how sunlight passes through it. That gives the clouds volume, lets light through at their edges and keeps an overcast sky grey rather than black.',
+      },
+      {
+        type: 'p',
+        text: 'To make it work on a phone, only every fourth point of the cloud image is computed in each frame, and earlier frames fill in the rest. The ray takes big steps through empty air and small ones only inside a cloud. The app picks one of four quality tiers and drops a tier by itself when the device cannot keep up.',
+      },
+      {
+        type: 'p',
+        text: 'The forecast numbers (free data from Open-Meteo) go through a module that turns them into the shape of the sky. From temperature and dew point it works out the height where clouds begin, from storm energy how tall they grow, and from the wind at different heights which way and how fast they drift.',
+      },
+    ],
+    solution: [
+      {
+        type: 'list',
+        items: [
+          'Cloud cover that adds up: I checked forecasts from 4 032 hours in 42 places and tuned the picture so that “80 percent cloud cover” covers 80 percent of the sky. On top of that, a rule that no cloud layer may be thicker than the total cover, so “mainly clear” never shows a sky covered in cloud.',
+          'Types of cloud: flat layers, puffy cumulus and stormy cumulonimbus have shapes of their own, and sunlight passes through and scatters inside them as in real clouds.',
+          'Clouds drift with the wind: low ones with the wind at about one and a half kilometres up, high, wispy ones with the wind at about nine kilometres.',
+          'Four quality tiers: on a computer the clouds are computed in more detail and at a higher resolution, on a weaker phone more simply, and on the weakest devices the scene turns into a flat layer of cloud.',
+          'Tidy code: the cloud engine is split into independent parts (shape, light, assembling frames), and shared settings come from one source for the whole app, so later changes do not drift apart between the parts.',
+        ],
+      },
+    ],
+    outcome: [
+      {
+        type: 'p',
+        text: 'The app’s background shows a sky computed from the same forecast the user reads, and runs smoothly from a powerful computer to an ordinary phone, with no paid access to data. The weather can be checked for a city picked on the map, typed by name or taken from the phone’s location. After the engine was split into parts, the picture came out identical to before, which I checked automatically on 20 000 random settings, and the app got 197 kB smaller.',
+      },
+    ],
+    lessons: [
+      'Measure first, then change: the cloud cover rule came in only after checking thousands of real hours, not on the strength of one screenshot.',
+      'Striking 3D graphics in the browser work on a phone too, as long as you assume from the start that different devices get different quality.',
     ],
   },
   'polonez-autodrive-rewrite': {
     facts: [
-      { value: '16', label: 'P0 bugs found in version 1' },
-      { value: '121', label: 'unit tests in version 2' },
-      { value: '−29%', label: 'draw calls per frame after limiting shadows' },
+      { value: '121', label: 'automated tests run on every change' },
+      {
+        value: '175',
+        label: 'towers of the city on the horizon, placed by code',
+      },
+      {
+        value: '−29%',
+        label: 'draw commands per frame with shadows only around the car',
+      },
     ],
     problem: [
       {
         type: 'p',
-        text: 'The first version from 2024 worked but aged badly: Three.js r116, plain JavaScript without a bundler, a 600-line GUI of copy-pasted code. The analysis of the first version I did in October 2026 listed 16 P0 bugs. Three independent clocks (the game loop, a separate requestAnimationFrame per object and setTimeout) made the car steer 2.4 times faster on a 144 Hz monitor than on 60 Hz. The loading bar was a fiction of 2 to 8 second timers and showed “Infinity%” under gzip. Add GPU leaks without dispose, a hitbox larger than the model, a wireframe kept as a separate clone synchronised by hand, and the same FBX file loaded twice.',
+        text: 'Polonez Autodrive is an animated synthwave scene: the cult Polonez drives at night between palms and mountains towards a striped sun. Everything can be repainted live from a colour panel, like a colouring book, and from free ride you can switch to a mini-game of dodging oncoming communist-era Fiat 126p and Škoda 120 cars. The Polonez, the palms and the rocks were modelled in 3ds Max.',
       },
       {
         type: 'p',
-        text: 'A second problem surfaced with the library upgrade: the new FBXLoader triangulated the non-planar quads of the hills with earcut and lost 37 of 252 triangles. Models from 3ds Max came back with cameras in the hierarchy and wheels with an off-centre axle, so the tyre wobbled as it turned.',
+        text: 'The first version was made in 2024 on libraries that have changed a lot since. I wanted to extend the project with a landscape drawn by code, random colour palettes and touch support, and to polish the mini-game so it runs at the same pace on every monitor, however fast it refreshes.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Rather than patch the old code in place, I moved the project from plain JS and HTML to Vite on a new skeleton: since the library upgrade touched every file, the old code was worth more as a specification than as a base. I tagged version 1, took reference screenshots and reached feature parity on Three.js r186 with Vite in seven phases, then added new things.',
+        text: 'Rather than patch the old code, I moved the project to modern tools (Vite and the current Three.js) and rebuilt it from scratch on a new skeleton. The first version served as the model: I kept it in the project’s history, took screenshots to compare against and recreated all its features in seven stages before adding new ones.',
       },
       {
         type: 'p',
-        text: 'The skeleton of version 2 is one loop on THREE.Timer with the delta clamped to 0.1 s and connected to the document so a hidden tab does not jump on return; a pure game state machine (idle, free, countdown, playing, gameover); loading through LoadingManager and Promise.all with real progress; one config file as the source of the palette, layers, gameplay parameters and copy.',
+        text: 'The new skeleton rests on a few simple rules. The whole scene runs on one clock, so animation and steering keep the same pace on every screen, and nothing jumps when you come back to the browser tab. The game moves through clearly defined stages: free ride, countdown, play, game over. Colours, gameplay settings and texts live in one configuration file, and the loading bar shows the real progress of loading.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'A custom FanFBXLoader swaps the triangulation for a fan, the way r116 did, so the hills come back complete. A pruning function removes cameras from the export and wheels are centred on their axle after loading.',
-          'A procedural scene instead of files: seeded simplex noise with ridged fBm, a height grid split along the diagonal with the smaller height difference (ridges instead of a pattern), hill chunks as a conveyor belt growing ahead of the car and sinking behind it, a mountain range parted in front of the sun for the road, a city of 175 towers with its own fog.',
-          'Real-time colours: lil-gui built in a loop from the layer config, random palettes from colour schemes (complementary, triad, split, analogous) with the line-to-fill contrast kept at 3:1 or better, a one-second tween, and the HUD and panel taking the scene’s hue.',
-          'Wireframe computed in a shader with an edge-distance attribute: width in world units and fading of small triangles, because GL lines are 1 pixel wide and distant palms blurred into a blob. Selective bloom on its own layer.',
-          'Mini-game: hitbox computed once per model, car bounds once per frame, a pool of cloned materials for fades, because dispose on spawn caused a 40–70 ms hitch.',
-          'Touch: on-screen buttons with setPointerCapture, a minimum 70° horizontal FOV in portrait and a camera that slides sideways with the car.',
+          'A landscape drawn by code: hills grow out of mathematical noise and form ridges, rising ahead of the car and sinking behind it like a conveyor belt. The mountain range parts in front of the sun to make room for the road, and on the horizon stands a city of 175 towers in its own mist.',
+          'A live colouring book: the colour panel builds itself from the list of scene elements. Shuffling creates a palette from classic colour combinations (complementary, triad, analogous) and makes sure lines always stand out from the fill. New colours fade in over a second, and the on-screen display and the panel take on the scene’s hue.',
+          'The signature wireframe: outlines keep a constant thickness in the game world and fade out on small details, so distant palms do not blur into a smudge. The sun and the ground grid are drawn live by the graphics card instead of from ready-made images, and the glow covers only selected elements.',
+          'Models from 3ds Max load complete, exactly as they were modelled, and the wheels are centred on their axle, so they turn evenly.',
+          'Mini-game: the collision area fits the size of each model, and oncoming cars appear and disappear smoothly, without stutters.',
+          'Phone and tablet: one finger turns the camera and two zoom, the side panel repaints the scene, and in free ride on-screen buttons steer. In portrait the view is widened and the camera slides sideways behind the car.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Version 2 is about 5.6k lines of JavaScript typed with JSDoc, 121 unit tests in 23 files and CI that checks types, tests and the build on every push. Shadows limited to the car’s surroundings removed 18 percent of triangles and 29 percent of draw calls per frame. About 1.9 MB of dead files left the repository, including 820 kB of sun and grid PNGs that shaders now compute.',
+        text: 'The new version is about 5.6k lines of code and 121 automated tests that check how the project works and builds on every change to the code. Shadows limited to the car’s surroundings cut the triangles per frame by 18 percent and the draw commands by 29 percent. About 1.9 MB of unneeded files left the project, including the images of the sun and the grid, which the graphics card now draws.',
       },
     ],
     lessons: [
-      'One loop and one source of data remove whole classes of bugs, not single ones.',
-      'Moving a project onto a new skeleton can be cheaper than patching it in place when the upgrade touches every file anyway. The condition: the old code stays as the specification, with a tag and reference screenshots.',
+      'One clock and one place for settings simplify the whole project: everything happens to the same rhythm, and changing a colour or a game parameter is one line in the configuration.',
+      'When an upgrade touches every file anyway, rebuilding the project on a new skeleton can be quicker than fixing it in place. The condition: the old version stays as the model, with screenshots to compare against.',
     ],
   },
   'capcam-head-tracking': {
     facts: [
-      { value: '200 Hz', label: 'maximum send rate' },
-      { value: '48 B', label: 'opentrack packet: six f64 numbers' },
-      { value: '12', label: 'phone mountings in one model' },
+      {
+        value: '200 Hz',
+        label: 'that is, up to 200 head-position readings a second',
+      },
+      {
+        value: '12',
+        label: 'ways of mounting the phone described by one model',
+      },
+      { value: '4', label: 'games where it is confirmed to work' },
     ],
     problem: [
       {
         type: 'p',
-        text: 'I wanted to look around in BeamNG and Assetto Corsa by moving my head, but TrackIR is expensive hardware and camera-based solutions need light and LEDs. A phone has a gyroscope, Wi-Fi and can be strapped to the brim of a cap. Opentrack accepts data over UDP and feeds it to games through the TrackIR protocol, so only the phone side was missing.',
+        text: 'In games like BeamNG or Assetto Corsa you can look around the cockpit by moving your head: a slight turn of the head turns the in-game view further, so your eyes stay on the monitor. That takes dedicated devices, like the expensive TrackIR, or camera-based setups that need good light and LEDs. Meanwhile a phone has motion sensors and Wi-Fi inside, and clipped to the peak of a cap it moves with your head.',
       },
       {
         type: 'p',
-        text: 'Problems came quickly. The gyroscope drifts in yaw, because fusion without a magnetometer has no reference to north. The first samples after the sensor starts are stale. The phone can lie flat on the brim, stand upright on the forehead or sit sideways on a helmet, and every position swaps the axes. Android treats the requested sensor rate as a hint, not a guarantee. A screen glowing under the brim is a nuisance, but without it there is no way to press “recenter”. And finally: users type in an address from “whatismyip” or have a VPN on, and the packets never arrive.',
+        text: 'Several things had to be solved at once. Phone sensors slowly “drift” sideways, because without a compass they do not know where forward is. A phone can be mounted in different ways: flat on the peak, upright on the forehead or sideways on a helmet. A glowing screen right above your eyes gets in the way of the game. And the connection to the computer has to work straight away, without digging through network settings.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'I treated drift as a property, not a bug to compensate: rather than fighting physics, recentering is cheap and always at hand. The orientation source is TYPE_GAME_ROTATION_VECTOR (gyroscope plus accelerometer), so pitch and roll stay tied to gravity, and yaw is zeroed with a quaternion offset about the Z axis. For the first 500 ms the tracker returns identity and does not set “forward” until the fusion settles.',
+        text: 'On the computer side I used the free opentrack program, which takes data over the network and passes it to games as if it came from TrackIR. What was missing was the phone app, so I wrote it.',
       },
       {
         type: 'p',
-        text: 'I described the wearing position with one model instead of manual axis swaps: the direction the screen faces times the edge that is “up” gives 12 mountings. The head-to-device matrix comes from a cross product, the quaternion from Shepperd’s method, and head orientation is the device’s rotation in the world composed with the head’s rotation relative to the device. The UI keeps three presets, a “phone turned 180°” switch and a custom position.',
+        text: 'Instead of fighting the drift, I made resetting forward instant and always at hand: one button or a volume key, even with the phone on your head. Tilting and leaning the head rely on gravity, so they do not drift at all. For the first half second after starting, the app waits for the sensors to settle.',
+      },
+      {
+        type: 'p',
+        text: 'I described the different mountings with one simple model: which way the screen faces and which edge of the phone is on top. Those two facts give 12 possible setups. The app offers three ready presets, a “phone turned 180°” switch and a custom setup.',
       },
       {
         type: 'image',
         src: '/case-studies/capcam/opentrack_settings.png',
         width: 659,
         height: 568,
-        alt: 'Opentrack main window: input UDP over network, output freetrack 2.0 Enhanced, Accela filter',
+        alt: 'The main opentrack window: UDP over network input, freetrack 2.0 Enhanced output, Accela filter',
         caption:
-          'On the PC side all it takes is opentrack with UDP input on port 4242.',
+          'On the computer, the free opentrack set to receive data from the network is all it takes.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Protocol: the 48-byte opentrack packet (six little-endian f64: x, y, z, yaw, pitch, roll) to port 4242, plus a custom 36-byte format with a quaternion, sequence number and timestamp to port 4243 for mods. One DatagramPacket reused, the whole sensor→tracker→UDP pipeline on a single HandlerThread at display priority with a low-latency WifiLock.',
-          'The rate limiter keeps a schedule of “due times” rather than the gap since the last send: a sensor at 101 Hz under a 100 Hz limit does not lose every second sample. A quarter-interval slack, no catching up after a pause. The panel warns when the real rate falls below 80 percent of the chosen one.',
-          'Axis signs matched to opentrack (positive yaw is right) through the decomposition R = Rz(−yaw)·Rx(pitch)·Ry(roll), with a test for continuity across ±180°.',
-          'Black-screen mode: an overlay covers everything including the system bars, brightness 0.01, FLAG_KEEP_SCREEN_ON, and the volume buttons intercepted in onKeyDown recenter with the phone on your head. A tap reveals the UI for 10 seconds.',
-          'The confirmation vibration did not arrive when the user had touch haptics off: vibration attributes switched to USAGE_HARDWARE_FEEDBACK.',
-          'Network detection: ConnectivityManager with NetworkCapabilities recognises a VPN and compares the subnet of the typed address with the phone’s, refreshing every 3 seconds. The message says outright what the PC address should start with.',
-          'Per-axis sensitivity 0.5–3× and a “side boost”: past a threshold (20° by default) the sensitivity rises smoothly and quadratically, so the centre stays calm while a far glance turns the camera further than you can turn your head without losing sight of the screen.',
+          'Fast, even transfer: up to 200 readings a second over Wi-Fi in low-latency mode, with 60 and 100 a second as battery-saving options. The app keeps a steady sending rhythm and warns when the phone cannot keep up with the chosen rate.',
+          'Black screen mode: the screen dims almost to nothing and stays out of the way, the phone does not go to sleep, and the volume keys reset forward. A tap shows the interface for 10 seconds. A vibration confirms the reset, even when touch vibration is turned off in the system.',
+          'Help with connecting: the app detects a VPN that is switched on and checks whether the computer address typed in is on the same home network as the phone. The message says plainly what the address should start with.',
+          'Sensitivity set separately for each direction, from 0.5 to 3 times, plus a boost at the sides: small movements keep the view calm, and the further you turn your head, the further the camera turns, so the monitor never leaves your sight.',
+          'For game modders: a second, more detailed data stream with a number and a time on every reading.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Confirmed in BeamNG.drive, Assetto Corsa, American Truck Simulator and Richard Burns Rally. Sending at up to about 200 Hz with 60 and 100 Hz options for battery, an APK of about 1.2 MB after R8, Android 8.0 and up. To measure jitter and loss I wrote a UDP monitor in Node that reports p50 and p99 inter-packet gaps.',
+        text: 'I confirmed it works in BeamNG.drive, Assetto Corsa, American Truck Simulator and Richard Burns Rally. The app weighs about 1.2 MB, runs on Android 8.0 and newer, and the installer can be downloaded from GitHub. To check how smooth the transfer is, I wrote a separate tool that measures the gaps between readings reaching the computer.',
       },
     ],
     lessons: [
-      'The sensor rate parameter on Android is a hint; the limiter has to assume samples arrive faster and unevenly.',
-      'The default “touch” vibration is silenced by a user setting. A confirmation signal needs a different channel.',
-      'A well-chosen model (12 mountings from two vectors) replaced a growing list of special cases.',
-    ],
-  },
-  'skoftware-hero-particles': {
-    facts: [
-      { value: '8 000', label: 'bio text particles along Bézier curves' },
-      { value: '4', label: 'custom GLSL shaders' },
-      { value: '1', label: 'clock for scroll and animation' },
-    ],
-    problem: [
-      {
-        type: 'p',
-        text: 'The site of a one-person software house has to sell services, so the headline and buttons must be in server-rendered HTML before any JavaScript loads. At the same time I wanted the hero to show what I can do in 3D: a portrait scattered into particles, bio text flowing towards the face, a reaction to the cursor and taps. The two goals clash easily: a heavy canvas delays the content, and a particle field computed on the CPU drops frames on phones.',
-      },
-      {
-        type: 'p',
-        text: 'A second problem appeared after adding smooth scrolling: Lenis and ScrollTrigger had separate clocks, so scroll-driven animations landed one frame behind the page position. A third: after a route change ScrollTrigger restored the previous page’s scroll position, and the transition curtain revealed the new page halfway down.',
-      },
-    ],
-    approach: [
-      {
-        type: 'p',
-        text: 'Content and scene are separated at the React level: the hero renders the headline, pitch and CTAs on the server, and the scene is a dynamically loaded chunk without SSR that “must never gate the offer copy”. If WebGL fails, an ErrorBoundary shows text instead of a void.',
-      },
-      {
-        type: 'p',
-        text: 'The portrait becomes particles in the browser: the image lands on an offscreen canvas scaled to 220 pixels wide, and only a pixel with alpha above a threshold and luminance below a threshold becomes a particle. The result is an InstancedBufferGeometry with one quad and per-instance attributes, drawn in multiply mode over a plain textured plane. The bio text is 8 000 particles, each with a start point, two control points and an end; the vertex shader computes the curve and rotation, and the CPU only updates time.',
-      },
-    ],
-    solution: [
-      {
-        type: 'list',
-        items: [
-          'Tap shockwave: pointerdown on the canvas pushes a pulse (NDC coordinates plus time) into a ring of two, fires navigator.vibrate(12) and a CSS ripple. The pulse envelope (attack smoothstep to 0.08, release from 0.5 to 1) exists in one version in JS and in GLSL, so the camera, portrait and stream breathe in the same rhythm.',
-          'The tap position is stored in the object’s local space, not in NDC, because as the camera drifted the wave slid along with it. An off-screen sentinel prevents “phantom” repulsion before the first tap.',
-          'Camera: damped cursor following on desktop (maath damp3), gyroscope input on phones with a neutral tilt of 45° and a 45° range, asking for the iOS permission on the first touch. A refusal leaves the camera centred.',
-          'Render budget: dpr capped at 1, no antialiasing, frustum culling off on both particle systems, and the render loop stopped through an IntersectionObserver once the hero leaves the screen.',
-          'One clock: Lenis ticked from gsap.ticker and reporting scroll to ScrollTrigger, with lagSmoothing(0). Scrubbed tweens land in the same frame as the scroll position.',
-          'Transition curtain: after a route change, ScrollTrigger’s scroll memory is cleared, refreshed and followed by an instant scrollTo, and scrolling is blocked through wheel/touchmove instead of overflow:hidden, because the vanishing scrollbar shifted the page sideways. An emergency reveal after 10 seconds.',
-          'prefers-reduced-motion switches off Lenis, scroll velocity, the curtain and haptics, and speeds ScrollTrigger tweens up five times.',
-        ],
-      },
-    ],
-    outcome: [
-      {
-        type: 'p',
-        text: 'The offer is in the first byte of HTML, the scene arrives after it and goes quiet when out of view. The GPU computes the portrait and text particles, and every effect (wave, camera, scroll) runs on one clock. The site is a proving ground: every new motion effect lands here first.',
-      },
-    ],
-    lessons: [
-      'A shockwave has to be anchored in the world, not on the screen. Any camera-dependent effect without its own frame of reference will float.',
-      'Two sources of time always mean a one-frame lag somewhere in the system. Lenis, GSAP and ScrollTrigger must tick from one place.',
+      'Android treats the requested sensor rate as a suggestion, so the app has to cope with readings that come faster or unevenly.',
+      'A well-chosen model (12 mountings from two simple facts) replaces a list of special cases that would grow with every new way of wearing the phone.',
     ],
   },
   'derdum-wyplatum-google-calendar': {
     facts: [
-      { value: '197', label: 'tests on the engine and adapter' },
-      { value: '0', label: 'servers: the app talks only to Google' },
-      { value: '1 h', label: 'token validity without a refresh token' },
+      {
+        value: '197',
+        label: 'automated tests of the calculations and the Google connection',
+      },
+      { value: '0', label: 'servers of its own: the app talks only to Google' },
+      { value: '21', label: 'months on which I checked the working-time norm' },
     ],
     problem: [
       {
         type: 'p',
-        text: 'A tram driver keeps the roster as Google Calendar events titled “21/7” or “22/7 + 22/6” (line/duty), mixed in with private entries. He wanted to know the gross and net pay for the month: night supplements, Sundays and holidays, overtime beyond the statutory monthly hours, then social security, income tax and the pension plan. The app had to be a PWA for the phone, with no login to anything but Google and no server to maintain.',
+        text: 'A tram driver keeps the shift roster in Google Calendar, with entries such as “21/7” or “22/7 + 22/6” (line and duty), among private events. The goal was to know in advance what a month would bring: with the extras for night work, Sundays and public holidays, with overtime beyond the norm in the Labour Code, and then after social security, tax and the PPK pension scheme.',
       },
       {
         type: 'p',
-        text: 'Without a backend there is nowhere to hide a client secret or a refresh token. A private ICS link was out: no CORS, and the link works like a password. What remains is OAuth in the browser with a token valid for about an hour, and the user cannot click through pop-ups every hour.',
+        text: 'The app was to work on a phone like any other app, with no sign-in to anything but Google and no server to maintain and pay for. That meant the whole connection to Google happens in the browser, and the access Google grants for about an hour has to renew without pestering the user with pop-ups.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Google Identity Services in implicit mode: initTokenClient without a client secret, the Client ID openly in the bundle, a GCP project in Testing mode with a list of test users. The token with its expiry and scopes goes to localStorage with a 60-second margin, and the “signed in” state has one source of truth: token validity, observed through useSyncExternalStore.',
+        text: 'Google Calendar is the only database: the app reads the roster from it and writes changes straight back to it. After every save it fetches the month again, so it always shows the same as Google Calendar. Offline it uses the last saved copy, and on returning to the app it refreshes data older than 2 minutes.',
       },
       {
         type: 'p',
-        text: 'The calendar is the only database. Every write (insert, patch, delete) ends with the month being fetched again, and moving a shift to another month drops that month’s cache. Offline works from a copy in localStorage per calendar and month, and on returning to the tab the app refreshes data older than 2 minutes.',
+        text: 'Sign-in goes through Google. The consent window opens only after a button click, because browsers block windows that open on their own, and after the first consent later renewals go through without questions.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Getting a token never opens a pop-up by itself, because the browser blocks pop-ups without a user gesture. Only a click opens one, concurrent requests share a single promise, and after the first consent the prompt is empty, so later refreshes pass without questions.',
-          'The scope widened from reading to editing events in one, one-off migration of the token key. The scopes saved from the response and the accessRole from the calendar list decide whether the edit buttons are active; a read-only calendar gets a banner and an “open in Google Calendar” link with a pre-filled event as the route without the API.',
-          'API client: a loop over nextPageToken, singleEvents sorted by start, the Europe/Warsaw time zone, rejection of cancelled and non-default events, idempotent deletion (410 treated as success). fetch and token retrieval are injected, so the adapter has its own tests on a fixture with two pages of results.',
-          'The engine counts in whole grosz, rounds once per component and rate period from the sum of minutes (3 × 1 minute is 185 grosz, not 186). Daily windows iterate over local days on Temporal.Instant and have DST tests: the 22–6 night across the March change is 7 hours, across the October one 9.',
-          'Holidays computed from Easter with Meeus’s method, the statutory monthly hours checked across 21 months, overlapping shifts and leave detected and shown, but they never change the amounts.',
+          'Editing the roster: shifts can be added, changed and deleted in the app and are saved straight to Google Calendar. With a calendar shared as read-only, the app says so and offers a link that opens a ready entry in Google Calendar.',
+          'Accurate to the grosz: amounts are counted in whole grosz and rounded once per pay component, not separately for every shift.',
+          'Nights and clock changes: the night extra is counted correctly on the nights the clocks change too, when the night from 22:00 to 6:00 lasts 7 or 9 hours.',
+          'Holidays and the working-time norm: the app works out the movable holidays, counted from the date of Easter, by itself, and I checked the working-time norm from the Labour Code on 21 months.',
+          'Clashes: overlapping shifts and leave are detected and shown, but do not change the amounts.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'The app runs as a PWA on Vercel with no server of its own, with 197 tests on the engine and adapter. A second read of the code caught errors in the amounts (absences counted twice, rounding per shift) and formula injection in the CSV export. The real test calendar holds 101 events for 2026.',
+        text: 'The app runs on a phone as an app installed from the browser (PWA), with no server of its own. 197 automated tests check the calculations and the Google connection, and the test calendar holds 101 events for 2026.',
       },
     ],
     lessons: [
-      'An OAuth pop-up opens only from a user gesture. Every “refresh the token in the background” path must end in a button, not a window.',
-      'An external system as the single source of truth simplifies the app, but every write has to end with a fresh read.',
-    ],
-  },
-  'tibia-key-presser-background-input': {
-    facts: [
-      { value: '8', label: 'keys, each with its own delay' },
-      { value: '100 ms', label: 'maximum reaction time to Stop' },
-      { value: '780', label: 'lines of Python in the starting version' },
-    ],
-    problem: [
-      {
-        type: 'p',
-        text: 'Tibia has repetitive actions behind hotkeys: healing, mana, runes. I wanted a program to press them for me at a steady rhythm, also while the game window is minimised and I am doing something else. Simulated keyboard input goes to the active window, so the tool has to target the specific game window, not whatever has focus.',
-      },
-      {
-        type: 'p',
-        text: 'The first version from September 2024 worked but had bugs I only saw on returning to the project in October 2026. Tkinter reports key names (Return, space, comma) that pywinauto does not know; an unknown key threw an exception, the code treated it as a lost window, reconnected and tried again. A loop with no sleep at all, a traceback every iteration and no signal in the UI. Stop and Start less than 100 ms apart resurrected old threads, because there was one stop event for the app’s whole lifetime. Colours, limits and paths lived in three places at once.',
-      },
-    ],
-    approach: [
-      {
-        type: 'p',
-        text: 'Keys go through pywinauto to a window handle found by title, “<client> - <character>” (a regular expression, with an optional clients.txt for other servers), not to the active window. Every key has its own thread with an absolute time for the next press, so the overhead of window lookup and sending never accumulates into drift. Sleep is cut into 100 ms slices so Stop reacts at once, and the window handle is re-validated every 5 seconds.',
-      },
-      {
-        type: 'p',
-        text: 'Before touching the code I wrote the analysis down: bugs with severity, duplication, dead code, a staged plan of changes and open decisions. I checked pywinauto’s behaviour in the sources of version 0.6.9 instead of assuming what it does.',
-      },
-      {
-        type: 'image',
-        src: '/case-studies/tibia-key-presser/tkp_off.png',
-        width: 430,
-        height: 179,
-        alt: 'Tibia Key Presser idle: key and delay rows, a Start button',
-        caption: 'Idle: a white field waits for a click and a key to bind.',
-      },
-    ],
-    solution: [
-      {
-        type: 'list',
-        items: [
-          'A keys.py module: a pure function translating tkinter key names into pywinauto codes (Return to ENTER, Prior to PGUP, punctuation to characters, the whole numpad), while modifiers alone do not bind, so Shift+F1 binds F1. Validation at bind time: an unsupported key is a red field and a message, with no way to start. Six pytest tests.',
-          'The send loop waits an interval after a failed send, so a persistent error never becomes a busy loop.',
-          'One source of truth: theme.py for colours, fonts and ttk styles, paths.py for paths in source mode and inside the .exe, so the icon no longer depends on the current directory.',
-          'Tooling: pyproject with uv, ruff and pytest, a single-file .exe build through PyInstaller, clients.txt for OTS servers.',
-          'Planned, not yet done: one scheduler thread instead of a thread per key. In pywinauto’s sources a send is SetKeyboardState and AttachThreadInput on the shared input queue, with no lock, so two threads with overlapping due times can overwrite each other’s keyboard state. Serialised threads have the same throughput as one scheduler, and Stop becomes set and join.',
-        ],
-      },
-    ],
-    outcome: [
-      {
-        type: 'p',
-        text: 'Up to eight keys with independent delays, works with the game minimised, stops within about 100 ms and shows the character name in the window title. One .exe, no installation.',
-      },
-      {
-        type: 'image',
-        src: '/case-studies/tibia-key-presser/tkp_on.png',
-        width: 430,
-        height: 179,
-        alt: 'Tibia Key Presser running: green key fields and a Stop button',
-        caption:
-          'Running: a green flash on a field means that key was just sent to the game.',
-      },
-    ],
-    lessons: [
-      'An exception caught as something else (an unknown key as a lost window) creates loops the UI never sees. Every error branch needs its own reaction and its own wait.',
-      'Returning to your own code two years later starts with a written analysis, with severities and a plan. Changes made on the side cost more.',
+      'The Google sign-in window opens only after a click, so every path to renewing access has to end in a button, not a pop-up.',
+      'An external service as the only source of data keeps the app simple, as long as the data is fetched again after every save.',
     ],
   },
 };

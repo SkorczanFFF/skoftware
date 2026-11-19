@@ -7,134 +7,231 @@ import type { CaseStudyBody } from '@/locale/types';
  * must match `./caseStudies.ts` (`__tests__/locale/caseStudies.test.ts`).
  */
 export const caseStudyBodies: Record<string, CaseStudyBody> = {
-  'yawa-volumetric-clouds': {
+  'segregator-documents-ai': {
     facts: [
-      { value: '4 032', label: 'miejsco-godzin w kalibracji pokrycia' },
-      { value: '4', label: 'poziomy jakości od desktopu po „potato”' },
-      { value: '5–9', label: 'draw calli na klatkę, bez postprocessingu' },
+      { value: '7', label: 'rodzajów dokumentów, od paragonu po umowę' },
+      {
+        value: '3',
+        label:
+          'kroki dodania dokumentu: zdjęcie, odczyt przez AI i sprawdzenie',
+      },
+      {
+        value: '100',
+        label: 'odczytów AI na konto miesięcznie, więc koszt jest znany z góry',
+      },
     ],
     problem: [
       {
         type: 'p',
-        text: 'Yet Another Weather App zaczęła się w 2022 roku jako zwykła aplikacja pogodowa. Chciałem, żeby tło nie było ilustracją, tylko niebem policzonym z tej samej prognozy, którą widzi użytkownik: jeśli Open-Meteo mówi o niskim zachmurzeniu 80 procent i burzy, scena ma wyglądać jak zamknięty szary deck z gromem, a nie jak ładna animacja z biblioteki.',
+        text: 'Paragony, faktury, gwarancje i polisy zwykle lądują w szufladzie albo w galerii telefonu, między zdjęciami z wakacji. Kiedy trzeba oddać sprzęt na gwarancję albo sprawdzić, do kiedy jest ważna polisa, zaczyna się szukanie. Chciałem aplikacji, w której wystarczy zrobić zdjęcie dokumentu, a resztę zrobi ona: wytnie kartkę z tła, odczyta najważniejsze dane i odłoży dokument na właściwe miejsce, z terminem na wierzchu.',
       },
       {
         type: 'p',
-        text: 'Gotowe rozwiązania odpadły po testach. Biblioteka chmur wolumetrycznych dla Three.js liczyła w pełnej rozdzielczości i zabijała średnie telefony, sprite’owe chmury z drei wyglądały płasko i topiły GPU overdrawem, a postprocessing dokładał kolejny pełnoekranowy pass. Do tego dochodził drugi problem: jak uczciwie przełożyć liczby z prognozy (pokrycie w warstwach, CAPE, wysokość warstwy granicznej, wiatr na poziomach ciśnienia) na parametry sceny, żeby model nie przeczył etykiecie „przeważnie bezchmurnie”.',
+        text: 'Zdjęcia z telefonu rzadko są idealne: kartka leży krzywo, na wzorzystym obrusie albo w świetle padającym z boku. Sztuczna inteligencja potrafi odczytać dokument, ale bywa, że się pomyli, a każdy odczyt kosztuje. Do tego to prywatne dokumenty z kwotami, adresami i numerami, więc muszą być dobrze chronione.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Napisałem własny raymarcher w stylu Nubis (technika znana z Horizon Zero Dawn): promień idzie przez sferyczną powłokę nad zakrzywioną Ziemią, w metrach. Gęstość to szum Perlin-Worley kształtujący bryłę, gradient wysokości osobny dla stratusów, cumulusów i cumulonimbusów, remap polem pokrycia i erozja detalu szumem Worleya. Oświetlenie składa się z prawa Beera, efektu „powder”, trójlobowej funkcji fazowej Henyeya-Greensteina i trzech oktaw rozpraszania, a dwustrumieniowe „diffuse floor” pilnuje, żeby pełne zachmurzenie było szare, nie czarne.',
+        text: 'Dodawanie dokumentu podzieliłem na trzy kroki, które użytkownik widzi jeden po drugim. Najpierw zdjęcie: osobny program w Pythonie szuka na nim kartki, wycina ją z tła i prostuje tak, jakby była zeskanowana. Potem odczyt: AI wypełnia rodzaj dokumentu, wystawcę, kwotę i daty. Na końcu sprawdzenie: każde pole wypełnione przez AI jest oznaczone, można je poprawić, a nic nie zapisuje się bez kliknięcia „Zapisz”.',
       },
       {
         type: 'p',
-        text: 'Koszt na telefonach zbiłem czterema passami na ułamku canvasu. March rysuje jeden piksel z każdego bloku 2×2 na klatkę, a temporalny resolve reprojektuje historię po kierunku widoku i tnie ją do średniej ± 1,5σ z sąsiednich świeżych tekseli, więc duchy znikają bez rozmycia. Sam march jest adaptacyjny: tanie kroki przez puste powietrze, cofnięcie po trafieniu w chmurę, drobne kroki rzędu 2 procent dystansu. Cztery poziomy jakości dobierają DPR, liczbę kroków, rozmiar szumu 3D i zasięg; drei PerformanceMonitor schodzi poziom niżej, gdy klatki spadają poniżej 75 procent limitu.',
+        text: 'Aplikacja działa w chmurze Amazona (AWS) w modelu, w którym płaci się za faktyczne użycie, a nie za serwer włączony przez całą dobę. Cała konfiguracja chmury jest zapisana w kodzie, więc da się ją odtworzyć od zera jednym poleceniem. Każda zmiana trafia najpierw na wersję testową, a na produkcję dopiero po moim zatwierdzeniu.',
       },
       {
-        type: 'p',
-        text: 'Dane z prognozy przechodzą przez własny moduł fizyki chmur: podstawa z poziomu kondensacji (około 125 m na każdy stopień różnicy temperatury i punktu rosy), wierzchołek z warstwy granicznej i CAPE, wysokości warstw z poziomów ciśnienia, a grubość optyczna z grubości warstwy zmieszana z wartością odwróconą z indeksu klarowności. Pokrycie skalibrowałem tak, by liczba z API oznaczała dokładnie taki udział nieba, a nie „jakiś” próg szumu.',
+        type: 'image',
+        src: '/case-studies/segregator/before-after.jpg',
+        width: 1800,
+        height: 800,
+        alt: 'Sześć fikcyjnych dokumentów: u góry krzywe zdjęcia na stole, u dołu te same kartki wycięte z tła i wyprostowane',
+        caption:
+          'U góry zdjęcia z telefonu, u dołu to samo po automatycznej obróbce. Dokumenty są fikcyjne, wygenerowane do konta demo.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Shader rozbity na moduły: march, density, lighting, resolve. Stałe współdzielone między TypeScriptem a GLSL z jednego eksportu, więc nie rozjeżdżają się przy kolejnych zmianach.',
-          'Dryf chmur w przestrzeni szumu z wiatru na 850 hPa (niskie) i 300 hPa (cirrusy), owinięty okresami kafli, bo float32 po dobie kwantował szum co 520 metrów.',
-          'Bug sterownika ANGLE/D3D11 na Windows: texture() z niejawnymi pochodnymi w pętli zależnej od danych zwracał pusty promień i chmury w pobliżu kamery znikały. Poprawka to textureLod z poziomem 0.',
-          'Model przeczył etykiecie: dla Jēkabpils API podawało „przeważnie bezchmurnie, 26 procent”, a warstwa niska 78 procent. Zmierzyłem to na 4 032 realnych miejsco-godzinach z 42 miejsc i wprowadziłem regułę: żadna warstwa nie przekracza totalu. Zamknięte decki pod totalem poniżej 50 procent spadły z 12 do 0, a korekta objęła 2,4 procent godzin.',
-          'Klatki wydawane przez FrameRateGate co N-tą klatkę rAF zamiast bramki czasowej, która gubiła klatki losowo.',
+          'Prostowanie zdjęć: program szuka kartki na kilka sposobów (po jasności, po bieli papieru i po krawędziach) i wybiera najwyraźniejszy wynik, więc radzi sobie na drewnianym stole, na obrusie w kropki czy w kratkę i przy świetle z boku. Oryginał zostaje obok, a użytkownik wybiera, którą wersję zachować.',
+          'Odczyt przez AI: model Amazon Nova zwraca dane w ściśle określonej formie, a aplikacja sprawdza je regułami danego rodzaju dokumentu. Paragon nie dostanie terminu płatności, a podkategoria spoza listy przepada. Odczyt trwa kilka sekund.',
+          'Koszty pod kontrolą: każde konto ma 100 odczytów AI miesięcznie i 500 MB na pliki, a cała aplikacja ma wspólny limit odczytów, którego nie przekroczy. Pliki starsze niż 90 dni przechodzą do tańszego magazynu, za mniej więcej jedną piątą ceny, i dalej otwierają się od razu.',
+          'Prywatność: zdjęcie jest zmniejszane jeszcze w telefonie, co przy okazji usuwa zapisaną w nim lokalizację. Pliki leżą w prywatnym, zaszyfrowanym magazynie, a link do pliku działa 5 minut i tylko dla właściciela konta. Konto można usunąć razem ze wszystkimi dokumentami.',
+          'Porządek jak w segregatorze: dokumenty są pogrupowane według miesięcy jak przekładki, każdy rodzaj ma swój kolor i ikonę, a termin nazywa się tak jak na dokumencie: „zapłać do” na fakturze, „gwarancja do” na karcie gwarancyjnej, „ważna do” na polisie. Ten sam plik dodany drugi raz, nawet z innego urządzenia, zostanie rozpoznany.',
+          'Wygoda: logowanie e-mailem albo przez Google, wersja polska i angielska, tryb jasny i ciemny. Na telefonie zdjęcie robi się prosto z aplikacji, a menu jest na dole ekranu, pod kciukiem.',
+          'Demo bez rejestracji: konto tylko do podglądu z fikcyjnymi dokumentami. Wygenerowałem je jako zdjęcia „z telefonu” i przepuściłem przez tę samą obróbkę co prawdziwe pliki, więc demo pokazuje dokładnie to, co dzieje się z dokumentem użytkownika.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Scena działa bez postprocessingu i bez klucza API, w 5–9 draw callach na klatkę. Na desktopie cel chmur to połowa canvasu przy 64 oświetlonych krokach i szumie 128³, na najniższym poziomie jedna trzecia canvasu, 32 kroki i szum 64³, a na „potato” płaski deck. Przebudowa shadera na moduły zamknęła się bit-identycznym wynikiem na 760 000 porównań z 20 000 losowych wejść i o 197 kB mniejszym bundlem.',
+        text: 'Segregator działa pod adresem segregator.skoftware.pl, a konto demo otwiera się jednym kliknięciem, bez rejestracji. Od zdjęcia do zapisanego dokumentu prowadzi kilka kroków: dodać zdjęcie, zatwierdzić wyprostowaną wersję, odczytać dane przez AI, sprawdzić i zapisać. Następny etap to przypomnienia e-mailem o zbliżających się terminach, np. o końcu gwarancji.',
       },
     ],
     lessons: [
-      'Mierzyć, nie zgadywać: zmiana reguły pokrycia weszła dopiero po statystyce na tysiącach realnych godzin, a nie po jednym zrzucie ekranu.',
-      'Czysta logika poza pętlą klatek i jedno źródło stałych dla TS i GLSL to warunek, żeby dało się rozwijać shader bez strachu.',
-      'Premultiplied alpha z sRGB daje białe obwódki, uniformy float32 rosną w czasie, a renderer.info resetuje się w useFrame. Każde z tych kosztowało wieczór.',
+      'AI najlepiej sprawdza się jako podpowiedź, a nie decyzja. Oznaczone pola i sprawdzenie przed zapisem sprawiają, że pomyłka modelu kosztuje jedno kliknięcie, a nie zły wpis w archiwum.',
+      'Limity ustawione od pierwszego dnia sprawiają, że koszt chmury i AI jest znany z góry, zanim pojawi się pierwszy użytkownik.',
+      'Demo zbudowane z tych samych elementów co prawdziwa aplikacja mówi więcej niż zrzuty ekranu i nie trzeba w nim niczego udawać.',
+    ],
+  },
+  'yawa-volumetric-clouds': {
+    facts: [
+      {
+        value: '4 032',
+        label:
+          'godzin prawdziwej pogody z 42 miejsc, użytych do sprawdzenia zachmurzenia',
+      },
+      {
+        value: '1/4',
+        label:
+          'punktów obrazu chmur liczonych w każdej klatce, resztę uzupełniają poprzednie',
+      },
+      {
+        value: '4',
+        label: 'poziomy jakości, od mocnego komputera po słaby telefon',
+      },
+    ],
+    problem: [
+      {
+        type: 'p',
+        text: 'Yet Another Weather App zaczęła się w 2022 roku jako zwykła aplikacja pogodowa. Chciałem, żeby jej tło nie było ozdobnikiem, tylko pokazywało niebo, które naprawdę jest nad wybranym miejscem. Jeśli prognoza mówi o niskich, gęstych chmurach i burzy, na ekranie ma być ciężkie, szare niebo z błyskawicami, a nie ładna animacja słoneczka.',
+      },
+      {
+        type: 'p',
+        text: 'Wyzwania były dwa. Realistyczne chmury 3D mocno obciążają sprzęt, a gotowe rozwiązania, które przetestowałem, albo wyglądały płasko, albo nie nadążały na telefonach. Do tego prognoza to suche liczby: procent zachmurzenia na kilku wysokościach, wilgotność, energia burzowa, wiatr. Trzeba je było przełożyć na wygląd nieba tak, żeby obraz zgadzał się z opisem pogody obok.',
+      },
+    ],
+    approach: [
+      {
+        type: 'p',
+        text: 'Napisałem własny silnik chmur, wzorowany na technice znanej z gry Horizon Zero Dawn. Dla każdego punktu ekranu program wysyła w niebo promień i sprawdza, ile chmury napotyka po drodze i jak przechodzi przez nią światło słońca. Dzięki temu chmury mają objętość, prześwitują na brzegach, a przy pełnym zachmurzeniu niebo jest szare, a nie czarne.',
+      },
+      {
+        type: 'p',
+        text: 'Żeby to działało na telefonie, w każdej klatce liczony jest tylko co czwarty punkt obrazu chmur, a resztę uzupełniają poprzednie klatki. Promień robi duże kroki przez puste powietrze i drobne dopiero w chmurze. Aplikacja wybiera jeden z czterech poziomów jakości i sama schodzi niżej, gdy urządzenie przestaje nadążać.',
+      },
+      {
+        type: 'p',
+        text: 'Liczby z prognozy (darmowe dane z Open-Meteo) przechodzą przez moduł, który zamienia je na kształt nieba. Z temperatury i punktu rosy liczy, na jakiej wysokości zaczynają się chmury, z energii burzowej, jak wysoko urosną, a z wiatru na różnych wysokościach, w którą stronę i jak szybko płyną.',
+      },
+    ],
+    solution: [
+      {
+        type: 'list',
+        items: [
+          'Zachmurzenie, które się zgadza: sprawdziłem prognozy z 4 032 godzin w 42 miejscach i dopasowałem obraz tak, żeby „80 procent zachmurzenia” zakrywało 80 procent nieba. Do tego reguła, że żadna warstwa chmur nie może być gęstsza niż zachmurzenie ogółem, więc „przeważnie bezchmurnie” nigdy nie pokazuje nieba zasnutego chmurami.',
+          'Rodzaje chmur: płaskie warstwy, kłębiaste cumulusy i burzowe cumulonimbusy mają własne kształty, a światło słońca przenika je i rozprasza się w nich jak w prawdziwych chmurach.',
+          'Chmury płyną z wiatrem: niskie z wiatrem z wysokości około półtora kilometra, a wysokie, pierzaste z wiatrem z około dziewięciu kilometrów.',
+          'Cztery poziomy jakości: na komputerze chmury są liczone dokładniej i w lepszej rozdzielczości, na słabszym telefonie prościej, a na najsłabszych urządzeniach scena przechodzi w płaską warstwę chmur.',
+          'Porządek w kodzie: silnik chmur jest podzielony na niezależne części (kształt, światło, składanie klatek), a wspólne ustawienia mają jedno źródło dla całej aplikacji, więc kolejne zmiany nie rozjeżdżają się między częściami.',
+        ],
+      },
+    ],
+    outcome: [
+      {
+        type: 'p',
+        text: 'Tło aplikacji pokazuje niebo policzone z tej samej prognozy, którą widzi użytkownik, i działa płynnie od mocnego komputera po zwykły telefon, bez płatnego dostępu do danych. Pogodę można sprawdzić dla miasta wskazanego na mapie, wpisanego z nazwy albo z lokalizacji telefonu. Po podziale silnika na części obraz wyszedł identyczny jak wcześniej, co sprawdziłem automatycznie na 20 000 losowych ustawieniach, a aplikacja zmniejszyła się o 197 kB.',
+      },
+    ],
+    lessons: [
+      'Najpierw zmierzyć, potem zmieniać: zasada zachmurzenia weszła dopiero po sprawdzeniu tysięcy prawdziwych godzin, a nie na podstawie jednego zrzutu ekranu.',
+      'Efektowna grafika 3D w przeglądarce działa też na telefonie, jeśli od początku zakłada się, że różne urządzenia dostaną różną jakość.',
     ],
   },
   'polonez-autodrive-rewrite': {
     facts: [
-      { value: '16', label: 'błędów P0 znalezionych w wersji 1' },
-      { value: '121', label: 'testów jednostkowych w wersji 2' },
-      { value: '−29%', label: 'draw calli na klatkę po ograniczeniu cieni' },
+      {
+        value: '121',
+        label: 'testów automatycznych uruchamianych przy każdej zmianie',
+      },
+      {
+        value: '175',
+        label: 'wież miasta na horyzoncie, ustawionych przez program',
+      },
+      {
+        value: '−29%',
+        label: 'poleceń rysowania na klatkę dzięki cieniom tylko wokół auta',
+      },
     ],
     problem: [
       {
         type: 'p',
-        text: 'Pierwsza wersja z 2024 roku działała, ale źle się starzała: Three.js r116, czysty JavaScript bez bundlera, GUI na 600 linii kopiowanego kodu. Analiza pierwszej wersji, którą zrobiłem w październiku 2026, wypisała 16 błędów klasy P0. Trzy niezależne zegary (pętla gry, osobny requestAnimationFrame na obiekt i setTimeout) sprawiały, że na monitorze 144 Hz auto sterowało się 2,4 raza szybciej niż na 60 Hz. Pasek ładowania był fikcją z timerów od 2 do 8 sekund i przy gzipie pokazywał „Infinity%”. Do tego wycieki GPU bez dispose, hitbox większy od modelu, wireframe jako osobny klon synchronizowany ręcznie i ten sam plik FBX ładowany dwa razy.',
+        text: 'Polonez Autodrive to animowana scena w stylu synthwave: kultowy Polonez jedzie nocą między palmami i górami ku pasiastemu słońcu. Wszystko da się przemalować na żywo z panelu kolorów, jak w kolorowance, a ze swobodnej jazdy można przejść do mini-gry, w której omija się nadjeżdżające z naprzeciwka maluchy i Škody 120. Polonez, palmy i skały powstały w 3ds Max.',
       },
       {
         type: 'p',
-        text: 'Drugi problem pojawił się przy aktualizacji bibliotek: nowy FBXLoader triangulował niepłaskie czworokąty wzgórz algorytmem earcut i gubił 37 z 252 trójkątów. Modele z 3ds Max wracały z kamerami w hierarchii i kołami o osi poza środkiem, przez co opona biła przy obrocie.',
+        text: 'Pierwsza wersja powstała w 2024 roku na bibliotekach, które od tamtej pory mocno się zmieniły. Chciałem rozwinąć projekt o krajobraz tworzony przez program, losowe palety barw i obsługę dotyku, a mini-grę dopracować tak, żeby miała to samo tempo na każdym monitorze, niezależnie od tego, jak szybko odświeża obraz.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Zamiast poprawiać stary kod w miejscu, przeniosłem projekt z czystego JS i HTML na Vite i nowy szkielet: skoro aktualizacja bibliotek zmieniała każdy plik, stary kod był więcej wart jako specyfikacja niż jako baza. Oznaczyłem wersję 1 tagiem, zrobiłem zrzuty referencyjne i w siedmiu fazach doszedłem do parytetu funkcji na Three.js r186 z Vite, a potem dokładałem nowe rzeczy.',
+        text: 'Zamiast łatać stary kod, przeniosłem projekt na nowoczesne narzędzia (Vite i aktualny Three.js) i zbudowałem go od nowa na nowym szkielecie. Pierwsza wersja posłużyła za wzór: zachowałem ją w historii projektu, zrobiłem zrzuty ekranu do porównań i w siedmiu etapach odtworzyłem wszystkie jej funkcje, a dopiero potem dokładałem nowe.',
       },
       {
         type: 'p',
-        text: 'Szkielet wersji 2 to jedna pętla na THREE.Timer z obcięciem delty do 0,1 s i podpięciem pod document, żeby ukryta karta nie skakała po powrocie; czysta maszyna stanów gry (idle, free, countdown, playing, gameover); ładowanie przez LoadingManager i Promise.all z prawdziwym postępem; jeden plik konfiguracji jako źródło palety, warstw, parametrów rozgrywki i tekstów.',
+        text: 'Nowy szkielet opiera się na kilku prostych zasadach. Cała scena chodzi na jednym zegarze, więc animacja i sterowanie mają to samo tempo na każdym ekranie, a po powrocie do karty przeglądarki nic nie przeskakuje. Gra przechodzi przez jasno określone etapy: swobodna jazda, odliczanie, rozgrywka, koniec. Kolory, ustawienia rozgrywki i teksty są w jednym pliku konfiguracji, a pasek ładowania pokazuje prawdziwy postęp wczytywania.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Własny FanFBXLoader podmienia triangulację na wachlarz, tak jak robił to r116, więc wzgórza wracają w komplecie. Funkcja czyszcząca usuwa kamery z eksportu, a koła są centrowane na osi po wczytaniu.',
-          'Scena proceduralna zamiast plików: seedowany szum simplex z ridged fBm, siatka wysokości dzielona wzdłuż przekątnej o mniejszej różnicy wysokości (grzbiety zamiast wzoru), chunki wzgórz jako taśmociąg wyrastający przed autem i zapadający się za nim, pasmo gór rozstąpione przed słońcem na drogę, miasto ze 175 wież z własną mgłą.',
-          'Kolory w czasie rzeczywistym: lil-gui budowane w pętli z konfiguracji warstw, losowe palety ze schematów barw (komplementarne, triada, split, analogiczne) z pilnowanym kontrastem linii do wypełnienia co najmniej 3:1, przejście tweenem w sekundę, a HUD i panel przejmują odcień sceny.',
-          'Wireframe liczony w shaderze z atrybutem odległości do krawędzi: szerokość w jednostkach świata i zanik małych trójkątów, bo linie GL mają 1 piksel i palmy w oddali zlewały się w plamę. Selektywny bloom na osobnej warstwie.',
-          'Mini-gra: hitbox policzony raz na model, bounds auta raz na klatkę, pula sklonowanych materiałów do fade’ów, bo dispose przy spawnie dawał 40–70 ms przycięcia.',
-          'Dotyk: przyciski ekranowe z setPointerCapture, minimalne 70° FOV w poziomie w pionowym kadrze i kamera przesuwająca się bokiem za autem.',
+          'Krajobraz tworzony przez program: wzgórza powstają z matematycznego szumu i układają się w grzbiety, wyrastają przed autem i zapadają się za nim jak na taśmociągu. Pasmo gór rozstępuje się przed słońcem, robiąc miejsce na drogę, a na horyzoncie stoi miasto ze 175 wież we własnej mgle.',
+          'Kolorowanka na żywo: panel kolorów buduje się sam z listy elementów sceny. Losowanie tworzy paletę z klasycznych zestawień barw (kolory dopełniające, triada, kolory sąsiednie) i pilnuje, żeby linie zawsze odcinały się od wypełnienia. Nowe kolory przechodzą płynnie w ciągu sekundy, a napisy na ekranie i panel przejmują odcień sceny.',
+          'Charakterystyczna siatka linii: kontury mają stałą grubość w świecie gry i wygaszają się na drobnych elementach, więc palmy w oddali nie zlewają się w plamę. Słońce i siatkę podłoża rysuje na bieżąco karta graficzna zamiast gotowych obrazków, a poświata obejmuje tylko wybrane elementy.',
+          'Modele z 3ds Max wczytują się w komplecie, tak jak zostały wymodelowane, a koła są ustawiane na środku osi, więc obracają się równo.',
+          'Mini-gra: obszar kolizji jest dopasowany do rozmiaru każdego modelu, a auta z naprzeciwka pojawiają się i znikają płynnie, bez przycięć.',
+          'Telefon i tablet: kamerę obraca się palcem i przybliża dwoma, scenę przemalowuje się z panelu bocznego, a w swobodnej jeździe sterują przyciski na ekranie. W pionowym kadrze widok jest poszerzony, a kamera przesuwa się bokiem za autem.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Wersja 2 to około 5,6 tys. linii JavaScriptu z typowaniem w JSDoc, 121 testów jednostkowych w 23 plikach i CI, które przy każdym pushu sprawdza typy, testy i build. Cienie ograniczone do otoczenia auta zdjęły 18 procent trójkątów i 29 procent draw calli na klatkę. Z repozytorium zniknęło około 1,9 MB martwych plików, w tym 820 kB PNG słońca i siatki, które teraz liczą shadery.',
+        text: 'Nowa wersja to około 5,6 tys. linii kodu i 121 testów automatycznych, które przy każdej zmianie w kodzie sprawdzają działanie i budowanie projektu. Cienie ograniczone do otoczenia auta zmniejszyły liczbę trójkątów w klatce o 18 procent, a poleceń rysowania o 29 procent. Z projektu zniknęło około 1,9 MB zbędnych plików, w tym obrazki słońca i siatki, które teraz rysuje karta graficzna.',
       },
     ],
     lessons: [
-      'Jedna pętla i jedno źródło danych usuwają całe klasy błędów, nie pojedyncze bugi.',
-      'Przeniesienie projektu na nowy szkielet bywa tańsze niż poprawianie go w miejscu, gdy aktualizacja i tak dotyka każdego pliku. Warunek: stary kod zostaje jako specyfikacja, z tagiem i zrzutami referencyjnymi.',
+      'Jeden zegar i jedno miejsce na ustawienia upraszczają cały projekt: wszystko dzieje się w tym samym rytmie, a zmiana koloru czy parametru gry to jedna linijka w konfiguracji.',
+      'Gdy aktualizacja i tak dotyka każdego pliku, zbudowanie projektu od nowa na nowym szkielecie bywa szybsze niż poprawki w miejscu. Warunek: stara wersja zostaje jako wzór, ze zrzutami ekranu do porównań.',
     ],
   },
   'capcam-head-tracking': {
     facts: [
-      { value: '200 Hz', label: 'maksymalna częstotliwość wysyłki' },
-      { value: '48 B', label: 'pakiet opentracka: sześć liczb f64' },
-      { value: '12', label: 'sposobów zamocowania telefonu w jednym modelu' },
+      {
+        value: '200 Hz',
+        label: 'czyli do 200 odczytów pozycji głowy na sekundę',
+      },
+      {
+        value: '12',
+        label: 'sposobów zamocowania telefonu opisanych jednym modelem',
+      },
+      { value: '4', label: 'gry, w których działanie zostało potwierdzone' },
     ],
     problem: [
       {
         type: 'p',
-        text: 'Chciałem w BeamNG i Assetto Corsa rozglądać się ruchem głowy, ale TrackIR to drogi sprzęt, a rozwiązania na kamerę potrzebują światła i diod. Telefon ma żyroskop, Wi-Fi i da się go przyczepić do daszka czapki. Opentrack przyjmuje dane po UDP i podaje je grom przez protokół TrackIR, więc brakowało tylko aplikacji po stronie telefonu.',
+        text: 'W grach takich jak BeamNG czy Assetto Corsa można rozglądać się po kokpicie ruchem głowy: lekki obrót głowy obraca widok w grze mocniej, więc oczy cały czas widzą monitor. Służą do tego specjalne urządzenia, jak drogi TrackIR, albo rozwiązania z kamerą, które potrzebują dobrego światła i diod. Tymczasem telefon ma w środku czujniki ruchu i Wi-Fi, a przypięty do daszka czapki porusza się razem z głową.',
       },
       {
         type: 'p',
-        text: 'Problemy wyszły szybko. Żyroskop dryfuje w osi yaw, bo fuzja bez magnetometru nie ma odniesienia do północy. Pierwsze próbki po starcie sensora są nieświeże. Telefon może leżeć płasko na daszku, stać pionowo na czole albo bokiem na kasku, a każda pozycja zamienia osie. Android traktuje żądaną częstotliwość sensora jako podpowiedź, nie gwarancję. Ekran świecący pod daszkiem przeszkadza, a bez niego nie ma jak wcisnąć „recenter”. I wreszcie: użytkownicy wpisują adres z „whatismyip” albo mają włączony VPN, i pakiety nie docierają.',
+        text: 'Do rozwiązania było kilka rzeczy naraz. Czujniki telefonu z czasem „odpływają” w poziomie, bo bez kompasu nie wiedzą, gdzie jest przód. Telefon można przypiąć na różne sposoby: płasko na daszku, pionowo na czole albo bokiem na kasku. Świecący ekran tuż nad oczami przeszkadza w grze. A połączenie z komputerem musi zadziałać od razu, bez grzebania w ustawieniach sieci.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Dryf uznałem za cechę, nie błąd do kompensowania: zamiast walczyć z fizyką, recentrowanie jest tanie i zawsze pod ręką. Źródłem orientacji jest TYPE_GAME_ROTATION_VECTOR (żyroskop plus akcelerometr), więc pitch i roll trzymają się grawitacji, a yaw zeruje się offsetem kwaternionowym wokół osi Z. Tracker przez pierwsze 500 ms zwraca tożsamość i nie ustawia „przodu”, dopóki fuzja się nie ustabilizuje.',
+        text: 'Po stronie komputera wykorzystałem darmowy program opentrack, który przyjmuje dane przez sieć i przekazuje je grom tak, jakby pochodziły z TrackIR. Brakowało aplikacji na telefon, więc ją napisałem.',
       },
       {
         type: 'p',
-        text: 'Pozycję noszenia opisałem jednym modelem zamiast ręcznych zamian osi: kierunek, w który patrzy ekran, razy krawędź, która jest „górą”, daje 12 montaży. Macierz głowa→urządzenie powstaje z iloczynu wektorowego, kwaternion metodą Shepperda, a orientacja głowy to złożenie obrotu urządzenia w świecie z obrotem głowy względem urządzenia. W interfejsie zostały trzy presety, przełącznik „telefon obrócony o 180°” i pozycja własna.',
+        text: 'Zamiast walczyć z „odpływaniem”, postawiłem na to, żeby ustawienie przodu było natychmiastowe i zawsze pod ręką: jeden przycisk albo klawisz głośności, także z telefonem na głowie. Pochylenie i przechylenie głowy opierają się na grawitacji, więc nie odpływają wcale. Przez pierwsze pół sekundy po starcie aplikacja czeka, aż czujniki się ustabilizują.',
+      },
+      {
+        type: 'p',
+        text: 'Różne sposoby zamocowania opisałem jednym prostym modelem: w którą stronę patrzy ekran i która krawędź telefonu jest na górze. Z tych dwóch informacji wychodzi 12 możliwych ustawień. W aplikacji zostały trzy gotowe do wyboru, przełącznik „telefon obrócony o 180°” i ustawienie własne.',
       },
       {
         type: 'image',
@@ -143,200 +240,88 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
         height: 568,
         alt: 'Główne okno opentracka: wejście UDP over network, wyjście freetrack 2.0 Enhanced, filtr Accela',
         caption:
-          'Po stronie PC wystarczy opentrack z wejściem UDP na porcie 4242.',
+          'Po stronie komputera wystarczy darmowy opentrack ustawiony na odbiór danych z sieci.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Protokół: 48-bajtowy pakiet opentracka (sześć f64 little-endian: x, y, z, yaw, pitch, roll) na port 4242 oraz własny 36-bajtowy format z kwaternionem, sekwencją i znacznikiem czasu na port 4243 dla modów. Jeden DatagramPacket reużywany, cały potok sensor→tracker→UDP na jednym HandlerThread z priorytetem wyświetlania i WifiLock w trybie low latency.',
-          'Limiter częstotliwości trzyma harmonogram „kiedy należy wysłać” zamiast odstępu od ostatniej wysyłki: sensor na 101 Hz przy limicie 100 nie traci co drugiej próbki. Luz ćwierć interwału, bez nadrabiania po przerwie. Panel ostrzega, gdy realna częstotliwość spada poniżej 80 procent wybranej.',
-          'Znaki osi dopasowane do opentracka (yaw dodatni to w prawo) przez dekompozycję R = Rz(−yaw)·Rx(pitch)·Ry(roll), z testem na ciągłość przy przejściu przez ±180°.',
-          'Tryb czarnego ekranu: nakładka zakrywa wszystko z paskami systemowymi, jasność 0,01, FLAG_KEEP_SCREEN_ON, a przyciski głośności przechwycone w onKeyDown robią recenter z telefonem na głowie. Tap odsłania interfejs na 10 sekund.',
-          'Wibracja potwierdzająca nie docierała, gdy użytkownik wyłączył haptykę dotyku: atrybuty wibracji zmienione na USAGE_HARDWARE_FEEDBACK.',
-          'Wykrywanie sieci: ConnectivityManager z NetworkCapabilities rozpoznaje VPN i porównuje podsieć wpisanego adresu z adresem telefonu, odświeżając co 3 sekundy. Komunikat mówi wprost, od czego ma się zaczynać adres PC.',
-          'Czułość per oś 0,5–3× i „side boost”: za progiem (domyślnie 20°) czułość rośnie gładko kwadratowo, więc środek jest spokojny, a skrajne spojrzenie obraca kamerę dalej, niż da się skręcić głowę bez utraty ekranu z oczu.',
+          'Szybki i równy przesył: do 200 odczytów na sekundę przez Wi-Fi w trybie niskich opóźnień, z opcjami 60 i 100 na sekundę, które oszczędzają baterię. Aplikacja trzyma stały rytm wysyłki i ostrzega, gdy telefon nie nadąża za wybraną częstotliwością.',
+          'Tryb czarnego ekranu: ekran gaśnie prawie do zera i nie przeszkadza, telefon nie usypia, a klawisze głośności ustawiają przód. Dotknięcie ekranu pokazuje interfejs na 10 sekund. Wibracja potwierdza ustawienie przodu, także gdy w systemie wyłączone są wibracje przy dotyku.',
+          'Pomoc przy połączeniu: aplikacja wykrywa włączony VPN i sprawdza, czy wpisany adres komputera jest w tej samej sieci domowej co telefon. Komunikat mówi wprost, od czego powinien zaczynać się adres.',
+          'Czułość osobno dla każdego kierunku, od 0,5 do 3 razy, i wzmocnienie na bokach: przy małych ruchach widok jest spokojny, a im mocniej odwracasz głowę, tym dalej obraca się kamera, więc monitor nie znika z oczu.',
+          'Dla twórców modyfikacji do gier: drugi, dokładniejszy strumień danych z numerem i czasem każdego odczytu.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Potwierdzone w BeamNG.drive, Assetto Corsa, American Truck Simulator i Richard Burns Rally. Wysyłka do około 200 Hz z opcjami 60 i 100 Hz dla baterii, APK około 1,2 MB po R8, Android 8.0 wzwyż. Do mierzenia jittera i strat napisałem monitor UDP w Node, który liczy p50 i p99 odstępów między pakietami.',
+        text: 'Działanie potwierdziłem w BeamNG.drive, Assetto Corsa, American Truck Simulator i Richard Burns Rally. Aplikacja waży około 1,2 MB, działa na Androidzie 8.0 i nowszym, a plik instalacyjny można pobrać z GitHuba. Do sprawdzania płynności przesyłu napisałem osobne narzędzie, które mierzy odstępy między odczytami docierającymi do komputera.',
       },
     ],
     lessons: [
-      'Parametr częstotliwości sensora w Androidzie to podpowiedź; limiter musi zakładać, że próbki przyjdą szybciej i nierówno.',
-      'Domyślna wibracja „dotykowa” jest wyciszana ustawieniem użytkownika. Sygnał potwierdzenia potrzebuje innego kanału.',
-      'Dobrze dobrany model (12 montaży z dwóch wektorów) zastąpił rosnącą listę przypadków szczególnych.',
-    ],
-  },
-  'skoftware-hero-particles': {
-    facts: [
-      { value: '8 000', label: 'cząsteczek tekstu bio po krzywych Béziera' },
-      { value: '4', label: 'własne shadery GLSL' },
-      { value: '1', label: 'zegar dla scrolla i animacji' },
-    ],
-    problem: [
-      {
-        type: 'p',
-        text: 'Strona ofertowa jednoosobowego software house’u ma sprzedawać usługi, więc nagłówek i przyciski muszą być w HTML z serwera, zanim załaduje się jakikolwiek JavaScript. Jednocześnie chciałem, żeby hero pokazywało, co umiem w 3D: portret rozsypany na cząsteczki, tekst bio płynący w stronę twarzy, reakcję na kursor i tapnięcia. Te dwa cele łatwo się gryzą: ciężki canvas opóźnia treść, a pole cząsteczek liczone na CPU tnie klatki na telefonach.',
-      },
-      {
-        type: 'p',
-        text: 'Drugi problem wyszedł po dodaniu płynnego przewijania: Lenis i ScrollTrigger miały osobne zegary, więc animacje sterowane scrollem lądowały klatkę za pozycją strony. Trzeci: po zmianie trasy ScrollTrigger przywracał pozycję przewijania poprzedniej strony, a kurtyna przejścia odsłaniała nową stronę w połowie.',
-      },
-    ],
-    approach: [
-      {
-        type: 'p',
-        text: 'Treść i scena są rozdzielone na poziomie Reacta: hero renderuje nagłówek, pitch i CTA po stronie serwera, a scena to chunk ładowany dynamicznie bez SSR, który „nigdy nie może blokować oferty”. Jeśli WebGL zawiedzie, ErrorBoundary pokazuje tekst zamiast pustki.',
-      },
-      {
-        type: 'p',
-        text: 'Portret jest zamieniany na cząsteczki w przeglądarce: obraz trafia na offscreen canvas zeskalowany do 220 pikseli szerokości, a pikselem-cząsteczką zostaje tylko ten, który ma alfa powyżej progu i luminancję poniżej progu. Wynik to InstancedBufferGeometry z jednym quadem i atrybutami instancji, rysowana w trybie multiply nad zwykłą płaszczyzną z teksturą. Tekst bio to 8 000 cząsteczek, z których każda ma punkt startu, dwa punkty kontrolne i koniec; krzywą i obrót liczy vertex shader, a CPU aktualizuje tylko czas.',
-      },
-    ],
-    solution: [
-      {
-        type: 'list',
-        items: [
-          'Shockwave po tapnięciu: pointerdown na canvasie dodaje puls (współrzędne NDC plus czas) do pierścienia o pojemności dwóch, uruchamia navigator.vibrate(12) i ripple w CSS. Obwiednia pulsu (attack smoothstep do 0,08, release od 0,5 do 1) istnieje w jednej wersji w JS i w GLSL, więc kamera, portret i strumień oddychają w tym samym rytmie.',
-          'Pozycja tapnięcia jest zapisywana w przestrzeni lokalnej obiektu, nie w NDC, bo przy dryfie kamery fala przesuwała się razem z nią. Sentinel poza ekranem zapobiega „fantomowemu” odpychaniu przed pierwszym tapnięciem.',
-          'Kamera: na desktopie tłumiony ruch za kursorem (maath damp3), na telefonie wejście z żyroskopu z neutralnym pochyleniem 45° i zakresem 45°, z prośbą o uprawnienie na iOS przy pierwszym dotknięciu. Odmowa zostawia kamerę w centrum.',
-          'Budżet renderu: dpr obcięty do 1, bez antialiasingu, frustum culling wyłączony na obu systemach cząsteczek, a pętla renderowania zatrzymywana przez IntersectionObserver, gdy hero wyjdzie z ekranu.',
-          'Jeden zegar: Lenis tickowany z gsap.ticker i raportujący scroll do ScrollTrigger, z lagSmoothing(0). Scrubowane tweeny lądują w tej samej klatce co pozycja przewijania.',
-          'Kurtyna przejść: po zmianie trasy czyszczenie pamięci scrolla ScrollTriggera, refresh i natychmiastowe scrollTo, a scroll blokowany przez wheel/touchmove zamiast overflow:hidden, bo znikający pasek przesuwał stronę w bok. Awaryjne odsłonięcie po 10 sekundach.',
-          'prefers-reduced-motion wyłącza Lenis, prędkość scrolla, kurtynę i haptykę, a tweeny ScrollTriggera przyspiesza pięciokrotnie.',
-        ],
-      },
-    ],
-    outcome: [
-      {
-        type: 'p',
-        text: 'Oferta jest w pierwszym bajcie HTML, scena dojeżdża po niej i wygasza się, gdy nie jest widoczna. Cząsteczki portretu i tekstu liczy GPU, a wszystkie efekty (fala, kamera, scroll) chodzą na jednym zegarze. Strona jest poligonem: każdy nowy efekt motion najpierw trafia tutaj.',
-      },
-    ],
-    lessons: [
-      'Falę uderzeniową trzeba kotwiczyć w świecie, nie w ekranie. Każdy efekt zależny od kamery, który nie ma własnego układu odniesienia, będzie pływał.',
-      'Dwa źródła czasu to zawsze klatka opóźnienia gdzieś w systemie. Lenis, GSAP i ScrollTrigger muszą tykać z jednego miejsca.',
+      'Android traktuje żądaną częstotliwość czujników jako sugestię, więc aplikacja musi sobie radzić z odczytami, które przychodzą szybciej albo nierówno.',
+      'Dobrze dobrany model (12 zamocowań z dwóch prostych informacji) zastępuje listę wyjątków, która rosłaby z każdym nowym sposobem noszenia telefonu.',
     ],
   },
   'derdum-wyplatum-google-calendar': {
     facts: [
-      { value: '197', label: 'testów silnika i adaptera' },
-      { value: '0', label: 'serwerów: aplikacja rozmawia tylko z Google' },
-      { value: '1 h', label: 'ważności tokenu bez refresh tokena' },
+      {
+        value: '197',
+        label: 'testów automatycznych obliczeń i połączenia z Google',
+      },
+      {
+        value: '0',
+        label: 'własnych serwerów: aplikacja rozmawia tylko z Google',
+      },
+      {
+        value: '21',
+        label: 'miesięcy, na których sprawdziłem wymiar czasu pracy',
+      },
     ],
     problem: [
       {
         type: 'p',
-        text: 'Motorniczy trzyma grafik jako wydarzenia w Google Calendar, z tytułami w rodzaju „21/7” albo „22/7 + 22/6” (linia/brygada), pomiędzy wpisami prywatnymi. Chciał wiedzieć, ile wyjdzie brutto i netto w miesiącu: dodatki nocne, niedziele i święta, nadgodziny ponad wymiar z art. 130 Kodeksu pracy, potem ZUS, PIT i PPK. Aplikacja miała być PWA na telefon, bez logowania do niczego poza Google i bez serwera, który trzeba utrzymywać.',
+        text: 'Motorniczy trzyma grafik zmian w Kalendarzu Google, z wpisami w rodzaju „21/7” albo „22/7 + 22/6” (linia i brygada), pomiędzy sprawami prywatnymi. Chciał wiedzieć z góry, ile zarobi w danym miesiącu: z dodatkami za pracę w nocy, w niedziele i święta, z nadgodzinami ponad wymiar z Kodeksu pracy, a potem po odjęciu ZUS, podatku i PPK.',
       },
       {
         type: 'p',
-        text: 'Bez backendu nie ma gdzie schować sekretu klienta ani refresh tokena. Prywatny link ICS odpadł: brak CORS i link działa jak hasło. Zostaje OAuth w przeglądarce z tokenem ważnym około godziny, a użytkownik nie może co godzinę klikać w okienka.',
+        text: 'Aplikacja miała działać na telefonie jak zwykła apka, bez logowania do niczego poza Google i bez serwera, który trzeba utrzymywać i opłacać. To oznaczało, że całe połączenie z Google odbywa się w przeglądarce, a dostęp, który Google daje na około godzinę, ma się odnawiać bez męczenia użytkownika okienkami.',
       },
     ],
     approach: [
       {
         type: 'p',
-        text: 'Google Identity Services w trybie implicit: initTokenClient bez client secret, Client ID jawnie w bundlu, projekt GCP w trybie Testing z listą test users. Token z czasem wygaśnięcia i zakresami trafia do localStorage z marginesem 60 sekund, a stan „zalogowany” ma jedno źródło prawdy: ważność tokenu, obserwowaną przez useSyncExternalStore.',
+        text: 'Kalendarz Google jest jedyną bazą danych: aplikacja czyta z niego grafik i zapisuje zmiany prosto do niego. Po każdym zapisie pobiera miesiąc od nowa, więc zawsze pokazuje to samo co Kalendarz Google. Bez internetu korzysta z ostatniej zapisanej kopii, a po powrocie do aplikacji odświeża dane starsze niż 2 minuty.',
       },
       {
         type: 'p',
-        text: 'Kalendarz jest jedyną bazą danych. Każdy zapis (insert, patch, delete) kończy się ponownym pobraniem miesiąca, a przeniesienie zmiany do innego miesiąca kasuje jego cache. Offline działa z kopii w localStorage per kalendarz i miesiąc, a po powrocie do karty aplikacja odświeża dane starsze niż 2 minuty.',
+        text: 'Logowanie odbywa się przez Google. Okienko zgody otwiera się tylko po kliknięciu przycisku, bo przeglądarki blokują okienka otwierane samoczynnie, a po pierwszej zgodzie kolejne odnowienia dostępu przechodzą bez pytań.',
       },
     ],
     solution: [
       {
         type: 'list',
         items: [
-          'Pobieranie tokenu nigdy nie otwiera okienka samo z siebie, bo przeglądarka blokuje popup bez gestu użytkownika. Okienko otwiera tylko kliknięcie, równoległe prośby dzielą jedną obietnicę, a po pierwszej zgodzie prompt jest pusty, więc kolejne odświeżenia przechodzą bez pytań.',
-          'Zakres rozszerzony z odczytu do edycji wydarzeń w jednej, jednorazowej migracji klucza tokenu. Zapisane zakresy z odpowiedzi i accessRole z listy kalendarzy decydują, czy przyciski edycji są aktywne; kalendarz tylko do odczytu dostaje baner i link „otwórz w Kalendarzu Google” z wypełnionym wydarzeniem jako drogę bez API.',
-          'Klient API: pętla po nextPageToken, singleEvents z sortowaniem po starcie, strefa Europe/Warsaw, odrzucanie wydarzeń anulowanych i innych niż domyślne, idempotentne usuwanie (410 traktowane jak sukces). fetch i pobieranie tokenu wstrzyknięte, więc adapter ma własne testy na fixture z dwiema stronami wyników.',
-          'Silnik liczy w całkowitych groszach, zaokrągla raz na składnik i okres stawek z sumy minut (3 × 1 minuta to 185 groszy, nie 186). Okna dobowe iterują po dobach lokalnych na Temporal.Instant i mają testy na zmianę czasu: noc 22–6 przez marcową zmianę to 7 godzin, przez październikową 9.',
-          'Święta liczone z Wielkanocy metodą Meeusa, wymiar z art. 130 sprawdzony na 21 miesiącach, kolizje zmian i urlopów wykrywane i pokazywane, ale nie zmieniają kwot.',
+          'Edycja grafiku: zmiany można dodawać, poprawiać i usuwać w aplikacji, a zapisują się prosto w Kalendarzu Google. Przy kalendarzu udostępnionym tylko do odczytu aplikacja to mówi i daje link, który otwiera gotowy wpis w Kalendarzu Google.',
+          'Obliczenia co do grosza: kwoty są liczone w całych groszach i zaokrąglane raz na składnik pensji, a nie przy każdej zmianie osobno.',
+          'Noce i zmiana czasu: dodatek nocny liczy się poprawnie także w noce zmiany czasu, gdy noc od 22 do 6 trwa 7 albo 9 godzin.',
+          'Święta i wymiar pracy: święta ruchome, liczone od daty Wielkanocy, aplikacja wylicza sama, a wymiar czasu pracy według Kodeksu pracy sprawdziłem na 21 miesiącach.',
+          'Kolizje: nachodzące na siebie zmiany i urlopy są wykrywane i pokazywane, ale nie zmieniają kwot.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Aplikacja działa jako PWA na Vercelu bez żadnego własnego serwera, z 197 testami na silniku i adapterze. Druga lektura kodu wyłapała błędy w kwotach (podwójnie liczone nieobecności, zaokrąglanie per zmiana) i wstrzyknięcie formuł w eksporcie CSV. Realny kalendarz testowy ma 101 wydarzeń na 2026 rok.',
+        text: 'Aplikacja działa na telefonie jako aplikacja instalowana z przeglądarki (PWA), bez żadnego własnego serwera. Obliczenia i połączenie z Google sprawdza 197 testów automatycznych, a testowy kalendarz ma 101 wydarzeń na 2026 rok.',
       },
     ],
     lessons: [
-      'Popup OAuth otwiera się tylko z gestu użytkownika. Każda ścieżka „odśwież token w tle” musi kończyć się przyciskiem, nie okienkiem.',
-      'Zewnętrzny system jako jedyne źródło prawdy upraszcza aplikację, ale każdy zapis musi kończyć się ponownym odczytem.',
-    ],
-  },
-  'tibia-key-presser-background-input': {
-    facts: [
-      { value: '8', label: 'klawiszy, każdy z własnym opóźnieniem' },
-      { value: '100 ms', label: 'maksymalny czas reakcji na Stop' },
-      { value: '780', label: 'linii Pythona w wersji wyjściowej' },
-    ],
-    problem: [
-      {
-        type: 'p',
-        text: 'Tibia ma powtarzalne akcje pod hotkeyami: leczenie, mana, runy. Chciałem, żeby program wciskał je sam w stałym rytmie, także gdy okno gry jest zminimalizowane, a ja robię coś innego. Symulowana klawiatura idzie do aktywnego okna, więc trzeba trafić w konkretne okno gry, a nie w to, które akurat ma fokus.',
-      },
-      {
-        type: 'p',
-        text: 'Pierwsza wersja z września 2024 działała, ale miała błędy, które zobaczyłem dopiero po powrocie do projektu w październiku 2026. Tkinter zgłasza nazwy klawiszy (Return, space, comma), których pywinauto nie zna; nieznany klawisz rzucał wyjątek, kod traktował go jak utratę okna, łączył się ponownie i próbował znowu. Pętla bez żadnego sleep, z tracebackiem co iterację i bez sygnału w interfejsie. Stop i Start w odstępie poniżej 100 ms wskrzeszały stare wątki, bo zdarzenie stop było jedno na cały czas życia aplikacji. Kolory, limity i ścieżki żyły w trzech miejscach naraz.',
-      },
-    ],
-    approach: [
-      {
-        type: 'p',
-        text: 'Wysyłka idzie przez pywinauto do uchwytu okna znalezionego po tytule „<klient> - <postać>” (wyrażenie regularne, opcjonalny clients.txt dla innych serwerów), a nie do aktywnego okna. Każdy klawisz ma własny wątek z absolutnym terminem następnego wciśnięcia, więc narzut wyszukiwania okna i wysyłki nie kumuluje się w dryf. Sen jest cięty na odcinki po 100 ms, żeby Stop reagował natychmiast, a uchwyt okna jest sprawdzany co 5 sekund.',
-      },
-      {
-        type: 'p',
-        text: 'Zanim ruszyłem z kodem, spisałem analizę: błędy z wagą, duplikacje, martwy kod, plan zmian etapami i pytania do decyzji. Zachowanie pywinauto sprawdziłem w źródłach wersji 0.6.9 zamiast zakładać, co robi.',
-      },
-      {
-        type: 'image',
-        src: '/case-studies/tibia-key-presser/tkp_off.png',
-        width: 430,
-        height: 179,
-        alt: 'Tibia Key Presser w stanie spoczynku: wiersze klawisz i opóźnienie, przycisk Start',
-        caption:
-          'Stan spoczynku: białe pole czeka na kliknięcie i klawisz do powiązania.',
-      },
-    ],
-    solution: [
-      {
-        type: 'list',
-        items: [
-          'Moduł keys.py: czysta funkcja tłumacząca nazwy klawiszy tkintera na kody pywinauto (Return na ENTER, Prior na PGUP, interpunkcja na znaki, cały numpad), a same modyfikatory nie wiążą się, więc Shift+F1 wiąże F1. Walidacja w chwili bindowania: nieobsługiwany klawisz to czerwone pole i komunikat, bez możliwości startu. Sześć testów w pytest.',
-          'Pętla wysyłki odczekuje interwał po nieudanej wysyłce, więc trwały błąd nie zamienia się w busy loop.',
-          'Jedno źródło prawdy: theme.py dla kolorów, fontów i stylów ttk, paths.py dla ścieżek w trybie źródłowym i w pliku .exe, więc ikona przestała zależeć od bieżącego katalogu.',
-          'Narzędzia: pyproject z uv, ruff i pytest, build do pojedynczego .exe przez PyInstaller, clients.txt dla serwerów OTS.',
-          'Zaplanowane, jeszcze nie wdrożone: jeden wątek-scheduler zamiast wątku na klawisz. W źródłach pywinauto wysyłka to SetKeyboardState i AttachThreadInput na współdzielonej kolejce wejścia, bez żadnej blokady, więc dwa wątki z pokrywającymi się terminami mogą sobie nadpisać stan klawiatury. Zserializowane wątki mają tę samą przepustowość co jeden scheduler, a Stop staje się set i join.',
-        ],
-      },
-    ],
-    outcome: [
-      {
-        type: 'p',
-        text: 'Do ośmiu klawiszy z niezależnymi opóźnieniami, działa przy zminimalizowanej grze, zatrzymuje się w około 100 ms i pokazuje nazwę postaci w tytule okna. Jeden plik .exe bez instalacji.',
-      },
-      {
-        type: 'image',
-        src: '/case-studies/tibia-key-presser/tkp_on.png',
-        width: 430,
-        height: 179,
-        alt: 'Tibia Key Presser w trakcie pracy: zielone pola klawiszy i przycisk Stop',
-        caption:
-          'W trakcie pracy: zielony błysk pola oznacza klawisz właśnie wysłany do gry.',
-      },
-    ],
-    lessons: [
-      'Wyjątek łapany jako coś innego (nieznany klawisz jako utrata okna) tworzy pętle, których interfejs nie widzi. Każda gałąź błędu potrzebuje własnej reakcji i własnego odczekania.',
-      'Powrót do własnego kodu po dwóch latach zaczyna się od spisanej analizy z wagami i planem. Zmiany robione przy okazji kosztują więcej.',
+      'Okienko logowania Google otwiera się tylko po kliknięciu, więc każda droga odnowienia dostępu musi kończyć się przyciskiem, a nie wyskakującym okienkiem.',
+      'Zewnętrzna usługa jako jedyne źródło danych upraszcza aplikację, pod warunkiem że po każdym zapisie dane są pobierane od nowa.',
     ],
   },
 };

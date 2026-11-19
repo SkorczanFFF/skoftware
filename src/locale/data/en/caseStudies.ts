@@ -1,5 +1,3 @@
-import { SITE_URL } from '@/lib/site';
-
 import type { CaseStudyEntry } from '@/locale/types';
 
 /**
@@ -10,13 +8,44 @@ import type { CaseStudyEntry } from '@/locale/types';
  */
 export const caseStudies: CaseStudyEntry[] = [
   {
-    slug: 'yawa-volumetric-clouds',
-    title: 'A weather simulation driven by API data',
+    slug: 'segregator-documents-ai',
+    title: 'Segregator: receipts and warranties sorted from a single photo',
     summary:
-      'The background of a weather app had to show the real sky from the forecast, not an animation. A custom GLSL raymarcher, cloud physics derived from Open-Meteo data and rendering that stays smooth on a phone.',
+      'An app where a photo of a receipt, an invoice or a warranty card is enough. It cuts the document out of the background and straightens it, AI reads the issuer, the amount and the deadlines, and the user only checks and saves. It runs in the AWS cloud, with a demo account open without signing up.',
+    kind: 'personal',
+    year: '2026',
+    role: 'Author: design, app, AWS cloud, AI',
+    stack: [
+      'React',
+      'TypeScript',
+      'Node.js',
+      'AWS Lambda',
+      'DynamoDB',
+      'Python',
+      'OpenCV',
+      'Amazon Bedrock',
+    ],
+    cover: {
+      src: '/projects/segregator.jpg',
+      width: 1920,
+      height: 1080,
+      alt: 'Segregator: a list of documents grouped by month, with filters by period and type, amounts and deadlines',
+    },
+    links: {
+      live: 'https://segregator.skoftware.pl/',
+      git: 'https://github.com/SkorczanFFF/segregator',
+    },
+    projectId: 6,
+    serviceSlug: 'integracja-ai',
+  },
+  {
+    slug: 'yawa-volumetric-clouds',
+    title: 'Yet Another Weather App: a sky computed from the forecast',
+    summary:
+      'The background of a weather app shows the sky as it really is over the chosen place: the clouds are built from the forecast numbers, not from a ready-made animation. A custom 3D cloud engine that runs smoothly on an ordinary phone too.',
     kind: 'personal',
     year: '2022–2026',
-    role: 'Author: concept, shaders, physics, UI',
+    role: 'Author: concept, 3D graphics, weather model, interface',
     stack: ['React', 'TypeScript', 'Three.js', 'GLSL', 'Sass', 'Open-Meteo'],
     cover: {
       src: '/projects/yawa.jpg',
@@ -36,10 +65,10 @@ export const caseStudies: CaseStudyEntry[] = [
     title:
       'Polonez Autodrive: the evolution of an interactive 3D colouring book',
     summary:
-      'The first version of this synthwave colouring book with a mini-game had 16 P0 bugs, three independent clocks and controls tied to the monitor refresh rate. An analysis of the first version, the move from plain JS and HTML to Vite on a new skeleton, and a procedural scene in place of FBX files.',
+      'An 80s-style scene: a Polonez drives through the night towards the setting sun, and the colours of the whole world change live, like in a colouring book. How a project from 2024 got new foundations, a landscape drawn by code and a mini-game that plays the same on every monitor.',
     kind: 'personal',
     year: '2024–2026',
-    role: 'Author: 3D models, code, UI, deployment',
+    role: 'Author: 3D models, code, interface, deployment',
     stack: ['Three.js', 'Vanilla JS', 'GLSL', '3Ds Max', 'Vite', 'Vitest'],
     cover: {
       src: '/projects/polonez_autodrive.jpg',
@@ -55,12 +84,12 @@ export const caseStudies: CaseStudyEntry[] = [
   },
   {
     slug: 'capcam-head-tracking',
-    title: 'CapCam: a phone on a cap as a head tracker for games',
+    title: 'CapCam: a phone on a cap that tracks your head in games',
     summary:
-      'Head tracking in racing simulators without a camera or IR LEDs. Android reads the gyroscope, combines the pose with how the phone is worn and sends it over UDP to opentrack, which presents itself to games as TrackIR.',
+      'In driving simulators you can look around by turning your head, but it usually takes expensive hardware. CapCam turns an ordinary Android phone clipped to the peak of a cap into that sensor: the app reads how the phone turns and sends it over Wi-Fi to the computer, and games see it as a professional device.',
     kind: 'personal',
     year: '2026',
-    role: 'Author: app, protocol, measurement tools',
+    role: 'Author: app, data transfer, measurement tools',
     stack: ['Kotlin', 'Jetpack Compose', 'Android', 'UDP', 'opentrack'],
     links: {
       git: 'https://github.com/SkorczanFFF/capcam',
@@ -70,44 +99,13 @@ export const caseStudies: CaseStudyEntry[] = [
     serviceSlug: 'aplikacje-mobilne',
   },
   {
-    slug: 'skoftware-hero-particles',
-    title:
-      'A portrait made of particles: a 3D scene that never blocks the offer',
-    summary:
-      'The hero of this site turns a photo into a GPU-driven particle field that reacts to the cursor, the gyroscope and touch. The condition: the headline and call to action must be in the first byte of HTML, and the scene must fit a phone’s budget.',
-    kind: 'personal',
-    year: '2025–2026',
-    role: 'Author: design, shaders, motion, performance',
-    stack: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'Three.js',
-      'GLSL',
-      'GSAP',
-      'TailwindCSS',
-    ],
-    cover: {
-      src: '/projects/skoftware.jpg',
-      width: 1920,
-      height: 1080,
-      alt: 'SKOFTWARE hero: a particle portrait above the offer headline',
-    },
-    links: {
-      live: SITE_URL,
-      git: 'https://github.com/SkorczanFFF/skoftware',
-    },
-    projectId: 3,
-    serviceSlug: 'strony-internetowe',
-  },
-  {
     slug: 'derdum-wyplatum-google-calendar',
-    title: 'Derdum Wypłatum: Google Calendar as a database with no server',
+    title: 'Derdum Wypłatum: pay worked out from a Google Calendar roster',
     summary:
-      'A pay calculator for a tram driver that reads the shift roster from Google Calendar. OAuth in a pure front end with no backend, a token valid for an hour, the calendar as the single source of truth and an engine that counts in grosz.',
+      'A pay calculator for a tram driver that reads the shift roster from Google Calendar by itself and works out gross and net pay, with the extras for nights, Sundays, public holidays and overtime. No server of its own and no new account to create.',
     kind: 'personal',
     year: '2026',
-    role: 'Author: architecture, Google integration, calculation engine',
+    role: 'Author: design, Google connection, pay calculations',
     stack: [
       'React',
       'TypeScript',
@@ -122,20 +120,5 @@ export const caseStudies: CaseStudyEntry[] = [
     },
     serviceSlug: 'aplikacje-webowe',
     draft: true,
-  },
-  {
-    slug: 'tibia-key-presser-background-input',
-    title: 'Tibia Key Presser: game hotkeys pressed in the background',
-    summary:
-      'A small Python tool that presses hotkeys in Tibia while the game window is minimised. Two years later, on the next pass over the project, out came a loop with no sleep, a Stop → Start race and concurrent key sending on one window.',
-    kind: 'personal',
-    year: '2024–2026',
-    role: 'Author: app, build, ongoing development',
-    stack: ['Python', 'Tkinter', 'pywinauto', 'PyInstaller', 'pytest'],
-    links: {
-      git: 'https://github.com/SkorczanFFF/tibia-key-presser',
-      live: 'https://github.com/SkorczanFFF/tibia-key-presser/releases',
-      liveLabel: '.exe',
-    },
   },
 ];

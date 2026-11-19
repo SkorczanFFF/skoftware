@@ -213,14 +213,13 @@ next-sitemap.config.js             # Sitemap with pl/en alternates, /cv excluded
 
 ## Case studies
 
-| Slug                                 | Topic                                                                      | Linked from                             |
-| ------------------------------------ | -------------------------------------------------------------------------- | --------------------------------------- |
-| `yawa-volumetric-clouds`             | Volumetric clouds from the forecast, raymarched in GLSL                    | Portfolio (YAWA), 3D service            |
-| `polonez-autodrive-rewrite`          | An interactive 3D colouring book evolving from plain JS and HTML into Vite | Portfolio (Polonez)                     |
-| `capcam-head-tracking`               | Android phone as a head tracker over UDP to opentrack                      | Mobile service                          |
-| `skoftware-hero-particles`           | The particle hero that never blocks the offer                              | Portfolio (SKOFTWARE), Websites service |
-| `tibia-key-presser-background-input` | Background hotkeys for a game, one generation and two years later          | —                                       |
-| `derdum-wyplatum-google-calendar`    | Google Calendar as a serverless database (draft, not built)                | —                                       |
+| Slug                              | Topic                                                                      | Linked from                        |
+| --------------------------------- | -------------------------------------------------------------------------- | ---------------------------------- |
+| `segregator-documents-ai`         | Documents from a photo: straightened with OpenCV, read by AI, on AWS       | Portfolio (Segregator), AI service |
+| `yawa-volumetric-clouds`          | Volumetric clouds from the forecast, raymarched in GLSL                    | Portfolio (YAWA), 3D service       |
+| `polonez-autodrive-rewrite`       | An interactive 3D colouring book evolving from plain JS and HTML into Vite | Portfolio (Polonez)                |
+| `capcam-head-tracking`            | Android phone as a head tracker over UDP to opentrack                      | Mobile service                     |
+| `derdum-wyplatum-google-calendar` | Google Calendar as a serverless database (draft, not built)                | —                                  |
 
 ---
 
