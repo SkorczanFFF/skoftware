@@ -46,11 +46,11 @@ export const services: ServiceEntry[] = [
     title: '3D i WebGL',
     tagline: 'Web w trzech wymiarach.',
     description:
-      'Interaktywne sceny, wizualizacje produktów i kreatywne doświadczenia 3D. Three.js, React Three Fiber, Blender — od modelu do przeglądarki.',
+      'Interaktywne sceny, wizualizacje produktów i kreatywne doświadczenia 3D. Three.js, React Three Fiber, 3ds Max — od modelu do przeglądarki.',
     deliverables: [
       'Interaktywne sceny 3D w przeglądarce',
       'Wizualizacje i konfiguratory produktów',
-      'Three.js, React Three Fiber, Blender',
+      'Three.js, React Three Fiber, 3ds Max',
     ],
   },
   {

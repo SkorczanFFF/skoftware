@@ -214,12 +214,8 @@ export default function CV(): React.JSX.Element {
                         )}
                       </p>
                       <p>{t.resumeEducation.field}</p>
-                      <p className='text-orange-bright'>
-                        {t.resumeEducation.degree}
-                      </p>
-                      <p className='text-orange-bright'>
-                        {t.resumeEducation.dates}
-                      </p>
+                      <p>{t.resumeEducation.degree}</p>
+                      <p>{t.resumeEducation.dates}</p>
                     </div>
                   </div>
 

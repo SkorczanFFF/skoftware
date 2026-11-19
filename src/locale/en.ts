@@ -164,7 +164,7 @@ export const en: Dictionary = {
   resumeHeaderAbout: 'ABOUT',
   resumeHeaderContact: 'CONTACT',
   resumeHeaderLanguagesTitle: 'LANGUAGES',
-  resumeLanguageEnglish: 'English – C1',
+  resumeLanguageEnglish: 'English – B2',
   resumeLanguageRussian: 'Russian – A2',
   resumeLanguagePolish: 'Polish – native',
   resumeHeaderLinks: 'LINKS',
