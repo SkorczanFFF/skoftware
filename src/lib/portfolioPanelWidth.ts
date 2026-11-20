@@ -14,6 +14,10 @@ const ANCHORS: ReadonlyArray<readonly [number, number]> = [
 ];
 
 const HARD_CAP = 2000;
+// The 16:9 screenshot takes at most this share of the viewport's height, so
+// the caption fits under it; the panel adds 125px of padding on each side.
+const SHOT_HEIGHT_SHARE = 0.55;
+const PANEL_PADDING = 250;
 const WIDTH_PADDING = 80;
 const SHORT_VIEWPORT_THRESHOLD = 760;
 
@@ -41,7 +45,8 @@ export function computePanelWidth(height: number, width: number): number {
     }
   }
 
-  const capped = Math.min(raw, HARD_CAP);
+  const byShot = height * SHOT_HEIGHT_SHARE * (16 / 9) + PANEL_PADDING;
+  const capped = Math.min(raw, HARD_CAP, byShot);
   const widthClamped = Math.min(capped, Math.max(0, width - WIDTH_PADDING));
   return Math.round(widthClamped);
 }

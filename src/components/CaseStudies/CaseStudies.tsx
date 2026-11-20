@@ -57,8 +57,15 @@ export default function CaseStudies(): React.JSX.Element {
                 </span>
 
                 <span className='flex flex-col gap-3'>
-                  <span className='text-[10px] uppercase tracking-[0.2em] text-primary-blue/50'>
-                    {t.caseStudyKind[entry.kind]} · {entry.year}
+                  <span className='flex flex-wrap items-baseline gap-x-6 gap-y-1'>
+                    <span className='text-[10px] uppercase tracking-[0.2em] text-primary-blue/50'>
+                      {t.caseStudyKind[entry.kind]} · {entry.year}
+                    </span>
+                    <span className='flex flex-wrap gap-x-3 gap-y-1 text-[12px] tracking-wide text-primary-blue/50'>
+                      {entry.stack.slice(0, 4).map((label) => (
+                        <span key={label}>{label}</span>
+                      ))}
+                    </span>
                   </span>
                   <span className='font-unica text-xl uppercase leading-tight tracking-tight text-primary-blue transition-colors duration-300 group-hover:text-raspberry scroll-active:text-raspberry md:text-2xl'>
                     {entry.title}
@@ -68,12 +75,7 @@ export default function CaseStudies(): React.JSX.Element {
                   </span>
                 </span>
 
-                <span className='flex flex-col justify-between gap-4 md:items-end md:text-right'>
-                  <span className='flex flex-wrap gap-x-3 gap-y-1 text-[12px] tracking-wide text-primary-blue/50 md:justify-end'>
-                    {entry.stack.slice(0, 4).map((label) => (
-                      <span key={label}>{label}</span>
-                    ))}
-                  </span>
+                <span className='flex flex-col justify-end md:items-end md:text-right'>
                   <span className='inline-flex items-center gap-2 text-sm font-medium text-raspberry transition-transform duration-300 group-hover:translate-x-1 scroll-active:translate-x-1'>
                     {t.caseStudiesRead}
                     <span aria-hidden='true'>→</span>

@@ -116,6 +116,8 @@ export const pl: Dictionary = {
   portfolioTitle: 'PORTFOLIO',
   portfolioRepo: 'repozytorium',
   portfolioLiveDemo: 'demo',
+  portfolioMore: 'Pokaż cały opis',
+  portfolioLess: 'Zwiń opis',
   projects,
 
   navCaseStudies: 'Case studies',
@@ -307,4 +309,7 @@ export const pl: Dictionary = {
   switchLanguage: 'Przełącz na angielski',
   techStripLabel: 'Technologie',
   portfolioLabel: 'Projekty w portfolio',
+  portfolioViews: 'Zrzuty ekranu',
+  portfolioShowView: 'Pokaż zrzut ekranu {n}',
+  portfolioRailLabel: 'Lista projektów',
 };

@@ -117,7 +117,7 @@ export default function AtsCv(): React.JSX.Element {
                   {project.title.replace(/^★ /, '')}
                 </h3>
                 <p>{project.technos.split(' • ').join(', ')}</p>
-                <p>{project.description}</p>
+                <p>{project.cvDescription ?? project.description}</p>
                 <p>
                   {project.git && <a href={project.git}>{project.git}</a>}
                   {project.git && project.live && ' | '}

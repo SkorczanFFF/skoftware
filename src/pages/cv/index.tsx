@@ -409,7 +409,7 @@ export default function CV(): React.JSX.Element {
                           </p>
                         </div>
                         <p className='text-[9px] leading-[11px] text-primary-blue/80 mt-[1px] text-justify'>
-                          {project.description}
+                          {project.cvDescription ?? project.description}
                         </p>
                         {(project.git || project.live) && (
                           <div className='mt-[1px] flex gap-3 text-[8px] text-raspberry'>

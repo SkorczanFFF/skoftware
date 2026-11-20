@@ -12,4 +12,7 @@ export type A11yStrings = {
   switchLanguage: string;
   techStripLabel: string;
   portfolioLabel: string;
+  portfolioViews: string;
+  portfolioShowView: string;
+  portfolioRailLabel: string;
 };

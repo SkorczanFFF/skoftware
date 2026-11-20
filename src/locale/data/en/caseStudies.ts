@@ -11,7 +11,7 @@ export const caseStudies: CaseStudyEntry[] = [
     slug: 'segregator-documents-ai',
     title: 'Segregator: receipts and warranties sorted from a single photo',
     summary:
-      'An app where a photo of a receipt, an invoice or a warranty card is enough. It cuts the document out of the background and straightens it, AI reads the issuer, the amount and the deadlines, and the user only checks and saves. It runs in the AWS cloud, with a demo account open without signing up.',
+      'An app where a photo of a receipt, an invoice or a warranty card is enough. It cuts the document out and straightens it, AI reads the issuer, amount and deadlines, and the user only checks and saves. Runs on AWS, with a demo that needs no sign-up.',
     kind: 'personal',
     year: '2026',
     role: 'Author: design, app, AWS cloud, AI',

@@ -10,11 +10,15 @@ export type ExperienceEntry = {
 export type ProjectEntry = {
   id: number;
   pic: string;
-  /** Optional second image shown on hover (desktop). */
+  /** Optional second screenshot. */
   pic2?: string;
   title: string;
+  /** Shorter name for the portfolio rail. */
+  navTitle?: string;
   technos: string;
   description: string;
+  /** Shorter description for the CV; falls back to `description`. */
+  cvDescription?: string;
   live: string;
   git: string;
   /** Overrides `portfolioLiveDemo` for the live link label (e.g. Chrome Web Store). */

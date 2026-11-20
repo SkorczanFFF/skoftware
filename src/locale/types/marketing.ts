@@ -41,5 +41,7 @@ export type MarketingStrings = {
   portfolioTitle: string;
   portfolioRepo: string;
   portfolioLiveDemo: string;
+  portfolioMore: string;
+  portfolioLess: string;
   projects: ProjectEntry[];
 };

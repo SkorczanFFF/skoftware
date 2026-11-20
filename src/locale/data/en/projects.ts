@@ -11,7 +11,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'TypeScript • React • Node.js • AWS (Lambda, DynamoDB, CDK) • Python • OpenCV',
     description:
-      'An archive of receipts, invoices and warranties. A photo goes through a queue to Python with OpenCV, which cuts the document out of the background and corrects the perspective, and AI (Amazon Bedrock) suggests the issuer, amount and dates. Serverless on AWS, infrastructure in CDK, deployments through CodePipeline with an approval before production. Demo without signing up.',
+      'An archive of receipts, invoices and warranties. A photo is queued to Python with OpenCV, which cuts the document out and corrects the perspective, and AI (Amazon Bedrock) suggests the issuer, amount and dates. Serverless on AWS, infrastructure in CDK, deployments via CodePipeline with approval before production. No-signup demo.',
     live: 'https://segregator.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/segregator',
   },
@@ -31,36 +31,13 @@ export const projects: ProjectEntry[] = [
     pic: '/projects/yawa.jpg',
     pic2: '/projects/yawa_2.jpg',
     title: 'Yet Another Weather App',
+    navTitle: 'YAWA',
     technos:
       'React • React Three Fiber/Three.js • TypeScript • Sass • Open-Meteo API',
     description:
       'Weather apps are a dime a dozen, but this one is built differently. The background is a 3D scene with volumetric clouds that simulates the weather in real time from Open-Meteo data. The forecast is shown for a city selected via map, geolocation or entered city name.',
     live: 'https://www.yet-another-weather-app.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/YetAnotherWeatherApp/',
-  },
-  {
-    id: 2,
-    pic: '/projects/pokedex.jpg',
-    pic2: '/projects/pokedex_2.jpg',
-    title: 'Pokédex',
-    technos:
-      'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
-    description:
-      "A Pokédex on PokéAPI in Polish and English. Versus calculates damage and hits to knock out, the type chart lists what changed between generations; plus abilities, evolutions, encounters, cries and entries read aloud. Two eras to choose from, with Retro showing the world as of Gen II: 251 Pokémon, that era's types and stats, Crystal's moves and sprites, and the Pokémon Stadium cups.",
-    live: 'https://www.pokedex.skoftware.pl/',
-    git: 'https://github.com/SkorczanFFF/pokedex',
-  },
-  {
-    id: 3,
-    pic: '/projects/skoftware.jpg',
-    pic2: '/projects/skoftware2.jpg',
-    title: 'SKOFTWARE - my portfolio',
-    technos:
-      'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
-    description:
-      'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
-    live: SITE_URL,
-    git: 'https://github.com/SkorczanFFF/skoftware',
   },
   {
     id: 4,
@@ -72,5 +49,30 @@ export const projects: ProjectEntry[] = [
     live: 'https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl',
     git: 'https://github.com/SkorczanFFF/VAT-OFF',
     liveLabel: 'Chrome Web Store',
+  },
+  {
+    id: 2,
+    pic: '/projects/pokedex.jpg',
+    pic2: '/projects/pokedex_2.jpg',
+    title: 'Pokédex',
+    technos:
+      'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
+    description:
+      "A Pokédex on PokéAPI in Polish and English. Versus calculates damage and hits to KO, the type chart shows changes across generations; plus abilities, evolutions, encounters, cries and entries read aloud. Two eras; Retro shows the world as of Gen II: 251 Pokémon, that era's types and stats, Crystal's moves and sprites, and the Stadium cups.",
+    live: 'https://www.pokedex.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/pokedex',
+  },
+  {
+    id: 3,
+    pic: '/projects/skoftware.jpg',
+    pic2: '/projects/skoftware2.jpg',
+    title: 'SKOFTWARE - my portfolio',
+    navTitle: 'SKOFTWARE',
+    technos:
+      'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
+    description:
+      'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
+    live: SITE_URL,
+    git: 'https://github.com/SkorczanFFF/skoftware',
   },
 ];
