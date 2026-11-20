@@ -46,7 +46,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
     description:
-      'A Pokédex on PokéAPI in Polish and English, with a modern and a retro (Gen II) era. Versus calculates damage and hits to knock out, the type effectiveness chart tracks changes between generations; plus evolutions, cries, sprites from every game version and entries read aloud.',
+      "A Pokédex on PokéAPI in Polish and English. Versus calculates damage and hits to knock out, the type chart lists what changed between generations; plus abilities, evolutions, encounters, cries and entries read aloud. Two eras to choose from, with Retro showing the world as of Gen II: 251 Pokémon, that era's types and stats, Crystal's moves and sprites, and the Pokémon Stadium cups.",
     live: 'https://www.pokedex.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/pokedex',
   },

@@ -46,7 +46,7 @@ export const projects: ProjectEntry[] = [
     technos:
       'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
     description:
-      "Pokédex na PokéAPI (PL/EN), w erze współczesnej i retro (Gen II). Versus liczy obrażenia i trafienia do nokautu, tabela efektywności typów dla każdej generacji; do tego ewolucje, okrzyki, sprite'y z każdej wersji gry i opisy czytane na głos.",
+      "Pokédex na PokéAPI (PL/EN). Versus liczy obrażenia i trafienia do nokautu, tabela typów notuje zmiany między generacjami; do tego umiejętności, ewolucje, lokacje, okrzyki i opisy czytane na głos. Do wyboru dwie ery, a w Retro świat z czasów Gen II: 251 Pokémonów, ówczesne typy i statystyki, ruchy i sprite'y z Crystala oraz puchary Pokémon Stadium.",
     live: 'https://www.pokedex.skoftware.pl/',
     git: 'https://github.com/SkorczanFFF/pokedex',
   },
