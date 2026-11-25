@@ -22,6 +22,11 @@ const nextConfig = {
         destination: '/#case-studies',
         permanent: false,
       },
+      {
+        source: '/case-studies/polonez-autodrive-rewrite',
+        destination: '/case-studies/bolones-autodrive-rewrite',
+        permanent: true,
+      },
     ];
   },
 

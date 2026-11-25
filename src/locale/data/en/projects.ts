@@ -17,14 +17,14 @@ export const projects: ProjectEntry[] = [
   },
   {
     id: 0,
-    pic: '/projects/polonez_autodrive.jpg',
-    pic2: '/projects/polonez_autodrive_2.jpg',
-    title: 'POLONEZ AUTODRIVE',
-    technos: 'JavaScript • Three.js • 3D Studio Max',
+    pic: '/projects/bolones_autodrive.jpg',
+    pic2: '/projects/bolones_autodrive_2.jpg',
+    title: 'BOLONES AUTODRIVE',
+    technos: 'JavaScript • Three.js • Rapier • 3D Studio Max',
     description:
-      'An 80s/synthwave-style 3D animation in the form of a coloring book, with real-time customization of colors and models in the scene via a built-in GUI. The Polonez and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Includes an arcade mini-game.',
-    live: 'https://www.polonez-autodrive.skoftware.pl/',
-    git: 'https://github.com/SkorczanFFF/Polonez-Autodrive',
+      'An 80s/synthwave-style 3D animation in the form of a coloring book, with real-time customization of colors and models in the scene via a built-in GUI. The Bolones (an FSO Polonez) and palm tree models were made in 3D Studio Max, the rest of the scene is generated procedurally. Three game modes and full touch support.',
+    live: 'https://www.bolones-autodrive.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/Bolones-Autodrive',
   },
   {
     id: 1,

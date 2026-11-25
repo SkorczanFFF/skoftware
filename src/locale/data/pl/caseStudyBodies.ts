@@ -139,10 +139,10 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
       'Efektowna grafika 3D w przeglądarce działa też na telefonie, jeśli od początku zakłada się, że różne urządzenia dostaną różną jakość.',
     ],
   },
-  'polonez-autodrive-rewrite': {
+  'bolones-autodrive-rewrite': {
     facts: [
       {
-        value: '121',
+        value: '255',
         label: 'testów automatycznych uruchamianych przy każdej zmianie',
       },
       {
@@ -157,7 +157,7 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
     problem: [
       {
         type: 'p',
-        text: 'Polonez Autodrive to animowana scena w stylu synthwave: kultowy Polonez jedzie nocą między palmami i górami ku pasiastemu słońcu. Wszystko da się przemalować na żywo z panelu kolorów, jak w kolorowance, a ze swobodnej jazdy można przejść do mini-gry, w której omija się nadjeżdżające z naprzeciwka maluchy i Škody 120. Polonez, palmy i skały powstały w 3ds Max.',
+        text: 'Bolones Autodrive to animowana scena w stylu synthwave: Bolones jedzie nocą między palmami i górami ku pasiastemu słońcu. Wszystko da się przemalować na żywo z panelu kolorów, jak w kolorowance, a obok swobodnej jazdy są trzy tryby gry. Na drodze jeżdżą auta z czasów PRL, uproszczone na potrzeby gry: Ramses (dostawczy Żuk), Kredens (Fiat 125p) i Polakito (Fiat 126p). W Dodge lawiruje się między autami jadącymi z naprzeciwka, a każde minięte to punkt. W Crash w auta wjeżdża się celowo: im większa kraksa, tym więcej punktów. W Overtake wyprzedza się wolne auta jadące w tę samą stronę, zjeżdżając na przeciwny pas, i każde wyprzedzone to punkt. Bolones, palmy i skały powstały w 3ds Max, a auta z ruchu są budowane w kodzie na podstawie rysunków technicznych.',
       },
       {
         type: 'p',
@@ -171,7 +171,7 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
       },
       {
         type: 'p',
-        text: 'Nowy szkielet opiera się na kilku prostych zasadach. Cała scena chodzi na jednym zegarze, więc animacja i sterowanie mają to samo tempo na każdym ekranie, a po powrocie do karty przeglądarki nic nie przeskakuje. Gra przechodzi przez jasno określone etapy: swobodna jazda, odliczanie, rozgrywka, koniec. Kolory, ustawienia rozgrywki i teksty są w jednym pliku konfiguracji, a pasek ładowania pokazuje prawdziwy postęp wczytywania.',
+        text: 'Nowy szkielet opiera się na kilku prostych zasadach. Cała scena chodzi na jednym zegarze, więc animacja i sterowanie mają to samo tempo na każdym ekranie, a po powrocie do karty przeglądarki nic nie przeskakuje. Gra przechodzi przez jasno określone etapy: menu, wybór trybu, swobodna jazda, odliczanie, rozgrywka, koniec. Kolory, ustawienia rozgrywki i teksty są w jednym pliku konfiguracji, a pasek ładowania pokazuje prawdziwy postęp wczytywania.',
       },
     ],
     solution: [
@@ -182,15 +182,16 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
           'Kolorowanka na żywo: panel kolorów buduje się sam z listy elementów sceny. Losowanie tworzy paletę z klasycznych zestawień barw (kolory dopełniające, triada, kolory sąsiednie) i pilnuje, żeby linie zawsze odcinały się od wypełnienia. Nowe kolory przechodzą płynnie w ciągu sekundy, a napisy na ekranie i panel przejmują odcień sceny.',
           'Charakterystyczna siatka linii: kontury mają stałą grubość w świecie gry i wygaszają się na drobnych elementach, więc palmy w oddali nie zlewają się w plamę. Słońce i siatkę podłoża rysuje na bieżąco karta graficzna zamiast gotowych obrazków, a poświata obejmuje tylko wybrane elementy.',
           'Modele z 3ds Max wczytują się w komplecie, tak jak zostały wymodelowane, a koła są ustawiane na środku osi, więc obracają się równo.',
-          'Mini-gra: obszar kolizji jest dopasowany do rozmiaru każdego modelu, a auta z naprzeciwka pojawiają się i znikają płynnie, bez przycięć.',
-          'Telefon i tablet: kamerę obraca się palcem i przybliża dwoma, scenę przemalowuje się z panelu bocznego, a w swobodnej jeździe sterują przyciski na ekranie. W pionowym kadrze widok jest poszerzony, a kamera przesuwa się bokiem za autem.',
+          'Tryby gry: obszar kolizji jest dopasowany do rozmiaru każdego modelu, a ruch na drodze pojawia się i znika płynnie, bez przycięć.',
+          'Kraksy na fizyce: zderzenia liczy silnik fizyki Rapier, karoserie się wgniatają, części odpadają, a wrakiem można jechać dalej, aż zgaśnie silnik. Po kraksie kamera przeskakuje między autami, żeby obejrzeć zniszczenia.',
+          'Telefon i tablet: kamerę obraca się palcem i przybliża dwoma, scenę przemalowuje się z panelu bocznego, w swobodnej jeździe i w grach sterują przyciski na ekranie, a gry włączają się poziomo, na pełnym ekranie. W pionowym kadrze widok jest poszerzony, a kamera przesuwa się bokiem za autem.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'Nowa wersja to około 5,6 tys. linii kodu i 121 testów automatycznych, które przy każdej zmianie w kodzie sprawdzają działanie i budowanie projektu. Cienie ograniczone do otoczenia auta zmniejszyły liczbę trójkątów w klatce o 18 procent, a poleceń rysowania o 29 procent. Z projektu zniknęło około 1,9 MB zbędnych plików, w tym obrazki słońca i siatki, które teraz rysuje karta graficzna.',
+        text: 'Nowa wersja ma 255 testów automatycznych, które przy każdej zmianie w kodzie sprawdzają działanie i budowanie projektu. Cienie ograniczone do otoczenia auta zmniejszyły liczbę trójkątów w klatce o 18 procent, a poleceń rysowania o 29 procent. Z projektu zniknęło około 1,9 MB zbędnych plików, w tym obrazki słońca i siatki, które teraz rysuje karta graficzna.',
       },
     ],
     lessons: [

@@ -187,11 +187,11 @@ These have drifted apart — especially the Polish versions:
 
 | Project                | Issue                                                                   |
 | ---------------------- | ----------------------------------------------------------------------- |
-| POLONEZ AUTODRIVE (PL) | Resume has old technical description vs main page's creative/UX version |
+| BOLONES AUTODRIVE (PL) | Resume has old technical description vs main page's creative/UX version |
 | VAT-OFF (PL)           | Resume is overly condensed vs main page's detailed version              |
 | SKOFTWARE (PL)         | Resume has outdated description ("Przebudowana od podstaw...")          |
 | YAWA (PL)              | Resume is truncated, missing recent updates                             |
-| POLONEZ AUTODRIVE (EN) | Minor: resume has extra sentence "Play some music and have fun!"        |
+| BOLONES AUTODRIVE (EN) | Minor: resume has extra sentence "Play some music and have fun!"        |
 | VAT-OFF (EN)           | Resume condensed vs main page full version                              |
 
 **Action:** Update all `resumeDescription` fields to match `description` fields.

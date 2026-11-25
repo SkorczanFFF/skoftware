@@ -140,9 +140,9 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
       'Striking 3D graphics in the browser work on a phone too, as long as you assume from the start that different devices get different quality.',
     ],
   },
-  'polonez-autodrive-rewrite': {
+  'bolones-autodrive-rewrite': {
     facts: [
-      { value: '121', label: 'automated tests run on every change' },
+      { value: '255', label: 'automated tests run on every change' },
       {
         value: '175',
         label: 'towers of the city on the horizon, placed by code',
@@ -155,7 +155,7 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
     problem: [
       {
         type: 'p',
-        text: 'Polonez Autodrive is an animated synthwave scene: the cult Polonez drives at night between palms and mountains towards a striped sun. Everything can be repainted live from a colour panel, like a colouring book, and from free ride you can switch to a mini-game of dodging oncoming communist-era Fiat 126p and Škoda 120 cars. The Polonez, the palms and the rocks were modelled in 3ds Max.',
+        text: 'Bolones Autodrive is an animated synthwave scene: the Bolones drives at night between palms and mountains towards a striped sun. Everything can be repainted live from a colour panel, like a colouring book, and besides free ride there are three game modes. The road is shared with communist-era cars, simplified for the game: Ramses (an FSC Żuk van), Kredens (a Fiat 125p) and Polakito (a Fiat 126p). In Dodge you weave through oncoming traffic, scoring a point for every car you pass. In Crash you hit the cars on purpose: the bigger the wreck, the more points. In Overtake you pass the slow cars going your way through the oncoming lane, a point each. The Bolones, the palms and the rocks were modelled in 3ds Max, and the traffic is built in code from technical drawings.',
       },
       {
         type: 'p',
@@ -169,7 +169,7 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
       },
       {
         type: 'p',
-        text: 'The new skeleton rests on a few simple rules. The whole scene runs on one clock, so animation and steering keep the same pace on every screen, and nothing jumps when you come back to the browser tab. The game moves through clearly defined stages: free ride, countdown, play, game over. Colours, gameplay settings and texts live in one configuration file, and the loading bar shows the real progress of loading.',
+        text: 'The new skeleton rests on a few simple rules. The whole scene runs on one clock, so animation and steering keep the same pace on every screen, and nothing jumps when you come back to the browser tab. The game moves through clearly defined stages: menu, mode select, free ride, countdown, play, game over. Colours, gameplay settings and texts live in one configuration file, and the loading bar shows the real progress of loading.',
       },
     ],
     solution: [
@@ -180,15 +180,16 @@ export const caseStudyBodies: Record<string, CaseStudyBody> = {
           'A live colouring book: the colour panel builds itself from the list of scene elements. Shuffling creates a palette from classic colour combinations (complementary, triad, analogous) and makes sure lines always stand out from the fill. New colours fade in over a second, and the on-screen display and the panel take on the scene’s hue.',
           'The signature wireframe: outlines keep a constant thickness in the game world and fade out on small details, so distant palms do not blur into a smudge. The sun and the ground grid are drawn live by the graphics card instead of from ready-made images, and the glow covers only selected elements.',
           'Models from 3ds Max load complete, exactly as they were modelled, and the wheels are centred on their axle, so they turn evenly.',
-          'Mini-game: the collision area fits the size of each model, and oncoming cars appear and disappear smoothly, without stutters.',
-          'Phone and tablet: one finger turns the camera and two zoom, the side panel repaints the scene, and in free ride on-screen buttons steer. In portrait the view is widened and the camera slides sideways behind the car.',
+          'Game modes: the collision area fits the size of each model, and traffic appears and disappears smoothly, without stutters.',
+          'Crashes with physics: the Rapier physics engine works out the collisions, bodywork dents, parts come off, and the wreck can be driven on until its engine stalls. After a crash the camera jumps from car to car to look at the damage.',
+          'Phone and tablet: one finger turns the camera and two zoom, the side panel repaints the scene, on-screen buttons steer in free ride and in the games, and the games switch to landscape, full screen. In portrait the view is widened and the camera slides sideways behind the car.',
         ],
       },
     ],
     outcome: [
       {
         type: 'p',
-        text: 'The new version is about 5.6k lines of code and 121 automated tests that check how the project works and builds on every change to the code. Shadows limited to the car’s surroundings cut the triangles per frame by 18 percent and the draw commands by 29 percent. About 1.9 MB of unneeded files left the project, including the images of the sun and the grid, which the graphics card now draws.',
+        text: 'The new version has 255 automated tests that check how the project works and builds on every change to the code. Shadows limited to the car’s surroundings cut the triangles per frame by 18 percent and the draw commands by 29 percent. About 1.9 MB of unneeded files left the project, including the images of the sun and the grid, which the graphics card now draws.',
       },
     ],
     lessons: [
